@@ -1,2 +1,2 @@
 # back-end
-tripy back-end
+TRIPY back-end
