@@ -1,4 +1,4 @@
-const mypageService = require("./myapge.service");
+const mypageService = require("./mypage.service");
 
 exports.friendRequest = async (req, res) => {
   const { target } = req.body;
@@ -29,5 +29,14 @@ exports.friendSearch = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.friendList = async (req, res) => {
+  try {
+    const { friends } = await mypageService.findFriendsList();
+    res.status(200).json({ friends });
+  } catch (err) {
+    console.log(err);
   }
 };

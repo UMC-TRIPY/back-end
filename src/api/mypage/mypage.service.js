@@ -16,3 +16,12 @@ exports.findUserNickname = async (nickname) => {
     throw err;
   }
 };
+
+exports.findFriendsList = async () => {
+  try {
+    const friendList = await mypageRepository.userFriendList();
+    return friendList;
+  } catch (err) {
+    throw err;
+  }
+};

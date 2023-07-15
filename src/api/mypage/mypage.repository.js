@@ -10,3 +10,9 @@ exports.userNickname = (nickname) => {
     if (err) rejcet(err);
   });
 };
+
+exports.userFriendList = () => {
+  return new Promise((resolve, reject) => {
+    if (err) reject(err);
+  });
+};
