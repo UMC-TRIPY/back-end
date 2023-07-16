@@ -1,3 +1,5 @@
+const mysqlConnection = require("../../../config/mysql.config");
+
 exports.userEmail = (email) => {
   return new Promise((resolve, rejcet) => {
     //query
