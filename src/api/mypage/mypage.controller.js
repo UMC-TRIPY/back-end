@@ -34,8 +34,9 @@ exports.friendSearch = async (req, res) => {
 
 exports.friendList = async (req, res) => {
   try {
-    const { friends } = await mypageService.findFriendsList();
-    res.status(200).json({ friends });
+    const [friends] = await mypageService.findFriendsList();
+    console.log(friends);
+    res.status(200).json(friends);
   } catch (err) {
     console.log(err);
   }
