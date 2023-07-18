@@ -10,10 +10,10 @@ exports.createTravel = async (userId, departureDate, arrivalDate) => {
   return createdTravelPlan;
 };
 
-exports.createCityPlan = async (travelPlanId, userId) => {
+exports.createCityPlan = async (travelPlanId, cityId) => {
   const createdCityPlan = await travelPlanRepository.createCityPlan(
     travelPlanId,
-    userId
+    cityId
   );
 
   return createdCityPlan;
