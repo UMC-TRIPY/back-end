@@ -1,5 +1,14 @@
 const mypageRepository = require("./mypage.repository");
 
+exports.sendRequestFriend = async (user_idx, friend_idx) => {
+  try {
+    await mypageRepository.insertFriendRequest(user_idx, friend_idx);
+    return;
+  } catch (err) {
+    throw err;
+  }
+};
+
 exports.findUserEmail = async (email) => {
   try {
     const userEmail = await mypageRepository.userEmail();
@@ -29,6 +38,7 @@ exports.findFriendsList = async () => {
 exports.breakFriend = async (user_idx, friend_idx) => {
   try {
     await mypageRepository.breakFriend(user_idx, friend_idx);
+    return;
   } catch (err) {
     throw err;
   }

@@ -1,5 +1,19 @@
 const mysqlConnection = require("../../../config/mysql.config");
 
+exports.insertFriendRequest = (user_idx, friend_idx) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `INSERT INTO friend (from_user_index, to_user_index, are_we_friend, created_at)
+    VALUES (${user_idx}, ${friend_idx}, 0, NOW());
+    `,
+      (err, rows) => {
+        if (err) reject(err);
+        resolve(true);
+      }
+    );
+  });
+};
+
 exports.userEmail = (email) => {
   return new Promise((resolve, rejcet) => {
     mysqlConnection.query(``, (err, rows) => {

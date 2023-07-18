@@ -1,15 +1,40 @@
 const mypageService = require("./mypage.service");
 
-exports.friendRequest = async (req, res) => {
-  const { target } = req.body;
+//접속중인 사용자가 인덱스가 friend_idx인 유저에게 친구요청을 보낸다.
+exports.sendFriendRequest = async (req, res) => {
+  const { user_idx, friend_idx } = req.body;
+  if (
+    typeof user_idx !== "number" ||
+    typeof friend_idx !== "number" ||
+    (user_idx === null && friend_idx === null)
+  ) {
+    res.status(400).json({
+      error: "user_idx 또는 friend_idx 값이 없거나 int 자료형이 아닙니다.",
+    });
+    return;
+  }
+  try {
+    await mypageService.sendRequestFriend(user_idx, friend_idx);
+    res.status(200).json({ message: "친구 요청 성공" });
+  } catch (err) {
+    if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
+    res.status(500).json({ error: "api 호출 실패" });
+    console.log(err);
+  }
 };
 
 exports.friendSearch = async (req, res) => {
   const { nickname, email } = req.body;
 
   //nickname 또는 email이 string 타입이 아니면 에러 반환
-  if (typeof nickname !== string || typeof email !== string) {
-    res.status(400).json({ error: "nickname or email is not string" });
+  if (
+    typeof nickname !== "string" ||
+    typeof email !== "string" ||
+    (nickname === null && email === null)
+  ) {
+    res
+      .status(400)
+      .json({ error: "nickname 또는 email 값이 없거나 문자열이 아닙니다." });
     return;
   }
   try {
@@ -28,7 +53,7 @@ exports.friendSearch = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "api 호출 실패" });
   }
 };
 
@@ -39,7 +64,7 @@ exports.friendList = async (req, res) => {
     //반환 형태 {user_index : [2,4,5]}
     res.status(200).json({ user_index: friends });
   } catch (err) {
-    res.status(500).json({ message: "친구 목록을 가져오지 못했습니다." });
+    res.status(500).json({ error: "api 호출 실패" });
     console.log(err);
   }
 };
@@ -54,7 +79,7 @@ exports.friendBreak = async (req, res) => {
     friend_idx === null
   ) {
     res.status(400).json({
-      error: "user_idx,friend_idx가 비어있거나 int 자료형이 아닙니다.",
+      error: "user_idx,friend_idx가 값이 없거나 int 자료형이 아닙니다.",
     });
     return;
   }
@@ -62,7 +87,8 @@ exports.friendBreak = async (req, res) => {
     await mypageService.breakFriend(user_idx, friend_idx);
     res.status(200).json({ message: "친구 차단 success" });
   } catch (err) {
-    res.status(400).json({ message: err.sqlMessage });
+    if (err.sqlMessage) res.status(400).json({ message: err.sqlMessage });
+    res.status(500).json({ error: "api 호출 실패" });
     console.log(err);
   }
 };
