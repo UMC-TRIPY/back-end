@@ -46,6 +46,21 @@ exports.updateFriendRequest = (user_idx, friend_idx) => {
   });
 };
 
+//친구 요청 거절 API
+exports.rejectFriendRequest = (user_idx, friend_idx) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `DELETE FROM friend
+      WHERE from_user_index = ${friend_idx} AND to_user_index = ${user_idx} AND are_we_friend = 0;
+      `,
+      (err, rows) => {
+        if (err) reject(err);
+        resolve(true);
+      }
+    );
+  });
+};
+
 exports.userEmail = (email) => {
   return new Promise((resolve, rejcet) => {
     mysqlConnection.query(``, (err, rows) => {

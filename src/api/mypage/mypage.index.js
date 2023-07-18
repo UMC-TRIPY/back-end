@@ -10,6 +10,9 @@ router.post("/friend_request_cancel", mypageController.cancelFriendRequest);
 //친구 요청 수락 API
 router.post("/friend_request_accept", mypageController.acceptFriendRequest);
 
+//친구 요청 거절 API
+router.post("/friend_request_reject", mypageController.rejectFriendRequest);
+
 //친구 검색 API
 router.post("/freind_search", mypageController.friendSearch);
 

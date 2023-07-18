@@ -18,6 +18,15 @@ exports.cancelRequestFriend = async (user_idx, friend_idx) => {
   }
 };
 
+exports.rejectRequestFriend = async (user_idx, friend_idx) => {
+  try {
+    await mypageRepository.rejectFriendRequest(user_idx, friend_idx);
+    return;
+  } catch (err) {
+    throw err;
+  }
+};
+
 exports.acceptRequestFriend = async (user_idx, friend_idx) => {
   try {
     await mypageRepository.updateFriendRequest(user_idx, friend_idx);
