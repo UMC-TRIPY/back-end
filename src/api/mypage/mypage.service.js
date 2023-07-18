@@ -18,6 +18,15 @@ exports.cancelRequestFriend = async (user_idx, friend_idx) => {
   }
 };
 
+exports.acceptRequestFriend = async (user_idx, friend_idx) => {
+  try {
+    await mypageRepository.updateFriendRequest(user_idx, friend_idx);
+    return;
+  } catch (err) {
+    throw err;
+  }
+};
+
 exports.findUserEmail = async (email) => {
   try {
     const userEmail = await mypageRepository.userEmail();
