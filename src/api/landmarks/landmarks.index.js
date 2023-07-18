@@ -7,4 +7,6 @@ router.get("/", function (req, res) {
 
 router.get("/search-landmarks", landmarkController.searchLandmark);
 
+router.get("/popular", landmarkController.getPopularLandmark);
+
 module.exports = router;

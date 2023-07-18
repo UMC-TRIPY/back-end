@@ -9,3 +9,9 @@ exports.findLandmarkByLandmarkNameQuery = async (nameQuery) => {
 
   return landmarkList;
 };
+
+exports.getPopularLandmark = async () => {
+  const landmarkList = await landmarkRepository.getPopularLandmark();
+
+  return landmarkList;
+};

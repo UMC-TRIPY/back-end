@@ -23,3 +23,13 @@ exports.searchLandmark = async (req, res) => {
     throw err;
   }
 };
+
+exports.getPopularLandmark = async (req, res) => {
+  try {
+    const landmarkList = await landMarksService.getPopularLandmark();
+
+    res.send(landmarkList);
+  } catch (err) {
+    throw err;
+  }
+};
