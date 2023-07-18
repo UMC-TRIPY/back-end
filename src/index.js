@@ -8,7 +8,7 @@ const landmarkRouter = require("./api/landmarks/landmarks.index");
 const travelPlanRouter = require("./api/travel-plan/travel-plan.index");
 
 router.use("/", mypageRouter);
-router.use("/", landmarkRouter);
-router.use("/travel-plan", travelPlanRouter);
+router.use("/landmarks", landmarkRouter);
+router.use("/travel-plans", travelPlanRouter);
 
 module.exports = router;
