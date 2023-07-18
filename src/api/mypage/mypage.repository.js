@@ -31,8 +31,23 @@ exports.userFriendList = (userId) => {
   `,
       (err, rows) => {
         if (err) reject(err);
-        console.log(rows);
-        resolve(rows);
+        const friendList = rows.map((row) => row.user_index);
+        resolve(friendList);
+      }
+    );
+  });
+};
+
+exports.breakFriend = (user_idx, friend_idx) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `UPDATE friend
+    SET isblocked = 1
+    WHERE (from_user_index = ${user_idx} AND to_user_index = ${friend_idx}) OR (from_user_index = ${friend_idx} AND to_user_index = ${user_idx});
+    `,
+      (err, rows) => {
+        if (err) reject(err);
+        resolve(true);
       }
     );
   });

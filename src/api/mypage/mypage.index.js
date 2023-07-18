@@ -7,5 +7,7 @@ router.post("/friend_request", mypageController.friendRequest);
 router.post("/freind_search", mypageController.friendSearch);
 //친구 목록 조회 API
 router.get("/friend_list", mypageController.friendList);
+//친구 끊기 API
+router.post("/friend_break", mypageController.friendBreak);
 
 module.exports = router;

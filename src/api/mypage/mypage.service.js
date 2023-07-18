@@ -25,3 +25,11 @@ exports.findFriendsList = async () => {
     throw err;
   }
 };
+
+exports.breakFriend = async (user_idx, friend_idx) => {
+  try {
+    await mypageRepository.breakFriend(user_idx, friend_idx);
+  } catch (err) {
+    throw err;
+  }
+};

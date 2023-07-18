@@ -34,10 +34,35 @@ exports.friendSearch = async (req, res) => {
 
 exports.friendList = async (req, res) => {
   try {
-    const [friends] = await mypageService.findFriendsList();
+    const friends = await mypageService.findFriendsList();
     console.log(friends);
-    res.status(200).json(friends);
+    //반환 형태 {user_index : [2,4,5]}
+    res.status(200).json({ user_index: friends });
   } catch (err) {
+    res.status(500).json({ message: "친구 목록을 가져오지 못했습니다." });
+    console.log(err);
+  }
+};
+
+//접속중인 유저 인덱스와 차단하고자 하는 친구 인덱스를 받아 friend 테이블의 isblocked 값을 1로 만든다.
+exports.friendBreak = async (req, res) => {
+  const { user_idx, friend_idx } = req.body;
+  if (
+    typeof user_idx !== "number" ||
+    typeof friend_idx !== "number" ||
+    user_idx === null ||
+    friend_idx === null
+  ) {
+    res.status(400).json({
+      error: "user_idx,friend_idx가 비어있거나 int 자료형이 아닙니다.",
+    });
+    return;
+  }
+  try {
+    await mypageService.breakFriend(user_idx, friend_idx);
+    res.status(200).json({ message: "친구 차단 success" });
+  } catch (err) {
+    res.status(400).json({ message: err.sqlMessage });
     console.log(err);
   }
 };
