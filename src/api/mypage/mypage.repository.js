@@ -14,6 +14,21 @@ exports.insertFriendRequest = (user_idx, friend_idx) => {
   });
 };
 
+//friend 테이블에서 친구 요청(are_we_friend = 0)을 삭제한다.
+exports.deleteFriendRequest = (user_idx, friend_idx) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `DELETE FROM friend
+      WHERE from_user_index = ${user_idx} AND to_user_index = ${friend_idx} AND are_we_friend = 0;
+      `,
+      (err, rows) => {
+        if (err) reject(err);
+        resolve(true);
+      }
+    );
+  });
+};
+
 exports.userEmail = (email) => {
   return new Promise((resolve, rejcet) => {
     mysqlConnection.query(``, (err, rows) => {

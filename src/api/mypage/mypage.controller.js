@@ -23,6 +23,28 @@ exports.sendFriendRequest = async (req, res) => {
   }
 };
 
+exports.cancelFriendRequest = async (req, res) => {
+  const { user_idx, friend_idx } = req.body;
+  if (
+    typeof user_idx !== "number" ||
+    typeof friend_idx !== "number" ||
+    (user_idx === null && friend_idx === null)
+  ) {
+    res.status(400).json({
+      error: "user_idx 또는 friend_idx 값이 없거나 int 자료형이 아닙니다.",
+    });
+    return;
+  }
+  try {
+    await mypageService.cancelRequestFriend(user_idx, friend_idx);
+    res.status(200).json({ message: "친구 요청 취소 성공" });
+  } catch (err) {
+    if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
+    res.status(500).json({ error: "api 호출 실패" });
+    console.log(err);
+  }
+};
+
 exports.friendSearch = async (req, res) => {
   const { nickname, email } = req.body;
 
