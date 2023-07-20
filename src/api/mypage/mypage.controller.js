@@ -18,7 +18,6 @@ exports.sendFriendRequest = async (req, res) => {
     res.status(200).json({ message: "친구 요청 성공" });
   } catch (err) {
     if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
-    res.status(500).json({ error: "api 호출 실패" });
     console.log(err);
   }
 };
@@ -92,6 +91,26 @@ exports.rejectFriendRequest = async (req, res) => {
   }
 };
 
+//내가 받은 친구 요청 목록 조회 API
+exports.getFriendRequestList = async (req, res) => {
+  const { user_idx } = req.body;
+  if (typeof user_idx !== "number" || user_idx === null) {
+    res.status(400).json({
+      error: "user_idx 값이 없거나 int 자료형이 아닙니다.",
+    });
+    return;
+  }
+  try {
+    const result = await mypageService.getRequestFriendList(user_idx);
+    res
+      .status(200)
+      .json({ message: "받은 친구 요청 목록 조회 성공", data: result });
+  } catch (err) {
+    if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
+    res.status(500).json({ error: "api 호출 실패" });
+    console.log(err);
+  }
+};
 exports.friendSearch = async (req, res) => {
   const { nickname, email } = req.body;
 

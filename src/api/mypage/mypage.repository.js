@@ -61,6 +61,42 @@ exports.rejectFriendRequest = (user_idx, friend_idx) => {
   });
 };
 
+//내가 보낸 친구 요청 조회 API
+exports.getFriendRequestList = (user_idx) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `SELECT to_user_index
+      FROM friend
+      WHERE from_user_index = ${user_idx} AND are_we_friend = 0;
+      `,
+      (err, rows) => {
+        if (err) reject(err);
+        //쿼리 결과물을 한 배열에 담는다.
+        const result = rows.map((row) => row.to_user_index);
+        resolve(result);
+      }
+    );
+  });
+};
+
+//내가 받은 친구 요청 목록 조회 API
+exports.getFriendRequestRecieveList = (user_idx) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `SELECT from_user_index
+      FROM friend
+      WHERE to_user_index = ${user_idx} AND are_we_friend = 0;
+      `,
+      (err, rows) => {
+        if (err) reject(err);
+        //쿼리 결과물을 한 배열에 담는다.
+        const result = rows.map((row) => row.from_user_index);
+        resolve(result);
+      }
+    );
+  });
+};
+
 exports.userEmail = (email) => {
   return new Promise((resolve, rejcet) => {
     mysqlConnection.query(``, (err, rows) => {

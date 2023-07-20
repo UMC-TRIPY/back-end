@@ -27,6 +27,15 @@ exports.rejectRequestFriend = async (user_idx, friend_idx) => {
   }
 };
 
+exports.getRequestFriendList = async (user_idx) => {
+  try {
+    const result = await mypageRepository.getFriendRequestList(user_idx);
+    return result;
+  } catch (err) {
+    throw err;
+  }
+};
+
 exports.acceptRequestFriend = async (user_idx, friend_idx) => {
   try {
     await mypageRepository.updateFriendRequest(user_idx, friend_idx);
