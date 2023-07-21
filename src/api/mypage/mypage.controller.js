@@ -63,7 +63,7 @@ exports.acceptFriendRequest = async (req, res) => {
     res.status(200).json({ message: "친구 요청 수락 성공" });
   } catch (err) {
     if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
-    res.status(500).json({ error: "api 호출 실패" });
+
     console.log(err);
   }
 };
@@ -107,10 +107,11 @@ exports.getFriendRequestList = async (req, res) => {
       .json({ message: "받은 친구 요청 목록 조회 성공", data: result });
   } catch (err) {
     if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
-    res.status(500).json({ error: "api 호출 실패" });
+
     console.log(err);
   }
 };
+
 exports.friendSearch = async (req, res) => {
   const { nickname, email } = req.body;
 
@@ -141,7 +142,6 @@ exports.friendSearch = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: "api 호출 실패" });
   }
 };
 
@@ -153,7 +153,6 @@ exports.friendList = async (req, res) => {
     //반환 형태 {user_index : [2,4,5]}
     res.status(200).json({ user_index: friends });
   } catch (err) {
-    res.status(500).json({ error: "api 호출 실패" });
     console.log(err);
   }
 };
@@ -177,7 +176,7 @@ exports.friendBreak = async (req, res) => {
     res.status(200).json({ message: "친구 차단 success" });
   } catch (err) {
     if (err.sqlMessage) res.status(400).json({ message: err.sqlMessage });
-    res.status(500).json({ error: "api 호출 실패" });
+
     console.log(err);
   }
 };
