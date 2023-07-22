@@ -1,4 +1,6 @@
 node_modules/
 .env
+config/
 #database
 module/db_info.js
+
