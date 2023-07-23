@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.0"
+    "swagger-ui-express": "^5.0.0",
     "express-mysql-session": "^3.0.0",
     "express-session": "^1.17.3",
     "googleapis": "^122.0.0",
