@@ -67,7 +67,10 @@ router.post("/freind_search", mypageController.friendSearch);
 //친구 목록 조회 API
 router.get("/friend_list", mypageController.friendList);
 
+//친구 차단 API
+router.patch("/friend/break", mypageController.friendBreak);
+
 //친구 끊기 API
-router.post("/friend_break", mypageController.friendBreak);
+router.delete("/friend", mypageController.unFriend);
 
 module.exports = router;

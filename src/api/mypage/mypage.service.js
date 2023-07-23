@@ -79,3 +79,12 @@ exports.breakFriend = async (user_idx, friend_idx) => {
     throw err;
   }
 };
+
+exports.unFriend = async (user_idx, friend_idx) => {
+  try {
+    await mypageRepository.unFriend(user_idx, friend_idx);
+    return;
+  } catch (err) {
+    throw err;
+  }
+};

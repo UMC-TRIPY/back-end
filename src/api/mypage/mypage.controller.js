@@ -180,3 +180,25 @@ exports.friendBreak = async (req, res) => {
     console.log(err);
   }
 };
+
+exports.unFriend = async (req, res) => {
+  const { user_idx, friend_idx } = req.body;
+  if (
+    typeof user_idx !== "number" ||
+    typeof friend_idx !== "number" ||
+    user_idx === null ||
+    friend_idx === null
+  ) {
+    res.status(400).json({
+      error: "user_idx,friend_idx가 값이 없거나 int 자료형이 아닙니다.",
+    });
+    return;
+  }
+  try {
+    await mypageService.unFriend(user_idx, friend_idx);
+    res.status(200).json({ message: "친구 끊기 success" });
+  } catch (err) {
+    if (err.sqlMessage) res.status(400).json({ message: err.sqlMessage });
+    console.log(err);
+  }
+};

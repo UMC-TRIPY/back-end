@@ -150,3 +150,20 @@ exports.breakFriend = (user_idx, friend_idx) => {
     );
   });
 };
+
+//친구 끊기 쿼리 -> friend 테이블에서 행 삭제
+exports.unFriend = (user_idx, friend_idx) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `DELETE FROM friend
+      WHERE ((from_user_index = ${user_idx} AND to_user_index = ${friend_idx})
+        OR (from_user_index = ${friend_idx} AND to_user_index = ${user_idx}))
+      AND are_we_friend = 1 AND isblocked = 0;
+      `,
+      (err, result) => {
+        if (err) reject(err);
+        resolve(result.affectedRows);
+      }
+    );
+  });
+};
