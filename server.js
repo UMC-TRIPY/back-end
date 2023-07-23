@@ -6,7 +6,7 @@ const { swaggerUi, specs } = require("./swagger/swagger");
 const PORT = process.env.PORT || 5000;
 
 var mysql = require('mysql');
-const db = require('./lib/database')
+const db = require('./module/db_connect')
 
 
 require("dotenv").config();
