@@ -1,4 +1,4 @@
-let travelPlanService = require("./travel-plan.service");
+let travelPlanService = require("./travel-plans.service");
 
 exports.createTravelPlan = async (req, res) => {
   try {

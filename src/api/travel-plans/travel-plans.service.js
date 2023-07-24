@@ -1,4 +1,4 @@
-const travelPlanRepository = require("./travel-plan.repository");
+const travelPlanRepository = require("./travel-plans.repository");
 
 exports.createTravel = async (userId, departureDate, arrivalDate) => {
   const createdTravelPlanId = await travelPlanRepository.createTravelPlan(

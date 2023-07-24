@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const travelPlanController = require("./travel-plan.controller");
+const travelPlanController = require("./travel-plans.controller");
 
 router.post("/user/:userId", travelPlanController.createTravelPlan);
 
