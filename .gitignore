@@ -1,2 +1,12 @@
 node_modules/
 .env
+<<<<<<< HEAD
+
+#rds
+module/db_info.js
+=======
+config/
+#database
+module/db_info.js
+
+>>>>>>> ed9c6a408cb100c4897515c7bb05f3ad010efb7e
