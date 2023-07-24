@@ -1,10 +1,30 @@
 const myPageRepository = require('./mypage.repository');
 
+// 유저 정보 조회 API
+exports.getUserByInfoId = async (kakaoId) => {
+    try {
+        const result = await myPageRepository.getUserByInfoId(kakaoId);
+        return result;
+
+    } catch (err) {
+        throw err;
+    }
+};
+
+//유저 삭제 API
+exports.deleteUser = async (kakaoId) => {
+    try{
+        const result = await myPageRepository.deleteUser(kakaoId);
+        return result;
+    } catch (err){
+        throw err;
+    }
+};
 
 // profile Img 등록 API
 exports.saveProfileImage = async (kakaoId, profileImg) => {
     try {
-    await myPageRepository.saveProfileImage(userId, profileImg);
+    await myPageRepository.saveProfileImage(kakaoId, profileImg);
     return;
 
     } catch (err) {
@@ -34,6 +54,17 @@ exports.saveNationality = async (kakaoId, nationality) => {
     }
 };
 
+// 국적 수정 API
+exports.updateNationality = async (kakaoId, nationality) => {
+    try {
+    await myPageRepository.updateNationality(kakaoId, nationality);
+    return;
+
+    } catch (err) {
+    throw err;
+    }
+};
+
 //국적 삭제 API
 exports.deleteNationality = async(kakaoId) => {
     try{
@@ -45,25 +76,5 @@ exports.deleteNationality = async(kakaoId) => {
     }
 }
 
-// 유저 정보 조회 API
-exports.getUserByInfoId = async (kakaoId) => {
-    try {
-        const result = await myPageRepository.getUserByInfoId(kakaoId);
-        return result;
-
-    } catch (err) {
-        throw err;
-    }
-};
-
-//유저 삭제 API
-exports.deleteUser = async (kakaoId) => {
-    try{
-        const result = await myPageRepository.deleteUser(kakaoId);
-        return result;
-    } catch (err){
-        throw err;
-    }
-};
 
 
