@@ -1,5 +1,6 @@
 const mysql = require("mysql2");
 const conn = require("../../../module/db_connect");
+const connection = conn();
 
 exports.createTravelPlan = async (userId, departureDate, arrivalDate) => {
   const query =
@@ -7,16 +8,18 @@ exports.createTravelPlan = async (userId, departureDate, arrivalDate) => {
 
   try {
     const result = await new Promise((resolve, reject) => {
-      conn.query(query, [userId, departureDate, arrivalDate], (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result);
+      connection.query(
+        query,
+        [userId, departureDate, arrivalDate],
+        (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(result);
+          }
         }
-      });
+      );
     });
-
-    conn.end();
 
     const { _timer, _object, ...rest } = result;
 
@@ -32,7 +35,7 @@ exports.createCityPlan = async (travelPlanId, cityId) => {
 
   try {
     const result = await new Promise((resolve, reject) => {
-      conn.query(query, [cityId, travelPlanId], (err, result) => {
+      connection.query(query, [cityId, travelPlanId], (err, result) => {
         if (err) {
           reject(err);
         } else {
@@ -40,8 +43,6 @@ exports.createCityPlan = async (travelPlanId, cityId) => {
         }
       });
     });
-
-    conn.end();
   } catch (error) {
     throw error;
   }

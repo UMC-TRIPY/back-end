@@ -1,5 +1,6 @@
 const mysql = require("mysql2");
 const conn = require("../../../module/db_connect");
+const connection = conn();
 
 exports.findLandmarkByLandmarkNameQuery = async (nameQuery) => {
   const likeQuery = "%" + nameQuery + "%";
@@ -7,7 +8,7 @@ exports.findLandmarkByLandmarkNameQuery = async (nameQuery) => {
 
   try {
     const result = await new Promise((resolve, reject) => {
-      conn.query(query, [likeQuery], (err, result) => {
+      connection.query(query, [likeQuery], (err, result) => {
         if (err) {
           reject(err);
         } else {
@@ -32,7 +33,7 @@ exports.getPopularLandmark = async () => {
 
   try {
     const result = await new Promise((resolve, reject) => {
-      conn.query(query, [1], (err, result) => {
+      connection.query(query, [1], (err, result) => {
         if (err) {
           reject(err);
         } else {
@@ -41,7 +42,7 @@ exports.getPopularLandmark = async () => {
       });
     });
 
-    conn.end();
+    console.log(result);
 
     const filteredResult = result.map(({ _timer, _object, ...rest }) => rest);
 

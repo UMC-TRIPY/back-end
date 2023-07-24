@@ -6,9 +6,8 @@ router.use(express.json());
 const mypageRouter = require("./api/mypage/mypage.index"); //맡은 도메인 연결
 const landmarkRouter = require("./api/landmarks/landmarks.index");
 const travelPlanRouter = require("./api/travel-plans/travel-plans.index");
+const materialRouter = require("./api/materials/materials.index");
 
-router.use("/landmarks", landmarkRouter);
-router.use("/travel-plans", travelPlanRouter);
 /**
  * @swagger
  * tags:
@@ -21,5 +20,9 @@ router.use("/travel-plans", travelPlanRouter);
 router.use("/mypage", mypageRouter);
 //router.use("/oauth", loginRouter)
 //router.use('/db', require('./lib/database.js'))
+
+router.use("/landmarks", landmarkRouter);
+router.use("/travel-plans", travelPlanRouter);
+router.use("/materials", materialRouter);
 
 module.exports = router;

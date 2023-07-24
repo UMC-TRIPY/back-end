@@ -29,6 +29,7 @@ exports.getPopularLandmark = async (req, res) => {
 
     res.send(landmarkList);
   } catch (err) {
+    console.log(err);
     res.status(500).send({ message: "서버 내부 오류" });
   }
 };
