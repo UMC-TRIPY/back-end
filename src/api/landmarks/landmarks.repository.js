@@ -1,17 +1,11 @@
 const mysql = require("mysql2");
-const connConfig = require("../../../database");
-
-const createConnection = () => {
-  return mysql.createConnection(connConfig);
-};
+const conn = require("../../../module/db_connect");
 
 exports.findLandmarkByLandmarkNameQuery = async (nameQuery) => {
   const likeQuery = "%" + nameQuery + "%";
   const query = "SELECT * FROM landmark WHERE landmark_name LIKE ?";
 
   try {
-    const conn = createConnection();
-
     const result = await new Promise((resolve, reject) => {
       conn.query(query, [likeQuery], (err, result) => {
         if (err) {
@@ -37,8 +31,6 @@ exports.getPopularLandmark = async () => {
   const query = "SELECT * FROM landmark WHERE ispopular = ?";
 
   try {
-    const conn = createConnection();
-
     const result = await new Promise((resolve, reject) => {
       conn.query(query, [1], (err, result) => {
         if (err) {
