@@ -24,23 +24,23 @@ exports.createTravelPlan = async (userId, departureDate, arrivalDate) => {
 
     conn.end();
 
-    const filteredResult = result.map(({ _timer, _object, ...rest }) => rest);
+    const { _timer, _object, ...rest } = result;
 
-    console.log(filteredResult);
-    return filteredResult;
+    const createdTravelPlanId = rest.insertId;
+    return createdTravelPlanId;
   } catch (error) {
     throw error;
   }
 };
 
-exports.createTravelPlan = async (travelPlanId, cityId) => {
-  const query = "INSERT INTO travelplan(city_index, plan_index) VALUE(? , ? )";
+exports.createCityPlan = async (travelPlanId, cityId) => {
+  const query = "INSERT INTO city_plan(city_index, plan_index) VALUE(? , ? )";
 
   try {
     const conn = createConnection();
 
     const result = await new Promise((resolve, reject) => {
-      conn.query(query, [travelPlanId, cityId], (err, result) => {
+      conn.query(query, [cityId, travelPlanId], (err, result) => {
         if (err) {
           reject(err);
         } else {
@@ -50,11 +50,6 @@ exports.createTravelPlan = async (travelPlanId, cityId) => {
     });
 
     conn.end();
-
-    const filteredResult = result.map(({ _timer, _object, ...rest }) => rest);
-
-    console.log(filteredResult);
-    return filteredResult;
   } catch (error) {
     throw error;
   }

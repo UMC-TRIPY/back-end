@@ -1,13 +1,13 @@
 const travelPlanRepository = require("./travel-plan.repository");
 
 exports.createTravel = async (userId, departureDate, arrivalDate) => {
-  const createdTravelPlan = await travelPlanRepository.createTravelPlan(
+  const createdTravelPlanId = await travelPlanRepository.createTravelPlan(
     userId,
     departureDate,
     arrivalDate
   );
 
-  return createdTravelPlan;
+  return createdTravelPlanId;
 };
 
 exports.createCityPlan = async (travelPlanId, cityId) => {
@@ -15,6 +15,4 @@ exports.createCityPlan = async (travelPlanId, cityId) => {
     travelPlanId,
     cityId
   );
-
-  return createdCityPlan;
 };

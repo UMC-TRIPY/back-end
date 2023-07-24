@@ -5,11 +5,10 @@ exports.searchLandmark = async (req, res) => {
     const nameQuery = req?.query.nameQuery;
 
     if (typeof nameQuery != "string") {
-      res
-        .status(400)
-        .json(
-          "입력한 검색어가 잘못된 입력값입니다. 올바른 값으로 다시 입력해주세요"
-        );
+      res.status(400).send({
+        message:
+          "입력한 검색어가 잘못된 입력값입니다. 올바른 값으로 다시 입력해주세요",
+      });
     }
 
     console.log(nameQuery);
@@ -20,7 +19,7 @@ exports.searchLandmark = async (req, res) => {
 
     res.send(landmarkList);
   } catch (err) {
-    throw err;
+    res.status(500).send({ message: "서버 내부 오류" });
   }
 };
 
@@ -30,6 +29,6 @@ exports.getPopularLandmark = async (req, res) => {
 
     res.send(landmarkList);
   } catch (err) {
-    throw err;
+    res.status(500).send({ message: "서버 내부 오류" });
   }
 };
