@@ -1,4 +1,4 @@
-const materialService = require("./meterials.service");
+const materialService = require("./materials.service");
 
 exports.getMaterials = async (req, res) => {
   try {
