@@ -7,6 +7,7 @@ const mypageRouter = require("./api/mypage/mypage.index"); //맡은 도메인 �
 const landmarkRouter = require("./api/landmarks/landmarks.index");
 const travelPlanRouter = require("./api/travel-plans/travel-plans.index");
 const materialRouter = require("./api/materials/materials.index");
+const postRouter = require("./api/posts/posts.index");
 
 /**
  * @swagger
@@ -24,5 +25,6 @@ router.use("/mypage", mypageRouter);
 router.use("/landmarks", landmarkRouter);
 router.use("/travel-plans", travelPlanRouter);
 router.use("/materials", materialRouter);
+router.use("/posts", postRouter);
 
 module.exports = router;
