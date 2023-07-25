@@ -40,7 +40,7 @@ exports.cancelFriendRequest = async (req, res) => {
     res.status(200).json({ message: "친구 요청 취소 성공" });
   } catch (err) {
     if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
-    res.status(500).json({ error: "api 호출 실패" });
+
     console.log(err);
   }
 };
@@ -86,7 +86,7 @@ exports.rejectFriendRequest = async (req, res) => {
     res.status(200).json({ message: "친구 요청 거절 성공" });
   } catch (err) {
     if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
-    res.status(500).json({ error: "api 호출 실패" });
+
     console.log(err);
   }
 };
@@ -112,35 +112,19 @@ exports.getFriendRequestList = async (req, res) => {
   }
 };
 
+//검색한 keyword로 시작하는 email,nickname을 가진 유저들 반환,
 exports.friendSearch = async (req, res) => {
-  const { nickname, email } = req.body;
+  const { keyword } = req.body;
 
-  //nickname 또는 email이 string 타입이 아니면 에러 반환
-  if (
-    typeof nickname !== "string" ||
-    typeof email !== "string" ||
-    (nickname === null && email === null)
-  ) {
-    res
-      .status(400)
-      .json({ error: "nickname 또는 email 값이 없거나 문자열이 아닙니다." });
+  if (typeof keyword !== "string" || keyword === null) {
+    res.status(400).json({ error: "keyword 값이 없거나 문자열이 아닙니다." });
     return;
   }
   try {
-    if (email === "") {
-      //해당 문자열로 시작하는 이메일을 가진 유저 결과를 배열형태로 반환
-      const { friend } = await mypageService.findUserNickname(nickname);
-      res.status(200).json({
-        friend_index: friend,
-      });
-    } else if (nickname === "") {
-      //해당 문자열로 시작하는 닉네임을 가진 유저 결과를 배열형태로 반환
-      const { friend } = await mypageService.findUserEmail(email);
-      res.status(200).json({
-        friend_index: friend,
-      });
-    }
+    const userList = await mypageService.friendSearch(keyword);
+    res.status(200).json({ user_index: userList });
   } catch (err) {
+    if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
     console.log(err);
   }
 };

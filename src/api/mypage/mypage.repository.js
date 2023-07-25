@@ -97,19 +97,19 @@ exports.getFriendRequestRecieveList = (user_idx) => {
   });
 };
 
-exports.userEmail = (email) => {
-  return new Promise((resolve, rejcet) => {
-    mysqlConnection.query(``, (err, rows) => {
-      if (err) rejcet(err);
-      resolve(rows);
-    });
-    //query
-  });
-};
-exports.userNickname = (nickname) => {
-  return new Promise((resolve, rejcet) => {
-    //query
-    if (err) rejcet(err);
+exports.friendSearch = (keyword) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `SELECT user_index
+        FROM user
+        WHERE nickname LIKE '${keyword}%' OR email LIKE '${keyword}%';
+        `,
+      (err, rows) => {
+        if (err) reject(err);
+        const result = rows.map((row) => row.user_index);
+        resolve(result);
+      }
+    );
   });
 };
 

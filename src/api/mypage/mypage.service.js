@@ -45,18 +45,10 @@ exports.acceptRequestFriend = async (user_idx, friend_idx) => {
   }
 };
 
-exports.findUserEmail = async (email) => {
+exports.friendSearch = async (keyword) => {
   try {
-    const userEmail = await mypageRepository.userEmail();
-    return userEmail;
-  } catch (err) {
-    throw err;
-  }
-};
-exports.findUserNickname = async (nickname) => {
-  try {
-    const userNickname = await mypageRepository.userNickname();
-    return userNickname;
+    const friendList = await mypageRepository.friendSearch(keyword);
+    return friendList;
   } catch (err) {
     throw err;
   }

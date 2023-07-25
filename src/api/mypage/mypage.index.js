@@ -4,7 +4,7 @@ const mypageController = require("./mypage.controller");
 //친구 요청 API
 /**
  * @swagger
- * /api/mypage/{user_id}/friend:
+ * /api/mypage/friends/request:
  *   post:
  *    description: "마이페이지에서 친구 요청하기 기능 API"
  *    tags: [MyPage]
@@ -48,29 +48,29 @@ const mypageController = require("./mypage.controller");
  *                  type: string
  *                  example: "user_idx 또는 friend_idx 값이 없거나 int 자료형이 아닙니다."
  */
-router.post("/friend/request", mypageController.sendFriendRequest);
+router.post("/friends/request", mypageController.sendFriendRequest);
 
 //받은 친구 요청 조회 API
-router.post("/friend_request_receive", mypageController.getFriendRequestList);
+router.post("/friends/request_receive", mypageController.getFriendRequestList);
 //친구 요청 취소 API
-router.post("/friend_request_cancel", mypageController.cancelFriendRequest);
+router.post("/friends/request_cancel", mypageController.cancelFriendRequest);
 
 //친구 요청 수락 API
-router.post("/friend_request_accept", mypageController.acceptFriendRequest);
+router.post("/friends/request_accept", mypageController.acceptFriendRequest);
 
 //친구 요청 거절 API
-router.post("/friend_request_reject", mypageController.rejectFriendRequest);
+router.post("/friends/request_reject", mypageController.rejectFriendRequest);
 
 //친구 검색 API
-router.post("/freind_search", mypageController.friendSearch);
+router.post("/friends/search", mypageController.friendSearch);
 
 //친구 목록 조회 API
-router.get("/friend_list", mypageController.friendList);
+router.get("/friends", mypageController.friendList);
 
 //친구 차단 API
-router.patch("/friend/break", mypageController.friendBreak);
+router.post("/friends/break", mypageController.friendBreak);
 
 //친구 끊기 API
-router.delete("/friend", mypageController.unFriend);
+router.delete("/friends", mypageController.unFriend);
 
 module.exports = router;
