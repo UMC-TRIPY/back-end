@@ -97,7 +97,7 @@ exports.getFriendRequestRecieveList = (user_idx) => {
   });
 };
 
-exports.friendSearch = (keyword) => {
+exports.userSearch = (keyword) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `SELECT user_index

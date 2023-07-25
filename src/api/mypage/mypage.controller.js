@@ -113,7 +113,7 @@ exports.getFriendRequestList = async (req, res) => {
 };
 
 //검색한 keyword로 시작하는 email,nickname을 가진 유저들 반환,
-exports.friendSearch = async (req, res) => {
+exports.userSearch = async (req, res) => {
   const { keyword } = req.body;
 
   if (typeof keyword !== "string" || keyword === null) {
@@ -121,7 +121,7 @@ exports.friendSearch = async (req, res) => {
     return;
   }
   try {
-    const userList = await mypageService.friendSearch(keyword);
+    const userList = await mypageService.userSearch(keyword);
     res.status(200).json({ user_index: userList });
   } catch (err) {
     if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
