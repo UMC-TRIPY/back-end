@@ -47,7 +47,16 @@ exports.acceptRequestFriend = async (user_idx, friend_idx) => {
 
 exports.userSearch = async (keyword) => {
   try {
-    const friendList = await mypageRepository.userSearch(keyword);
+    const userList = await mypageRepository.userSearch(keyword);
+    return userList;
+  } catch (err) {
+    throw err;
+  }
+};
+
+exports.friendSearch = async (keyword) => {
+  try {
+    const friendList = await mypageRepository.friendSearch(keyword);
     return friendList;
   } catch (err) {
     throw err;

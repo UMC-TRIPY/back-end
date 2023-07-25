@@ -122,7 +122,24 @@ exports.userSearch = async (req, res) => {
   }
   try {
     const userList = await mypageService.userSearch(keyword);
-    res.status(200).json({ user_index: userList });
+    res.status(200).json({ users_index: userList });
+  } catch (err) {
+    if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
+    console.log(err);
+  }
+};
+
+//userSearch와 repository.js를 제외하곤 동일
+exports.friendSearch = async (req, res) => {
+  const { keyword } = req.body;
+
+  if (typeof keyword !== "string" || keyword === null) {
+    res.status(400).json({ error: "keyword 값이 없거나 문자열이 아닙니다." });
+    return;
+  }
+  try {
+    const friendList = await mypageService.friendSearch(keyword);
+    res.status(200).json({ friends_index: friendList });
   } catch (err) {
     if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
     console.log(err);
