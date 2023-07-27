@@ -64,6 +64,9 @@ router.post("/friends/request_reject", mypageController.rejectFriendRequest);
 //유저 검색 API
 router.post("/users/search", mypageController.userSearch);
 
+//uid를 통해 사용자 정보 가져오는 API
+router.get("/", mypageController.friendSearch);
+
 //친구 검색 API
 router.post("/friends/search", mypageController.friendSearch);
 

@@ -113,6 +113,22 @@ exports.userSearch = (keyword) => {
   });
 };
 
+exports.friendSearch = (keyword) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `SELECT user_index
+        FROM friend
+        WHERE nickname LIKE '${keyword}%' OR email LIKE '${keyword}%';
+        `,
+      (err, rows) => {
+        if (err) reject(err);
+        const result = rows.map((row) => row.user_index);
+        resolve(result);
+      }
+    );
+  });
+};
+
 //현재 접속중인 유저의 access token을 이용해 userId를 가져와야한다, userId를 1로 가정
 //반대로 userId를 통해 유저 정보를 확인할 api도 필요하다.
 exports.userFriendList = (userId) => {
