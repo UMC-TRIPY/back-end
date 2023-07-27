@@ -2,7 +2,7 @@ const landMarksService = require("./landmarks.service");
 
 exports.searchLandmark = async (req, res) => {
   try {
-    const nameQuery = req?.query.nameQuery;
+    const nameQuery = req.query.nameQuery;
 
     if (typeof nameQuery != "string") {
       res.status(400).send({
