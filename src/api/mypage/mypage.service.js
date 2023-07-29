@@ -64,18 +64,18 @@ exports.userSearch = async (keyword) => {
   }
 };
 
-exports.friendSearch = async (keyword) => {
+exports.friendSearch = async (user_idx, keyword) => {
   try {
-    const friendList = await mypageRepository.friendSearch(keyword);
+    const friendList = await mypageRepository.friendSearch(user_idx, keyword);
     return friendList;
   } catch (err) {
     throw err;
   }
 };
 
-exports.findFriendsList = async () => {
+exports.findFriendsList = async (user_idx) => {
   try {
-    const friendList = await mypageRepository.userFriendList();
+    const friendList = await mypageRepository.userFriendList(user_idx);
     return friendList;
   } catch (err) {
     throw err;

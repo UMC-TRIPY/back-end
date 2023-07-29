@@ -27,7 +27,8 @@ exports.sendFriendRequest = async (req, res) => {
 
 //친구 요청 취소 API
 exports.cancelFriendRequest = async (req, res) => {
-  const { user_idx, friend_idx } = req.body;
+  const user_idx = Number(req.params.uid);
+  const { friend_idx } = req.body;
   if (
     typeof user_idx !== "number" ||
     typeof friend_idx !== "number" ||
@@ -50,7 +51,8 @@ exports.cancelFriendRequest = async (req, res) => {
 
 //친구 요청 수락 API
 exports.acceptFriendRequest = async (req, res) => {
-  const { user_idx, friend_idx } = req.body;
+  const user_idx = Number(req.params.uid);
+  const { friend_idx } = req.body;
   if (
     typeof user_idx !== "number" ||
     typeof friend_idx !== "number" ||
@@ -73,7 +75,8 @@ exports.acceptFriendRequest = async (req, res) => {
 
 //친구 요청 거절 API
 exports.rejectFriendRequest = async (req, res) => {
-  const { user_idx, friend_idx } = req.body;
+  const user_idx = Number(req.params.uid);
+  const { friend_idx } = req.body;
   if (
     typeof user_idx !== "number" ||
     typeof friend_idx !== "number" ||
@@ -138,7 +141,7 @@ exports.getFriendRequestList = async (req, res) => {
 
 //검색한 keyword로 시작하는 email,nickname을 가진 유저들 반환,
 exports.userSearch = async (req, res) => {
-  const { keyword } = req.body;
+  const keyword = req.query.keyword;
 
   if (typeof keyword !== "string" || keyword === null) {
     res.status(400).json({ error: "keyword 값이 없거나 문자열이 아닙니다." });
@@ -146,24 +149,27 @@ exports.userSearch = async (req, res) => {
   }
   try {
     const userList = await mypageService.userSearch(keyword);
-    res.status(200).json({ users_index: userList });
+    res.status(200).json({ message: "유저 검색 성공", users_index: userList });
   } catch (err) {
     if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
     console.log(err);
   }
 };
 
-//userSearch와 repository.js를 제외하곤 동일
+//친구 검색 api
 exports.friendSearch = async (req, res) => {
-  const { keyword } = req.body;
+  const user_idx = Number(req.params.uid);
+  const keyword = req.query.keyword;
 
   if (typeof keyword !== "string" || keyword === null) {
     res.status(400).json({ error: "keyword 값이 없거나 문자열이 아닙니다." });
     return;
   }
   try {
-    const friendList = await mypageService.friendSearch(keyword);
-    res.status(200).json({ friends_index: friendList });
+    const friendList = await mypageService.friendSearch(user_idx, keyword);
+    res
+      .status(200)
+      .json({ message: "친구 검색 성공", friends_index: friendList });
   } catch (err) {
     if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
     console.log(err);
@@ -172,11 +178,18 @@ exports.friendSearch = async (req, res) => {
 
 //친구 목록 가져오기 API
 exports.friendList = async (req, res) => {
+  const user_idx = Number(req.params.uid);
+  if (typeof user_idx !== "number" || user_idx === null) {
+    res.status(400).json({ error: "uid 값이 없거나 int형이 아닙니다." });
+    return;
+  }
   try {
-    const friends = await mypageService.findFriendsList();
-    console.log(friends);
-    //반환 형태 {user_index : [2,4,5]}
-    res.status(200).json({ user_index: friends });
+    const friends = await mypageService.findFriendsList(user_idx);
+
+    //반환 형태 {friends_index : [2,4,5]}
+    res
+      .status(200)
+      .json({ message: "친구 목록 조회 성공", friends_index: friends });
   } catch (err) {
     console.log(err);
   }
@@ -184,7 +197,8 @@ exports.friendList = async (req, res) => {
 
 //접속중인 유저 인덱스와 차단하고자 하는 친구 인덱스를 받아 friend 테이블의 isblocked 값을 1로 만든다.
 exports.friendBreak = async (req, res) => {
-  const { user_idx, friend_idx } = req.body;
+  const user_idx = Number(req.params.uid);
+  const { friend_idx } = req.body;
   if (
     typeof user_idx !== "number" ||
     typeof friend_idx !== "number" ||
@@ -198,7 +212,7 @@ exports.friendBreak = async (req, res) => {
   }
   try {
     await mypageService.breakFriend(user_idx, friend_idx);
-    res.status(200).json({ message: "친구 차단 success" });
+    res.status(200).json({ message: "친구 차단 성공" });
   } catch (err) {
     if (err.sqlMessage) res.status(400).json({ message: err.sqlMessage });
 
@@ -208,7 +222,8 @@ exports.friendBreak = async (req, res) => {
 
 //친구 끊기 API
 exports.unFriend = async (req, res) => {
-  const { user_idx, friend_idx } = req.body;
+  const user_idx = Number(req.params.uid);
+  const { friend_idx } = req.body;
   if (
     typeof user_idx !== "number" ||
     typeof friend_idx !== "number" ||
@@ -222,7 +237,7 @@ exports.unFriend = async (req, res) => {
   }
   try {
     await mypageService.unFriend(user_idx, friend_idx);
-    res.status(200).json({ message: "친구 끊기 success" });
+    res.status(200).json({ message: "친구 끊기(삭제) 성공" });
   } catch (err) {
     if (err.sqlMessage) res.status(400).json({ message: err.sqlMessage });
     console.log(err);

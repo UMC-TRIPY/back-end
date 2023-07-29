@@ -107,24 +107,39 @@ exports.userSearch = (keyword) => {
         `,
       (err, rows) => {
         if (err) reject(err);
-        const result = rows.map((row) => row.user_index);
-        resolve(result);
+        try {
+          const result = rows.map((row) => row.user_index);
+          resolve(result);
+        } catch (err) {
+          reject(err);
+        }
       }
     );
   });
 };
 
-exports.friendSearch = (keyword) => {
+exports.friendSearch = (user_idx, keyword) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
-      `SELECT user_index
-        FROM friend
-        WHERE nickname LIKE '${keyword}%' OR email LIKE '${keyword}%';
-        `,
+      `SELECT DISTINCT
+        CASE
+            WHEN f.from_user_index = ${user_idx} THEN f.to_user_index
+            WHEN f.to_user_index = ${user_idx} THEN f.from_user_index
+        END AS user_index
+      FROM friend f
+       JOIN user u ON ((f.from_user_index = u.user_index OR f.to_user_index = u.user_index) AND f.from_user_index IS NOT NULL)
+      WHERE (u.nickname LIKE '${keyword}%' OR u.email LIKE '${keyword}%')
+      AND f.are_we_friend = 1;
+      `,
       (err, rows) => {
         if (err) reject(err);
-        const result = rows.map((row) => row.user_index);
-        resolve(result);
+        try {
+          const filteredRows = rows.filter((row) => row.user_index !== null);
+          const result = filteredRows.map((row) => row.user_index);
+          resolve(result);
+        } catch (err) {
+          reject(err);
+        }
       }
     );
   });
@@ -132,21 +147,27 @@ exports.friendSearch = (keyword) => {
 
 //현재 접속중인 유저의 access token을 이용해 userId를 가져와야한다, userId를 1로 가정
 //반대로 userId를 통해 유저 정보를 확인할 api도 필요하다.
-exports.userFriendList = (userId) => {
+exports.userFriendList = (user_idx) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `SELECT DISTINCT
       CASE
-          WHEN from_user_index = 1 THEN to_user_index
-          WHEN to_user_index = 1 THEN from_user_index
+          WHEN from_user_index = ${user_idx} THEN to_user_index
+          WHEN to_user_index = ${user_idx} THEN from_user_index
       END AS user_index
   FROM friend
-  WHERE (from_user_index = 1 OR to_user_index = 1) AND are_we_friend = 1;
+  WHERE (from_user_index = ${user_idx} OR to_user_index = ${user_idx}) AND are_we_friend = 1;
   `,
       (err, rows) => {
         if (err) reject(err);
-        const friendList = rows.map((row) => row.user_index);
-        resolve(friendList);
+        console.log(rows);
+        try {
+          const friendList = rows.map((row) => row.user_index);
+          resolve(friendList);
+        } catch (err) {
+          console.log(err);
+          reject(err);
+        }
       }
     );
   });
