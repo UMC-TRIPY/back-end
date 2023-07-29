@@ -1,6 +1,10 @@
 node_modules/
+#환경변수
 .env
+
+#rds
+module/db_info.js
+
 config/
 #database
 module/db_info.js
-
