@@ -1,5 +1,5 @@
 const conn = require("../../../module/db_connect");
-const connection = conn();
+const connection = conn;
 
 exports.getPosts = async (tagsStr, page, pageSize, tagCount) => {
   const offset = (page - 1) * pageSize;
