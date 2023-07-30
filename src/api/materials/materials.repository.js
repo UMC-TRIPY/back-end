@@ -1,4 +1,4 @@
-const conn = require("../../../module/db_connect");
+const { conn } = require("../../../module/db_connect");
 const connection = conn();
 
 exports.getMaterials = async () => {

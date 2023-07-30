@@ -1,5 +1,5 @@
 const mysql = require("mysql2");
-const conn = require("../../../module/db_connect");
+const { conn } = require("../../../module/db_connect");
 const connection = conn();
 
 exports.createTravelPlan = async (userId, departureDate, arrivalDate) => {
