@@ -5,8 +5,6 @@ exports.findLandmarkByLandmarkNameQuery = async (nameQuery) => {
     nameQuery
   );
 
-  console.log(landmarkList);
-
   return landmarkList;
 };
 
