@@ -3,7 +3,7 @@ const landmarkController = require("./landmarks.controller");
 
 /**
  * @swagger
- * /api/landmarks/search-landmarks?nameQuery=q1:
+ * /api/landmarks/search-landmarks:
  *   get:
  *    description: "여행지 검색 조회"
  *    tags: [Lamdmarks]

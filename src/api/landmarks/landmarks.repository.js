@@ -4,8 +4,12 @@ const connection = conn();
 
 exports.findLandmarkByLandmarkNameQuery = async (nameQuery) => {
   const likeQuery = "%" + nameQuery + "%";
-  const query = "SELECT * FROM landmark WHERE landmark_name LIKE ?";
 
+  let query = "SELECT * FROM landmark";
+
+  if (nameQuery) {
+    query = "SELECT * FROM landmark WHERE landmark_name LIKE ?";
+  }
   try {
     const result = await new Promise((resolve, reject) => {
       connection.query(query, [likeQuery], (err, result) => {
