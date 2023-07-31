@@ -16,8 +16,12 @@ const postController = require("./posts.controller");
  *            type: object
  *            properties:
  *              tags:
- *                type: number[]
- *                description: "태그 아이디 배열"
+ *                "in": "formData"
+ *                "type": "array"
+ *                "items": {
+ *                      "type": "string"
+ *                  }
+ *                description: "태그 name 배열"
  *              page:
  *                type: number
  *                description: "페이지 번호"
