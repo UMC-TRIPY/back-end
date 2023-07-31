@@ -1,4 +1,4 @@
-const {conn} = require("../../../module/db_connect");
+const { conn } = require("../../../module/db_connect");
 const connection = conn();
 
 exports.getMaterials = async () => {
@@ -17,7 +17,6 @@ exports.getMaterials = async () => {
 
     const filteredResult = result.map(({ _timer, _object, ...rest }) => rest);
 
-    console.log(filteredResult);
     return filteredResult;
   } catch (error) {
     throw error;

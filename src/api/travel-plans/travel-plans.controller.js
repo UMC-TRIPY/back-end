@@ -5,15 +5,11 @@ exports.createTravelPlan = async (req, res) => {
     const userId = req.params.userId;
     const { departureDate, arrivalDate, cityId } = req.body;
 
-    console.log(userId, departureDate, arrivalDate);
-
     const travelPlanId = await travelPlanService.createTravel(
       userId,
       departureDate,
       arrivalDate
     );
-
-    console.log(travelPlanId);
 
     await travelPlanService.createCityPlan(travelPlanId, cityId);
 

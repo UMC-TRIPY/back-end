@@ -4,8 +4,12 @@ const connection = conn();
 
 exports.findLandmarkByLandmarkNameQuery = async (nameQuery) => {
   const likeQuery = "%" + nameQuery + "%";
-  const query = "SELECT * FROM landmark WHERE landmark_name LIKE ?";
 
+  let query = "SELECT * FROM landmark";
+
+  if (nameQuery) {
+    query = "SELECT * FROM landmark WHERE landmark_name LIKE ?";
+  }
   try {
     const result = await new Promise((resolve, reject) => {
       connection.query(query, [likeQuery], (err, result) => {
@@ -17,11 +21,8 @@ exports.findLandmarkByLandmarkNameQuery = async (nameQuery) => {
       });
     });
 
-    conn.end();
-
     const filteredResult = result.map(({ _timer, _object, ...rest }) => rest);
 
-    console.log(filteredResult);
     return filteredResult;
   } catch (error) {
     throw error;
@@ -42,11 +43,8 @@ exports.getPopularLandmark = async () => {
       });
     });
 
-    console.log(result);
-
     const filteredResult = result.map(({ _timer, _object, ...rest }) => rest);
 
-    console.log(filteredResult);
     return filteredResult;
   } catch (error) {
     throw error;
