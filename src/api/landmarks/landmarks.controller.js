@@ -11,8 +11,6 @@ exports.searchLandmark = async (req, res) => {
       });
     }
 
-    console.log(nameQuery);
-
     const landmarkList = await landMarksService.findLandmarkByLandmarkNameQuery(
       nameQuery
     );

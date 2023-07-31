@@ -17,11 +17,8 @@ exports.findLandmarkByLandmarkNameQuery = async (nameQuery) => {
       });
     });
 
-    conn.end();
-
     const filteredResult = result.map(({ _timer, _object, ...rest }) => rest);
 
-    console.log(filteredResult);
     return filteredResult;
   } catch (error) {
     throw error;
@@ -42,11 +39,8 @@ exports.getPopularLandmark = async () => {
       });
     });
 
-    console.log(result);
-
     const filteredResult = result.map(({ _timer, _object, ...rest }) => rest);
 
-    console.log(filteredResult);
     return filteredResult;
   } catch (error) {
     throw error;

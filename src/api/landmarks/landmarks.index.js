@@ -3,7 +3,7 @@ const landmarkController = require("./landmarks.controller");
 
 /**
  * @swagger
- * /api/lamdmarks/search-landmarks?nameQuery=q1:
+ * /api/landmarks/search-landmarks?nameQuery=q1:
  *   get:
  *    description: "여행지 검색 조회"
  *    tags: [Lamdmarks]
@@ -47,7 +47,7 @@ router.get("/search-landmarks", landmarkController.searchLandmark);
 
 /**
  * @swagger
- * /api/lamdmarks/popular:
+ * /api/landmarks/popular:
  *   get:
  *    description: "인기 여행지 조회"
  *    tags: [Lamdmarks]
