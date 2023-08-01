@@ -1,5 +1,6 @@
-const mysqlConnection = require("../../../module/db_connect");
-
+// const mysqlConnection = require("../../../module/db_connect");
+const { conn } = require("../../../module/db_connect");
+const mysqlConnection = conn();
 //친구 요청 API 쿼리
 exports.insertFriendRequest = (user_idx, friend_idx) => {
   return new Promise((resolve, reject) => {
@@ -97,39 +98,76 @@ exports.getFriendRequestRecieveList = (user_idx) => {
   });
 };
 
-exports.userEmail = (email) => {
-  return new Promise((resolve, rejcet) => {
-    mysqlConnection.query(``, (err, rows) => {
-      if (err) rejcet(err);
-      resolve(rows);
-    });
-    //query
+exports.userSearch = (keyword) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `SELECT user_index
+        FROM user
+        WHERE nickname LIKE '${keyword}%' OR email LIKE '${keyword}%';
+        `,
+      (err, rows) => {
+        if (err) reject(err);
+        try {
+          const result = rows.map((row) => row.user_index);
+          resolve(result);
+        } catch (err) {
+          reject(err);
+        }
+      }
+    );
   });
 };
-exports.userNickname = (nickname) => {
-  return new Promise((resolve, rejcet) => {
-    //query
-    if (err) rejcet(err);
+
+exports.friendSearch = (user_idx, keyword) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `SELECT DISTINCT
+        CASE
+            WHEN f.from_user_index = ${user_idx} THEN f.to_user_index
+            WHEN f.to_user_index = ${user_idx} THEN f.from_user_index
+        END AS user_index
+      FROM friend f
+       JOIN user u ON ((f.from_user_index = u.user_index OR f.to_user_index = u.user_index) AND f.from_user_index IS NOT NULL)
+      WHERE (u.nickname LIKE '${keyword}%' OR u.email LIKE '${keyword}%')
+      AND f.are_we_friend = 1;
+      `,
+      (err, rows) => {
+        if (err) reject(err);
+        try {
+          const filteredRows = rows.filter((row) => row.user_index !== null);
+          const result = filteredRows.map((row) => row.user_index);
+          resolve(result);
+        } catch (err) {
+          reject(err);
+        }
+      }
+    );
   });
 };
 
 //현재 접속중인 유저의 access token을 이용해 userId를 가져와야한다, userId를 1로 가정
 //반대로 userId를 통해 유저 정보를 확인할 api도 필요하다.
-exports.userFriendList = (userId) => {
+exports.userFriendList = (user_idx) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `SELECT DISTINCT
       CASE
-          WHEN from_user_index = 1 THEN to_user_index
-          WHEN to_user_index = 1 THEN from_user_index
+          WHEN from_user_index = ${user_idx} THEN to_user_index
+          WHEN to_user_index = ${user_idx} THEN from_user_index
       END AS user_index
   FROM friend
-  WHERE (from_user_index = 1 OR to_user_index = 1) AND are_we_friend = 1;
+  WHERE (from_user_index = ${user_idx} OR to_user_index = ${user_idx}) AND are_we_friend = 1;
   `,
       (err, rows) => {
         if (err) reject(err);
-        const friendList = rows.map((row) => row.user_index);
-        resolve(friendList);
+        console.log(rows);
+        try {
+          const friendList = rows.map((row) => row.user_index);
+          resolve(friendList);
+        } catch (err) {
+          console.log(err);
+          reject(err);
+        }
       }
     );
   });
@@ -151,121 +189,137 @@ exports.breakFriend = (user_idx, friend_idx) => {
   });
 };
 
+//친구 끊기 쿼리 -> friend 테이블에서 행 삭제
+exports.unFriend = (user_idx, friend_idx) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `DELETE FROM friend
+      WHERE ((from_user_index = ${user_idx} AND to_user_index = ${friend_idx})
+        OR (from_user_index = ${friend_idx} AND to_user_index = ${user_idx}))
+      AND are_we_friend = 1 AND isblocked = 0;
+      `,
+      (err, result) => {
+        if (err) reject(err);
+        resolve(result.affectedRows);
+      }
+    );
+  });
+};
 // 유저 정보 조회 API
 exports.getUserByInfoId = (kakaoId) => {
   return new Promise((resolve, reject) => {
-      mysqlConnection.query(
-                  `
+    mysqlConnection.query(
+      `
                   SELECT nickname, email, nationality, profileImg 
                   FROM user  
                   WHERE kakaoId = ${kakaoId}`,
-      (err,result) => {
-      if(err){
-           reject(err);
-       }else {
+      (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
           resolve(result);
+        }
       }
-      }
-      );
+    );
   });
 };
-  
+
 // 유저 탈퇴 API
-exports.deleteUser = (kakaoId) =>{
-  return new Promise((resolve, reject) =>{
-      mysqlConnection.query(
-                  `
+exports.deleteUser = (kakaoId) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `
                   DELETE
                   FROM user
                   WHERE kakaoId = ${kakaoId}`,
 
-      (err,result) => {
-      if(err) reject(err);
-      resolve(true);
+      (err, result) => {
+        if (err) reject(err);
+        resolve(true);
       }
-      );
+    );
   });
 };
-
-
 
 //profile 이미지 등록 API
 exports.saveProfileImage = (kakaoId, profileImg) => {
   return new Promise((resolve, reject) => {
-  mysqlConnection.query(
-  `UPDATE user 
+    mysqlConnection.query(
+      `UPDATE user 
    SET profileImg = ? 
-   WHERE kakaoId = ?`,[profileImg,kakaoId],
-  (err, result) => {
-  if (err) reject(err);
-  resolve(true);
-          }
-      );
+   WHERE kakaoId = ?`,
+      [profileImg, kakaoId],
+      (err, result) => {
+        if (err) reject(err);
+        resolve(true);
+      }
+    );
   });
 };
 
 //Profile 이미지 삭제 API
 exports.deleteProfileImage = (kakaoId) => {
   return new Promise((resolve, reject) => {
-      mysqlConnection.query(
-          `UPDATE user 
+    mysqlConnection.query(
+      `UPDATE user 
            SET profileImg = NULL
            WHERE kakaoId = ${kakaoId}
            `,
-  (err, result) => {
-      if(err) reject(err);
-  resolve(true);
+      (err, result) => {
+        if (err) reject(err);
+        resolve(true);
       }
-      );
+    );
   });
 };
 
 // 국적 등록 API
 exports.saveNationality = (kakaoId, nationality) => {
   return new Promise((resolve, reject) => {
-  mysqlConnection.query(
-                  `
+    mysqlConnection.query(
+      `
                   UPDATE user 
                   SET nationality = ? 
-                  WHERE kakaoId = ?`,[nationality,kakaoId],
-   (err, result) => {
-    if (err) reject(err);
-    resolve(true);
-          }
-       );
+                  WHERE kakaoId = ?`,
+      [nationality, kakaoId],
+      (err, result) => {
+        if (err) reject(err);
+        resolve(true);
+      }
+    );
   });
 };
 
 //국적 수정 API
-exports.updateNationality = (kakaoId,nationality) =>{
+exports.updateNationality = (kakaoId, nationality) => {
   return new Promise((resolve, reject) => {
-      mysqlConnection.query(
-          `UPDATE user
+    mysqlConnection.query(
+      `UPDATE user
            SET nationality = ?
            WHERE kakaoId = ?
-           `,[nationality,kakaoId],
-  (err, result) => {
-  if(err) reject(err);
-  resolve(true);
+           `,
+      [nationality, kakaoId],
+      (err, result) => {
+        if (err) reject(err);
+        resolve(true);
       }
-      );
+    );
   });
 };
 
-
 //국적 삭제 API
-exports.deleteNationality = (kakaoId) =>{
+exports.deleteNationality = (kakaoId) => {
   return new Promise((resolve, reject) => {
-      mysqlConnection.query(
-          `UPDATE user
+    mysqlConnection.query(
+      `UPDATE user
            SET nationality = NULL
            WHERE kakaoId = ${kakaoId}
            `,
-  (err, result) => {
-      if(err) reject(err);
-  
-  resolve(true);
+      (err, result) => {
+        if (err) reject(err);
+
+        resolve(true);
       }
-      );
+    );
   });
 };
