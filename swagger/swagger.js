@@ -19,7 +19,7 @@ const options = {
       },
       {
         url : "http://localhost:5000"
-      }
+      },
     ],
   },
   apis: ["./src/*.js", "./src/api/**/*.js"], //Swagger 파일 연동
