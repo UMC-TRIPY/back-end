@@ -102,7 +102,7 @@ exports.unFriend = async (user_idx, friend_idx) => {
 // 유저 정보 조회 API
 exports.getUserByInfoId = async (kakaoId) => {
   try {
-    const result = await myPageRepository.getUserByInfoId(kakaoId);
+    const result = await mypageRepository.getUserByInfoId(kakaoId);
     return result;
   } catch (err) {
     throw err;
@@ -112,7 +112,7 @@ exports.getUserByInfoId = async (kakaoId) => {
 //유저 삭제 API
 exports.deleteUser = async (kakaoId) => {
   try {
-    const result = await myPageRepository.deleteUser(kakaoId);
+    const result = await mypageRepository.deleteUser(kakaoId);
     return result;
   } catch (err) {
     throw err;
@@ -122,7 +122,7 @@ exports.deleteUser = async (kakaoId) => {
 // profile Img 등록 API
 exports.saveProfileImage = async (kakaoId, profileImg) => {
   try {
-    await myPageRepository.saveProfileImage(kakaoId, profileImg);
+    await mypageRepository.saveProfileImage(kakaoId, profileImg);
     return;
   } catch (err) {
     throw err;
@@ -132,7 +132,7 @@ exports.saveProfileImage = async (kakaoId, profileImg) => {
 //profile Img 삭제 API
 exports.deleteProfileImage = async (kakaoId) => {
   try {
-    await myPageRepository.deleteProfileImage(kakaoId);
+    await mypageRepository.deleteProfileImage(kakaoId);
     return;
   } catch (err) {
     throw err;
@@ -142,7 +142,7 @@ exports.deleteProfileImage = async (kakaoId) => {
 // 국적 등록  API
 exports.saveNationality = async (kakaoId, nationality) => {
   try {
-    await myPageRepository.saveNationality(kakaoId, nationality);
+    await mypageRepository.saveNationality(kakaoId, nationality);
     return;
   } catch (err) {
     throw err;
@@ -152,7 +152,7 @@ exports.saveNationality = async (kakaoId, nationality) => {
 // 국적 수정 API
 exports.updateNationality = async (kakaoId, nationality) => {
   try {
-    await myPageRepository.updateNationality(kakaoId, nationality);
+    await mypageRepository.updateNationality(kakaoId, nationality);
     return;
   } catch (err) {
     throw err;
@@ -162,7 +162,7 @@ exports.updateNationality = async (kakaoId, nationality) => {
 //국적 삭제 API
 exports.deleteNationality = async (kakaoId) => {
   try {
-    await myPageRepository.deleteNationality(kakaoId);
+    await mypageRepository.deleteNationality(kakaoId);
     return;
   } catch (err) {
     throw err;
