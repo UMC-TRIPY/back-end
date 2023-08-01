@@ -1,4 +1,4 @@
-const {mysqlConnection} = require("../../../module/db_connect");
+const mysqlConnection = require("../../../module/db_connect");
 
 //친구 요청 API 쿼리
 exports.insertFriendRequest = (user_idx, friend_idx) => {

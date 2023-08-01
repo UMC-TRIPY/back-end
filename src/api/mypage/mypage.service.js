@@ -29,6 +29,16 @@ exports.rejectRequestFriend = async (user_idx, friend_idx) => {
 
 exports.getRequestFriendList = async (user_idx) => {
   try {
+    const result = await mypageRepository.getFriendRequestRecieveList(user_idx);
+    return result;
+  } catch (err) {
+    throw err;
+  }
+};
+
+//보낸 친구 요청 목록 조회 API
+exports.getFriendRequestList = async (user_idx) => {
+  try {
     const result = await mypageRepository.getFriendRequestList(user_idx);
     return result;
   } catch (err) {
@@ -45,26 +55,27 @@ exports.acceptRequestFriend = async (user_idx, friend_idx) => {
   }
 };
 
-exports.findUserEmail = async (email) => {
+exports.userSearch = async (keyword) => {
   try {
-    const userEmail = await mypageRepository.userEmail();
-    return userEmail;
-  } catch (err) {
-    throw err;
-  }
-};
-exports.findUserNickname = async (nickname) => {
-  try {
-    const userNickname = await mypageRepository.userNickname();
-    return userNickname;
+    const userList = await mypageRepository.userSearch(keyword);
+    return userList;
   } catch (err) {
     throw err;
   }
 };
 
-exports.findFriendsList = async () => {
+exports.friendSearch = async (user_idx, keyword) => {
   try {
-    const friendList = await mypageRepository.userFriendList();
+    const friendList = await mypageRepository.friendSearch(user_idx, keyword);
+    return friendList;
+  } catch (err) {
+    throw err;
+  }
+};
+
+exports.findFriendsList = async (user_idx) => {
+  try {
+    const friendList = await mypageRepository.userFriendList(user_idx);
     return friendList;
   } catch (err) {
     throw err;
@@ -80,78 +91,80 @@ exports.breakFriend = async (user_idx, friend_idx) => {
   }
 };
 
+exports.unFriend = async (user_idx, friend_idx) => {
+  try {
+    await mypageRepository.unFriend(user_idx, friend_idx);
+    return;
+  } catch (err) {
+    throw err;
+  }
+};
 // 유저 정보 조회 API
 exports.getUserByInfoId = async (kakaoId) => {
   try {
-      const result = await myPageRepository.getUserByInfoId(kakaoId);
-      return result;
-
+    const result = await myPageRepository.getUserByInfoId(kakaoId);
+    return result;
   } catch (err) {
-      throw err;
+    throw err;
   }
 };
 
 //유저 삭제 API
 exports.deleteUser = async (kakaoId) => {
-  try{
-      const result = await myPageRepository.deleteUser(kakaoId);
-      return result;
-  } catch (err){
-      throw err;
+  try {
+    const result = await myPageRepository.deleteUser(kakaoId);
+    return result;
+  } catch (err) {
+    throw err;
   }
 };
 
 // profile Img 등록 API
 exports.saveProfileImage = async (kakaoId, profileImg) => {
   try {
-  await myPageRepository.saveProfileImage(kakaoId, profileImg);
-  return;
-
+    await myPageRepository.saveProfileImage(kakaoId, profileImg);
+    return;
   } catch (err) {
-  throw err;
+    throw err;
   }
 };
 
 //profile Img 삭제 API
-exports.deleteProfileImage = async(kakaoId) => {
-  try{
-      await myPageRepository.deleteProfileImage(kakaoId);
-      return;
-
-  } catch(err){
-      throw err;
+exports.deleteProfileImage = async (kakaoId) => {
+  try {
+    await myPageRepository.deleteProfileImage(kakaoId);
+    return;
+  } catch (err) {
+    throw err;
   }
-}
+};
 
 // 국적 등록  API
 exports.saveNationality = async (kakaoId, nationality) => {
   try {
-  await myPageRepository.saveNationality(kakaoId, nationality);
-  return;
-
+    await myPageRepository.saveNationality(kakaoId, nationality);
+    return;
   } catch (err) {
-  throw err;
+    throw err;
   }
 };
 
 // 국적 수정 API
 exports.updateNationality = async (kakaoId, nationality) => {
   try {
-  await myPageRepository.updateNationality(kakaoId, nationality);
-  return;
-
+    await myPageRepository.updateNationality(kakaoId, nationality);
+    return;
   } catch (err) {
-  throw err;
+    throw err;
   }
 };
 
 //국적 삭제 API
-exports.deleteNationality = async(kakaoId) => {
-  try{
-      await myPageRepository.deleteNationality(kakaoId);
-      return;
-
-  } catch(err){
-      throw err;
+exports.deleteNationality = async (kakaoId) => {
+  try {
+    await myPageRepository.deleteNationality(kakaoId);
+    return;
+  } catch (err) {
+    throw err;
   }
-}
+};
