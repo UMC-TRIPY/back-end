@@ -1,9 +1,7 @@
 const router = require("express").Router();
 const landmarkController = require("./landmarks.controller");
 
-
 router.get("/search-landmarks", landmarkController.searchLandmark);
-=======
 /**
  * @swagger
  * /api/landmarks/search-landmarks:
@@ -81,7 +79,6 @@ router.get("/search-landmarks", landmarkController.searchLandmark);
  *                  type: string
  *
  */
-
 
 router.get("/popular", landmarkController.getPopularLandmark);
 

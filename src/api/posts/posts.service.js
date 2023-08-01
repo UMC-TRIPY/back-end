@@ -11,3 +11,8 @@ exports.getPosts = async (tagsStr, page, pageSize, tagCount, nameQuery) => {
 
   return postList;
 };
+
+exports.getPopularPosts = async () => {
+  const postList = await postRepository.getPopularPosts();
+  return postList;
+};
