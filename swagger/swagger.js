@@ -12,8 +12,14 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:5000", // 요청 URL
+        url: "http://tripy.site:5000", // 요청 URL
       },
+      {
+        url : "http://52.79.126.200:5000"
+      },
+      {
+        url : "http://localhost:5000"
+      }
     ],
   },
   apis: ["./src/*.js", "./src/api/**/*.js"], //Swagger 파일 연동
