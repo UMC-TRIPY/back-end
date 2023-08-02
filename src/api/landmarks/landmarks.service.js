@@ -22,3 +22,8 @@ exports.filteringSearch = async (continent, country, city) => {
   );
   return landmarkList;
 };
+
+exports.getPopularPosts = async () => {
+  const postList = await postRepository.getPopularPosts();
+  return postList;
+};
