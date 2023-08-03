@@ -244,15 +244,15 @@ exports.unFriend = async (req, res) => {
   }
 };
 
-//kakoId로 나의 정보 조회
+//나의 정보 조회
 exports.getUserByInfoId = async function (req, res) {
   try {
-    const kakaoId = req.params.kakaoId;
+    const uid = req.params.uid;
 
-    if (!kakaoId) {
+    if (!uid) {
       return res.status(400).json({ error: "유저 아이디를 입력해주세요." });
     }
-    const result = await mypageService.getUserByInfoId(kakaoId);
+    const result = await mypageService.getUserByInfoId(uid);
 
     if (!result) {
       return res.status(404).json({ error: "유저를 찾을 수 없음" });
@@ -264,16 +264,15 @@ exports.getUserByInfoId = async function (req, res) {
     return res.status(500).json({ error: "에러" });
   }
 };
-
 // 회원 탈퇴 API
 exports.deleteUser = async function (req, res) {
   try {
-    const kakaoId = req.params.kakaoId;
+    const uid = req.params.uid;
 
-    if (!kakaoId) {
+    if (!uid) {
       return res.status(400).json({ error: "유저 아이디가 없습니다." });
     }
-    const result = await mypageService.deleteUser(kakaoId);
+    const result = await mypageService.deleteUser(uid);
 
     if (!result) {
       return res.status(404).json({ error: "유저를 찾을 수 없음" });
@@ -286,11 +285,11 @@ exports.deleteUser = async function (req, res) {
 
 //profile img 등록 API
 exports.saveProfileImage = async (req, res) => {
-  const kakaoId = req.params.kakaoId;
+  const uid = req.params.uid;
   const profileImg = req.body.profileImg;
   try {
-    const result = await mypageService.saveProfileImage(kakaoId, profileImg);
-    if (kakaoId) {
+    const result = await mypageService.saveProfileImage(uid, profileImg);
+    if (uid) {
       res.json({ success: true, message: "프로필 URL이 업데이트되었습니다." });
     } else {
       res.status(404).json({ error: "사용자를 찾을 수 없습니다." });
@@ -304,12 +303,12 @@ exports.saveProfileImage = async (req, res) => {
 //Profile Img 삭제 API
 exports.deleteProfileImage = async (req, res) => {
   try {
-    const kakaoId = req.params.kakaoId;
+    const uid = req.params.uid;
 
-    if (!kakaoId) {
-      return res.status(400).json({ error: "kakaoid 입력" });
+    if (!uid) {
+      return res.status(400).json({ error: "user index 입력" });
     }
-    await mypageService.deleteProfileImage(kakaoId);
+    await mypageService.deleteProfileImage(uid);
     return res.status(200).json({ message: "profile 이미지 삭제" });
   } catch (err) {
     res.status(500).json({ error: "API 호출 실패" });
@@ -319,11 +318,11 @@ exports.deleteProfileImage = async (req, res) => {
 
 // 국적 등록 API
 exports.saveNationality = async (req, res) => {
-  const kakaoId = req.params.kakaoId;
+  const uid = req.params.uid;
   const nationality = req.body.nationality;
   try {
-    const result = await mypageService.saveNationality(kakaoId, nationality);
-    if (kakaoId) {
+    const result = await mypageService.saveNationality(uid, nationality);
+    if (uid) {
       res.json({ success: true, message: "국적이 등록되었습니다." });
     } else {
       res.status(404).json({ error: "사용자를 찾을 수 없습니다." });
@@ -336,11 +335,11 @@ exports.saveNationality = async (req, res) => {
 
 //국적 수정 API
 exports.updateNationality = async (req, res) => {
-  const kakaoId = req.params.kakaoId;
+  const uid = req.params.uid;
   const nationality = req.body.nationality;
   try {
-    const result = await mypageService.updateNationality(kakaoId, nationality);
-    if (kakaoId) {
+    const result = await mypageService.updateNationality(uid, nationality);
+    if (uid) {
       res.json({ success: true, message: "국적이 수정되었습니다." });
     } else {
       res.status(404).json({ error: "사용자를 찾을 수 없습니다." });
@@ -354,12 +353,12 @@ exports.updateNationality = async (req, res) => {
 //국적 삭제 API
 exports.deleteNationality = async (req, res) => {
   try {
-    const kakaoId = req.params.kakaoId;
+    const uid = req.params.uid;
 
-    if (!kakaoId) {
-      return res.status(400).json({ error: "kakaoid 입력" });
+    if (!uid) {
+      return res.status(400).json({ error: "user index 입력" });
     }
-    await mypageService.deleteNationality(kakaoId);
+    await mypageService.deleteNationality(uid);
     return res.status(200).json({ message: " 국적 정보 삭제" });
   } catch (err) {
     res.status(500).json({ error: "API 호출 실패" });

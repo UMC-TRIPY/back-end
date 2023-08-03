@@ -490,18 +490,18 @@ router.delete("/friends/:uid", mypageController.unFriend);
 // 내 정보 조회 API
 /**
  * @swagger
- * /api/mypage/user/{kakaoId}:
+ * /api/mypage/user/{uid}:
  *   get:
  *    summary: "유저 데이터 정보조회"
- *    description: "kakaoId로 나의 정보 조회"
+ *    description: "user_index로 나의 정보 조회"
  *    tags: [MyPage]
  *    parameters:
  *      - in: path
- *        name: kakaoId
+ *        name: uid
  *        required: true
- *        description: 카카오아이디
+ *        description: 유저 인덱스
  *        schema:
- *          type: string
+ *          type: number
  *    responses:
  *      "200":
  *        description: 정보조회 성공
@@ -537,23 +537,23 @@ router.delete("/friends/:uid", mypageController.unFriend);
  *                  type: string
  *                  example: "에러 메시지"
  */
-router.get("/user/:kakaoId", mypageController.getUserByInfoId);
+router.get("/user/:uid", mypageController.getUserByInfoId);
 
 // 회원 탈퇴 API
 /**
  * @swagger
- * /api/mypage/user/delete/{kakaoId}:
+ * /api/mypage/user/delete/{uid}:
  *   delete:
  *    summary: "회원 탈퇴 API"
  *    description: "회원 탈퇴"
  *    tags: [MyPage]
  *    parameters:
  *      - in: path
- *        name: kakaoId
+ *        name: uid
  *        required: true
- *        description: 카카오 아이디
+ *        description: 유저 인덱스
  *        schema:
- *          type: string
+ *          type: number
  *    responses:
  *      "200":
  *        description: 탈퇴가 성공적으로 이루어진 경우
@@ -577,36 +577,34 @@ router.get("/user/:kakaoId", mypageController.getUserByInfoId);
  *                  type: string
  *                  example: "에러 메시지"
  */
-router.delete("/user/delete/:kakaoId", mypageController.deleteUser);
+router.delete("/user/delete/:uid", mypageController.deleteUser);
 
 // profile 등록 API
 /**
  * @swagger
- * /api/mypage/user/profile/{kakaoId}:
+ * /api/mypage/user/profile/{uid}:
  *   post:
  *    summary: "프로필 이미지 등록"
  *    description: "프로필 이미지 등록 API"
  *    tags: [MyPage]
  *    parameters:
  *      - in: path
- *        name: kakaoId
+ *        name: uid
  *        required: true
- *        description: 카카오 아이디
+ *        description: 유저 인덱스
  *        schema:
- *          type: string
- *      - in: body
- *        name: profileImg
- *        description: 프로필 이미지 URL
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                profileImg:
- *                  type: string
- *                  description: 프로필 이미지 URL
- *                  example: "URL"
+ *          type: number
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              profileImg:
+ *                type: string
+ *                description: 프로필 이미지 URL
+ *                example: "URL"
  *    responses:
  *      "200":
  *        description: 프로필 이미지 URL이 성공적으로 업데이트 된 경우
@@ -633,23 +631,23 @@ router.delete("/user/delete/:kakaoId", mypageController.deleteUser);
  *                  type: string
  *                  example: "에러 메시지"
  */
-router.post("/user/profile/:kakaoId", mypageController.saveProfileImage);
+router.post("/user/profile/:uid", mypageController.saveProfileImage);
 
 // profile 삭제 API
 /**
  * @swagger
- * /api/mypage/user/profile/{kakaoId}:
+ * /api/mypage/user/profile/{uid}:
  *   delete:
  *    summary: "이미지 삭제 API"
  *    description: "Profile 이미지 삭제 API"
  *    tags: [MyPage]
  *    parameters:
  *      - in: path
- *        name: kakaoId
+ *        name: uid
  *        required: true
- *        description: 카카오 아이디
+ *        description: 유저 인덱스
  *        schema:
- *          type: string
+ *          type: number
  *    responses:
  *      "200":
  *        description: Profile 이미지가 성공적으로 삭제된 경우
@@ -673,36 +671,34 @@ router.post("/user/profile/:kakaoId", mypageController.saveProfileImage);
  *                  type: string
  *                  example: "에러 메시지"
  */
-router.delete("/user/profile/:kakaoId", mypageController.deleteProfileImage);
+router.delete("/user/profile/:uid", mypageController.deleteProfileImage);
 
 // 국적 등록 API
 /**
  * @swagger
- * /api/mypage/user/nationality/{kakaoId}:
+ * /api/mypage/user/nationality/{uid}:
  *   post:
  *    summary: "국적 등록"
  *    description: "국적 등록 API"
  *    tags: [MyPage]
  *    parameters:
  *      - in: path
- *        name: kakaoId
+ *        name: uid
  *        required: true
- *        description: 카카오 아이디
+ *        description: 유저 인덱스
  *        schema:
- *          type: string
- *      - in: body
- *        name: nationailty
- *        description: 국적 정보
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                nationality:
- *                  type: string
- *                  description: 국적정보
- *                  example: "대한민국"
+ *          type: number
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              nationality:
+ *                type: string
+ *                description: 국적 정보
+ *                example: "대한민국"
  *    responses:
  *      "200":
  *        description: 국적이 성공적으로 등록된 경우
@@ -729,36 +725,34 @@ router.delete("/user/profile/:kakaoId", mypageController.deleteProfileImage);
  *                  type: string
  *                  example: "에러 메시지"
  */
-router.post("/user/nationality/:kakaoId", mypageController.saveNationality);
+router.post("/user/nationality/:uid", mypageController.saveNationality);
 
 // 국적 수정 API
 /**
  * @swagger
- * /api/mypage/user/nationality/{kakaoId}:
+ * /api/mypage/user/nationality/{uid}:
  *   put:
  *    summary: "국적 수정"
  *    description: "국적 수정 API"
  *    tags: [MyPage]
  *    parameters:
  *      - in: path
- *        name: kakaoId
+ *        name: uid
  *        required: true
- *        description: 카카오 아이디
+ *        description: 유저 인덱스
  *        schema:
- *          type: string
- *      - in: body
- *        name: nationailty
- *        description: 국적 정보
- *        required: true
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                nationality:
- *                  type: string
- *                  description: 수정할 국적 정보
- *                  example: "영국"
+ *          type: number
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              nationality:
+ *                type: string
+ *                description: 수정할 국적 정보
+ *                example: "영국"
  *    responses:
  *      "200":
  *        description: 국적이 성공적으로 수정된 경우
@@ -785,23 +779,23 @@ router.post("/user/nationality/:kakaoId", mypageController.saveNationality);
  *                  type: string
  *                  example: "에러 메시지"
  */
-router.put("/user/nationality/:kakaoId", mypageController.updateNationality);
+router.put("/user/nationality/:uid", mypageController.updateNationality);
 
 // 국적 삭제 API
 /**
  * @swagger
- * /api/mypage/user/nationality/{kakaoId}:
+ * /api/mypage/user/nationality/{uid}:
  *   delete:
  *    summary: "국적 삭제 API"
  *    description: "국적 삭제 API"
  *    tags: [MyPage]
  *    parameters:
  *      - in: path
- *        name: kakaoId
+ *        name: uid
  *        required: true
- *        description: 카카오 아이디
+ *        description: 유저 인덱스
  *        schema:
- *          type: string
+ *          type: number
  *    responses:
  *      "200":
  *        description: 국적이 성공적으로 삭제된 경우
@@ -825,6 +819,6 @@ router.put("/user/nationality/:kakaoId", mypageController.updateNationality);
  *                  type: string
  *                  example: "에러 메시지"
  */
-router.delete("/user/nationality/:kakaoId", mypageController.deleteNationality);
+router.delete("/user/nationality/:uid", mypageController.deleteNationality);
 
 module.exports = router;

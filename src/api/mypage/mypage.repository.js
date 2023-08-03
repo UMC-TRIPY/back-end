@@ -152,32 +152,32 @@ exports.breakFriend = (user_idx, friend_idx) => {
 };
 
 // 유저 정보 조회 API
-exports.getUserByInfoId = (kakaoId) => {
+exports.getUserByInfoId = (uid) => {
   return new Promise((resolve, reject) => {
-    mysqlConnection.query(
-      `
+      mysqlConnection.query(
+                  `
                   SELECT nickname, email, nationality, profileImg 
                   FROM user  
-                  WHERE kakaoId = ${kakaoId}`,
-      (err, result) => {
-        if (err) {
-          reject(err);
-        } else {
+                  WHERE user_index = ${uid}`,
+      (err,result) => {
+      if(err){
+           reject(err);
+       }else {
           resolve(result);
-        }
       }
-    );
+      }
+      );
   });
 };
 
 // 유저 탈퇴 API
-exports.deleteUser = (kakaoId) => {
+exports.deleteUser = (uid) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `
                   DELETE
                   FROM user
-                  WHERE kakaoId = ${kakaoId}`,
+                  WHERE user_index = ${uid}`,
 
       (err, result) => {
         if (err) reject(err);
@@ -188,13 +188,13 @@ exports.deleteUser = (kakaoId) => {
 };
 
 //profile 이미지 등록 API
-exports.saveProfileImage = (kakaoId, profileImg) => {
+exports.saveProfileImage = (uid, profileImg) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `UPDATE user 
    SET profileImg = ? 
-   WHERE kakaoId = ?`,
-      [profileImg, kakaoId],
+   WHERE user_index= ?`,
+      [profileImg, uid],
       (err, result) => {
         if (err) reject(err);
         resolve(true);
@@ -204,12 +204,12 @@ exports.saveProfileImage = (kakaoId, profileImg) => {
 };
 
 //Profile 이미지 삭제 API
-exports.deleteProfileImage = (kakaoId) => {
+exports.deleteProfileImage = (uid) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `UPDATE user 
            SET profileImg = NULL
-           WHERE kakaoId = ${kakaoId}
+           WHERE user_index = ${uid}
            `,
       (err, result) => {
         if (err) reject(err);
@@ -220,14 +220,14 @@ exports.deleteProfileImage = (kakaoId) => {
 };
 
 // 국적 등록 API
-exports.saveNationality = (kakaoId, nationality) => {
+exports.saveNationality = (uid, nationality) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `
                   UPDATE user 
                   SET nationality = ? 
-                  WHERE kakaoId = ?`,
-      [nationality, kakaoId],
+                  WHERE user_index = ?`,
+      [nationality, uid],
       (err, result) => {
         if (err) reject(err);
         resolve(true);
@@ -237,14 +237,14 @@ exports.saveNationality = (kakaoId, nationality) => {
 };
 
 //국적 수정 API
-exports.updateNationality = (kakaoId, nationality) => {
+exports.updateNationality = (uid, nationality) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `UPDATE user
            SET nationality = ?
-           WHERE kakaoId = ?
+           WHERE user_index = ?
            `,
-      [nationality, kakaoId],
+      [nationality, uid],
       (err, result) => {
         if (err) reject(err);
         resolve(true);
@@ -254,12 +254,12 @@ exports.updateNationality = (kakaoId, nationality) => {
 };
 
 //국적 삭제 API
-exports.deleteNationality = (kakaoId) => {
+exports.deleteNationality = (uid) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `UPDATE user
            SET nationality = NULL
-           WHERE kakaoId = ${kakaoId}
+           WHERE user_index = ${uid}
            `,
       (err, result) => {
         if (err) reject(err);
