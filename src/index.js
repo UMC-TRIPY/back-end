@@ -8,6 +8,7 @@ const landmarkRouter = require("./api/landmarks/landmarks.index");
 const travelPlanRouter = require("./api/travel-plans/travel-plans.index");
 const materialRouter = require("./api/materials/materials.index");
 const postRouter = require("./api/posts/posts.index");
+const authRouter = require("./auth/auth.index");
 
 /**
  * @swagger
@@ -23,5 +24,6 @@ router.use("/landmarks", landmarkRouter);
 router.use("/travel-plans", travelPlanRouter);
 router.use("/materials", materialRouter);
 router.use("/posts", postRouter);
+router.use("/auth", authRouter);
 
 module.exports = router;
