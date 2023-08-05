@@ -284,33 +284,40 @@ router.post("/friends/:uid/reject", mypageController.rejectFriendRequest);
  * @swagger
  * /api/mypage/users/search?keyword:
  *   get:
- *    summary: "유저 검색"
- *    description: "마이페이지에서 유저 검색 API"
- *    tags: [MyPage]
- *    responses:
- *      "200":
- *        description: 성공, 검색해서 나온 사용자들의 uid 반환
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                message:
- *                  type: string
- *                  example: "유저 검색 성공"
- *                users_index:
- *                  type: array
- *                  example: [1,4]
- *      "400":
- *        description: 요청 값이 없거나 형식에 맞지 않습니다.
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                message:
- *                  type: string
- *                  example: "keyword 값이 없거나 문자열이 아닙니다."
+ *     summary: "유저 검색"
+ *     description: "마이페이지에서 유저 검색 API"
+ *     tags: [MyPage]
+ *     parameters:
+ *       - name: keyword
+ *         in: query
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: "유저 검색 키워드"
+ *     responses:
+ *       "200":
+ *         description: "성공, 검색해서 나온 사용자들의 uid 반환"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "유저 검색 성공"
+ *                 users_index:
+ *                   type: array
+ *                   example: [1, 4]
+ *       "400":
+ *         description: "요청 값이 없거나 형식에 맞지 않습니다."
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "keyword 값이 없거나 문자열이 아닙니다."
  */
 router.get("/users/search", mypageController.userSearch);
 
@@ -325,6 +332,17 @@ router.get("/", mypageController.friendSearch);
  *    summary: "친구 검색"
  *    description: "마이페이지에서 친구 검색 API"
  *    tags: [MyPage]
+ *    parameters:
+ *      - name: keyword
+ *        in: query
+ *        description: 친구 검색 키워드
+ *        schema:
+ *          type: string
+ *      - name: uid
+ *        in: path
+ *        description: 유저 아이디
+ *        schema:
+ *          type: integer
  *    responses:
  *      "200":
  *        description: 성공, 검색해서 나온 친구들의 uid 반환
@@ -355,11 +373,17 @@ router.get("/friends/:uid/search", mypageController.friendSearch);
 //친구 목록 조회 API
 /**
  * @swagger
- * /api/mypage/friends:
+ * /api/mypage/{uid}/friends:
  *   get:
  *    summary: "친구 목록 조회"
  *    description: "마이페이지에서 친구 목록 조회 API"
  *    tags: [MyPage]
+ *    parameters:
+ *      - name: uid
+ *        in: path
+ *        description: 유저 아이디
+ *        schema:
+ *          type: integer
  *    responses:
  *      "200":
  *        description: 성공, 검색해서 나온 친구들의 uid 반환

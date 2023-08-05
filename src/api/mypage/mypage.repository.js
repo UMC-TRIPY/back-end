@@ -97,19 +97,50 @@ exports.getFriendRequestRecieveList = (user_idx) => {
   });
 };
 
-exports.userEmail = (email) => {
-  return new Promise((resolve, rejcet) => {
-    mysqlConnection.query(``, (err, rows) => {
-      if (err) rejcet(err);
-      resolve(rows);
-    });
-    //query
+exports.userSearch = (keyword) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `SELECT user_index
+        FROM user
+        WHERE nickname LIKE '${keyword}%' OR email LIKE '${keyword}%';
+        `,
+      (err, rows) => {
+        if (err) reject(err);
+        try {
+          const result = rows.map((row) => row.user_index);
+          resolve(result);
+        } catch (err) {
+          reject(err);
+        }
+      }
+    );
   });
 };
-exports.userNickname = (nickname) => {
-  return new Promise((resolve, rejcet) => {
-    //query
-    if (err) rejcet(err);
+
+exports.friendSearch = (user_idx, keyword) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `SELECT DISTINCT
+        CASE
+            WHEN f.from_user_index = ${user_idx} THEN f.to_user_index
+            WHEN f.to_user_index = ${user_idx} THEN f.from_user_index
+        END AS user_index
+      FROM friend f
+       JOIN user u ON ((f.from_user_index = u.user_index OR f.to_user_index = u.user_index) AND f.from_user_index IS NOT NULL)
+      WHERE (u.nickname LIKE '${keyword}%' OR u.email LIKE '${keyword}%')
+      AND f.are_we_friend = 1;
+      `,
+      (err, rows) => {
+        if (err) reject(err);
+        try {
+          const filteredRows = rows.filter((row) => row.user_index !== null);
+          const result = filteredRows.map((row) => row.user_index);
+          resolve(result);
+        } catch (err) {
+          reject(err);
+        }
+      }
+    );
   });
 };
 
@@ -154,19 +185,19 @@ exports.breakFriend = (user_idx, friend_idx) => {
 // 유저 정보 조회 API
 exports.getUserByInfoId = (uid) => {
   return new Promise((resolve, reject) => {
-      mysqlConnection.query(
-                  `
+    mysqlConnection.query(
+      `
                   SELECT nickname, email, nationality, profileImg 
                   FROM user  
                   WHERE user_index = ${uid}`,
-      (err,result) => {
-      if(err){
-           reject(err);
-       }else {
+      (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
           resolve(result);
+        }
       }
-      }
-      );
+    );
   });
 };
 

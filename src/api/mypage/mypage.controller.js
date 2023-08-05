@@ -142,14 +142,14 @@ exports.getFriendRequestList = async (req, res) => {
 //검색한 keyword로 시작하는 email,nickname을 가진 유저들 반환,
 exports.userSearch = async (req, res) => {
   const keyword = req.query.keyword;
-
+  console.log("작동");
   if (typeof keyword !== "string" || keyword === null) {
     res.status(400).json({ error: "keyword 값이 없거나 문자열이 아닙니다." });
     return;
   }
   try {
     const userList = await mypageService.userSearch(keyword);
-    res.status(200).json({ message: "유저 검색 성공", users_index: userList });
+    res.status(200).send({ message: "유저 검색 성공", users_index: userList });
   } catch (err) {
     if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
     console.log(err);
