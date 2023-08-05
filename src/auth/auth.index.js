@@ -1,7 +1,13 @@
 const router = require("express").Router();
+const { refresh } = require("../utils/jwt.middleware");
 const authController = require("./auth.controller");
 
-// api/auth/kakao, 프론트에서 받은 인가코드를 통해 access token을 발급받는다.
+//카카오 로그인
 router.get("/kakao", authController.kakaoLogin);
+//authorization code test
 router.get("/code", authController.getAccessCode);
+//access token이 유효한지 검증
+router.post("/verify/access_token", authController.verifyAccessToken);
+//access token 재발급
+router.post("/refresh", refresh);
 module.exports = router;

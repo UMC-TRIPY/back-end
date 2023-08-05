@@ -1,42 +1,11 @@
 const path = require("path");
+const jwt = require("jsonwebtoken");
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 const authService = require("./auth.service");
-const jwt = require("jsonwebtoken");
-const { redisClient, redisCli } = require("../../module/redis_connect");
 const template = path.join(__dirname, "../public", "index.html");
 
-let bool = await redisCli.set("key", "123");
-
-//jwt 검증
-exports.verifyJWT = (token) => {
-  try {
-    const user = jwt.verify(token, process.env.JWT_SECRET);
-    return user;
-  } catch (err) {
-    console.log(err);
-    throw new Error("Unauthorized", 401);
-  }
-};
-
-exports.makeJWT = (nickname) => {
-  try {
-    const token = jwt.sign(
-      {
-        type: "JWT",
-        nickname,
-      },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "15m", // 만료시간 15분
-        issuer: "csy",
-      }
-    );
-    return token;
-  } catch (err) {
-    console.log(err);
-  }
-};
+const { redisClient } = require("../../module/redis_connect");
 
 exports.kakaoLogin = async (req, res) => {
   const baseUrl = "https://kauth.kakao.com/oauth/token";
@@ -72,15 +41,15 @@ exports.kakaoLogin = async (req, res) => {
         })
       ).json();
       console.log(userRequest);
-      await authService.findUserById(userRequest);
 
-      //access token 생성
-      const token = this.makeJWT(userRequest.kakao_account.profile.nickname);
+      const data = await authService.findUserById(userRequest);
+
       //쿠키에 토큰을 담는다.
-      res.cookie("jwt", token);
+      res.cookie("refresh_token", data.refreshToken, { httpOnly: true });
       return res.status(200).json({
         success: true,
-        access_token: token,
+        uid: data.user_index,
+        access_token: data.accessToken,
       });
       // return res.send(JSON.stringify(userRequest));
     } else {
@@ -89,10 +58,38 @@ exports.kakaoLogin = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
+    return res.status(500).json({
+      message: err.message || "로그인 실패",
+    });
   }
 };
 
 //인가코드 테스트
 exports.getAccessCode = async (req, res) => {
   res.sendFile(template);
+};
+
+//Access token 검증
+exports.verifyAccessToken = async (req, res) => {
+  const { accessToken } = req.body;
+  try {
+    jwt.verify(accessToken, process.env.JWT_SECRET, (err, decoded) => {
+      //액세스 토큰이 유효하지 않음.
+      if (err) {
+        console.log("토큰이 유효하지 않음", err);
+        return res.status(403).json({
+          success: false,
+          message: "토큰이 유효하지 않습니다.",
+        });
+      } else {
+        return res.status(200).json({
+          success: true,
+          message: "토큰이 유효합니다.",
+        });
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    throw new Error("Unauthorized", 401);
+  }
 };
