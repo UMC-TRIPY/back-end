@@ -282,7 +282,7 @@ router.post("/friends/:uid/reject", mypageController.rejectFriendRequest);
 //유저 검색 API
 /**
  * @swagger
- * /api/mypage/users/search?keyword:
+ * /api/mypage/users/search:
  *   get:
  *     summary: "유저 검색"
  *     description: "마이페이지에서 유저 검색 API"
