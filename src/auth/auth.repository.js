@@ -72,15 +72,18 @@ exports.logout = async (token) => {
   return new Promise((resolve, reject) => {
     try {
       // 해당 값을 갖는 키를 찾아서 삭제
+      let env = false;
       redisClient.keys("*", (err, value) => {
         for (const key of value) {
           redisClient.get(key, (err, value) => {
             if (value === token && value !== undefined) {
               redisClient.del(key);
+              env = true;
             }
           });
         }
       });
+      if (!env) console.log("refresh token이 일치하지 않음");
       resolve(true);
     } catch (err) {
       console.log(err);

@@ -24,6 +24,12 @@ router.use("/landmarks", landmarkRouter);
 router.use("/travel-plans", travelPlanRouter);
 router.use("/materials", materialRouter);
 router.use("/posts", postRouter);
+/**
+ * @swagger
+ * tags:
+ *   name: Auth
+ *   description:
+ */
 router.use("/auth", authRouter);
 
 module.exports = router;
