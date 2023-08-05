@@ -5,8 +5,6 @@ const fetch = (...args) =>
 const authService = require("./auth.service");
 const template = path.join(__dirname, "../public", "index.html");
 
-const { redisClient } = require("../../module/redis_connect");
-
 exports.kakaoLogin = async (req, res) => {
   const baseUrl = "https://kauth.kakao.com/oauth/token";
   const config = {
@@ -91,5 +89,18 @@ exports.verifyAccessToken = async (req, res) => {
   } catch (err) {
     console.log(err);
     throw new Error("Unauthorized", 401);
+  }
+};
+
+exports.logout = async (req, res) => {
+  try {
+    if (!req.cookies.refresh_token || req.cookies.refresh_token === null) {
+      res.status(400).json({ message: "refresh_token이 없습니다." });
+    }
+    await authService.logout(req.cookies.refresh_token);
+    res.clearCookie("refresh_token");
+    res.status(200).json({ message: "로그아웃 성공" });
+  } catch (err) {
+    console.log(err);
   }
 };

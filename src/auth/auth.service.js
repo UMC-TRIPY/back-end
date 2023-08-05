@@ -31,3 +31,11 @@ exports.findUserById = async (userRequest) => {
     throw new Error(err.message);
   }
 };
+
+exports.logout = async (token) => {
+  try {
+    return await authRepository.logout(token);
+  } catch (err) {
+    throw err;
+  }
+};

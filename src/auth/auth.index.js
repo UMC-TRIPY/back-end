@@ -10,4 +10,6 @@ router.get("/code", authController.getAccessCode);
 router.post("/verify/access_token", authController.verifyAccessToken);
 //access token 재발급
 router.post("/refresh", refresh);
+//logout api
+router.post("/logout", authController.logout);
 module.exports = router;

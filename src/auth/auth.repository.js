@@ -1,6 +1,7 @@
 const { conn } = require("../../module/db_connect");
 const { redisCli, redisClient } = require("../../module/redis_connect");
 const mysqlConnection = conn();
+const { promisify } = require("util");
 
 exports.findUserById = async (kakaoId, email) => {
   return new Promise((resolve, reject) => {
@@ -52,13 +53,35 @@ exports.saveRefreshTokenInRedis = async (email, refreshToken) => {
   });
 };
 
-exports.getRefreshToekInRedis = async (email) => {
+//redis에서 email을 이용해 refresh token을 가져온다.
+exports.getRefreshTokenInRedis = async (email) => {
   return new Promise((resolve, reject) => {
     try {
       console.log(email);
       const refreshToken = redisClient.get(email);
       console.log("getRefreshTokenInRedis 함수", refreshToken);
       resolve(refreshToken);
+    } catch (err) {
+      console.log(err);
+      reject(err);
+    }
+  });
+};
+
+exports.logout = async (token) => {
+  return new Promise((resolve, reject) => {
+    try {
+      // 해당 값을 갖는 키를 찾아서 삭제
+      redisClient.keys("*", (err, value) => {
+        for (const key of value) {
+          redisClient.get(key, (err, value) => {
+            if (value === token && value !== undefined) {
+              redisClient.del(key);
+            }
+          });
+        }
+      });
+      resolve(true);
     } catch (err) {
       console.log(err);
       reject(err);
