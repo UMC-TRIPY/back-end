@@ -4,7 +4,7 @@ const {
   makeAccessToken,
 } = require("./jwt.util");
 const jwt = require("jsonwebtoken");
-const { promisify } = require("util");
+
 //JWT 인증 미들웨어 -> 권한이 필요한곳에 미들웨어로 넣으면 됨.
 exports.verifyJWT = async (req, res, next) => {
   if (!headers.hasOwnProperty("authorization")) {

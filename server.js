@@ -6,9 +6,8 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const PORT = process.env.PORT || 5000;
 const app = express();
-
-// const bodyParser = require("body-parser");
-// const db = require("./module/db_connect");
+const bodyParser = require("body-parser");
+const db = require("./module/db_connect");
 
 app.use((req, res, next) => {
   if (process.env.NODE_ENV === "prod") {
@@ -20,8 +19,8 @@ app.use((req, res, next) => {
 
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use("/api", require("./src"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
@@ -30,7 +29,6 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 // const conn = database.conn();
 
 //에러처리
-
 app.use((err, req, res, next) => {
   console.log(err);
   res.status(500).json({ error: "Internal Server Error" });
