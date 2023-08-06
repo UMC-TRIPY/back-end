@@ -4,12 +4,27 @@ const swaggereJsdoc = require("swagger-jsdoc");
 const options = {
   swaggerDefinition: {
     openapi: "3.0.0",
+    components: {
+      securitySchemes: {
+        cookieAuth: {
+          name: "refresh_token",
+          type: "apiKey",
+          in: "cookie",
+        },
+      },
+    },
+    security: [
+      {
+        cookieAuth: [],
+      },
+    ],
     info: {
       version: "",
       title: "Tripy API",
       description:
         "프로젝트 설명 Node.js Swaager swagger-jsdoc 방식 RestFul API 클라이언트 UI",
     },
+
     servers: [
       {
         url: "http://tripy.site:5000", // 요청 URL
@@ -22,7 +37,7 @@ const options = {
       },
     ],
   },
-  apis: ["./src/*.js", "./src/api/**/*.js"], //Swagger 파일 연동
+  apis: ["./src/*.js", "./src/api/**/*.js", "./src/**/*.js"], //Swagger 파일 연동
 };
 const specs = swaggereJsdoc(options);
 

@@ -8,7 +8,9 @@ const landmarkRouter = require("./api/landmarks/landmarks.index");
 const travelPlanRouter = require("./api/travel-plans/travel-plans.index");
 const materialRouter = require("./api/materials/materials.index");
 const postRouter = require("./api/posts/posts.index");
+const authRouter = require("./auth/auth.index");
 //const loginRouter = require("./api/oauth/google.js")
+
 /**
  * @swagger
  * tags:
@@ -22,5 +24,12 @@ router.use("/landmarks", landmarkRouter);
 router.use("/travel-plans", travelPlanRouter);
 router.use("/materials", materialRouter);
 router.use("/posts", postRouter);
+/**
+ * @swagger
+ * tags:
+ *   name: Auth
+ *   description:
+ */
+router.use("/auth", authRouter);
 
 module.exports = router;
