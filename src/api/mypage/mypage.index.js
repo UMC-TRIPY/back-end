@@ -322,7 +322,7 @@ router.post("/friends/:uid/reject", mypageController.rejectFriendRequest);
 router.get("/users/search", mypageController.userSearch);
 
 //uid를 통해 사용자 정보 가져오는 API, 수정 필요
-router.get("/", mypageController.friendSearch);
+// router.get("/", mypageController.friendSearch);
 
 //친구 검색 API
 /**

@@ -11,12 +11,12 @@ const options = {
         "프로젝트 설명 Node.js Swaager swagger-jsdoc 방식 RestFul API 클라이언트 UI",
     },
     servers: [
-      {
-        url: "http://tripy.site:5000", // 요청 URL
-      },
-      {
-        url: "http://52.79.126.200:5000",
-      },
+      // {
+      //   url: "http://tripy.site:5000", // 요청 URL
+      // },
+      // {
+      //   url: "http://52.79.126.200:5000",
+      // },
       {
         url: "http://localhost:5000",
       },

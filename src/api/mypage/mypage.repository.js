@@ -151,11 +151,11 @@ exports.userFriendList = (userId) => {
     mysqlConnection.query(
       `SELECT DISTINCT
       CASE
-          WHEN from_user_index = 1 THEN to_user_index
-          WHEN to_user_index = 1 THEN from_user_index
+          WHEN from_user_index = ${userId} THEN to_user_index
+          WHEN to_user_index = ${userId} THEN from_user_index
       END AS user_index
   FROM friend
-  WHERE (from_user_index = 1 OR to_user_index = 1) AND are_we_friend = 1;
+  WHERE (from_user_index = ${userId} OR to_user_index = ${userId}) AND are_we_friend = 1;
   `,
       (err, rows) => {
         if (err) reject(err);
@@ -174,6 +174,21 @@ exports.breakFriend = (user_idx, friend_idx) => {
     SET isblocked = 1
     WHERE (from_user_index = ${user_idx} AND to_user_index = ${friend_idx}) OR (from_user_index = ${friend_idx} AND to_user_index = ${user_idx});
     `,
+      (err, rows) => {
+        if (err) reject(err);
+        resolve(true);
+      }
+    );
+  });
+};
+
+exports.unFriend = (user_idx, friend_idx) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `DELETE FROM friend
+       WHERE ((from_user_index = ${user_idx} AND to_user_index = ${friend_idx}) OR (from_user_index = ${friend_idx} AND to_user_index = ${user_idx}))
+       AND are_we_friend = 1;
+      `,
       (err, rows) => {
         if (err) reject(err);
         resolve(true);
