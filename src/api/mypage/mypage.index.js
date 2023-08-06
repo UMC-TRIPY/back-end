@@ -282,35 +282,42 @@ router.post("/friends/:uid/reject", mypageController.rejectFriendRequest);
 //유저 검색 API
 /**
  * @swagger
- * /api/mypage/users/search?keyword:
+ * /api/mypage/users/search:
  *   get:
- *    summary: "유저 검색"
- *    description: "마이페이지에서 유저 검색 API"
- *    tags: [MyPage]
- *    responses:
- *      "200":
- *        description: 성공, 검색해서 나온 사용자들의 uid 반환
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                message:
- *                  type: string
- *                  example: "유저 검색 성공"
- *                users_index:
- *                  type: array
- *                  example: [1,4]
- *      "400":
- *        description: 요청 값이 없거나 형식에 맞지 않습니다.
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                message:
- *                  type: string
- *                  example: "keyword 값이 없거나 문자열이 아닙니다."
+ *     summary: "유저 검색"
+ *     description: "마이페이지에서 유저 검색 API"
+ *     tags: [MyPage]
+ *     parameters:
+ *       - name: keyword
+ *         in: query
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: "유저 검색 키워드"
+ *     responses:
+ *       "200":
+ *         description: "성공, 검색해서 나온 사용자들의 uid 반환"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "유저 검색 성공"
+ *                 users_index:
+ *                   type: array
+ *                   example: [1, 4]
+ *       "400":
+ *         description: "요청 값이 없거나 형식에 맞지 않습니다."
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "keyword 값이 없거나 문자열이 아닙니다."
  */
 router.get("/users/search", mypageController.userSearch);
 
@@ -325,6 +332,17 @@ router.get("/", mypageController.friendSearch);
  *    summary: "친구 검색"
  *    description: "마이페이지에서 친구 검색 API"
  *    tags: [MyPage]
+ *    parameters:
+ *      - name: keyword
+ *        in: query
+ *        description: 친구 검색 키워드
+ *        schema:
+ *          type: string
+ *      - name: uid
+ *        in: path
+ *        description: 유저 아이디
+ *        schema:
+ *          type: integer
  *    responses:
  *      "200":
  *        description: 성공, 검색해서 나온 친구들의 uid 반환
@@ -355,11 +373,17 @@ router.get("/friends/:uid/search", mypageController.friendSearch);
 //친구 목록 조회 API
 /**
  * @swagger
- * /api/mypage/friends:
+ * /api/mypage/{uid}/friends:
  *   get:
  *    summary: "친구 목록 조회"
  *    description: "마이페이지에서 친구 목록 조회 API"
  *    tags: [MyPage]
+ *    parameters:
+ *      - name: uid
+ *        in: path
+ *        description: 유저 아이디
+ *        schema:
+ *          type: integer
  *    responses:
  *      "200":
  *        description: 성공, 검색해서 나온 친구들의 uid 반환
@@ -488,24 +512,337 @@ router.post("/friends/:uid/break", mypageController.friendBreak);
 router.delete("/friends/:uid", mypageController.unFriend);
 
 // 내 정보 조회 API
-router.get("/user/:kakaoId", mypageController.getUserByInfoId);
+/**
+ * @swagger
+ * /api/mypage/user/{uid}:
+ *   get:
+ *    summary: "유저 데이터 정보조회"
+ *    description: "user_index로 나의 정보 조회"
+ *    tags: [MyPage]
+ *    parameters:
+ *      - in: path
+ *        name: uid
+ *        required: true
+ *        description: 유저 인덱스
+ *        schema:
+ *          type: number
+ *    responses:
+ *      "200":
+ *        description: 정보조회 성공
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                nickname:
+ *                  type: string
+ *                  description: 사용자 닉네임
+ *                  example: john Doe
+ *                email:
+ *                  type: string
+ *                  description: 사용자 이메일
+ *                  example: jeti@naver.com
+ *                nationality:
+ *                  type: string
+ *                  description: 사용자 국적
+ *                  example: UK
+ *                profileImg:
+ *                  type: string
+ *                  description: 사용자 프로필 이미지
+ *                  example: URL
+ *      "400":
+ *        description: 요청 값이 없거나 형식에 맞지 않습니다.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "에러 메시지"
+ */
+router.get("/user/:uid", mypageController.getUserByInfoId);
 
 // 회원 탈퇴 API
-router.delete("/user/delete/:kakaoId", mypageController.deleteUser);
+/**
+ * @swagger
+ * /api/mypage/user/delete/{uid}:
+ *   delete:
+ *    summary: "회원 탈퇴 API"
+ *    description: "회원 탈퇴"
+ *    tags: [MyPage]
+ *    parameters:
+ *      - in: path
+ *        name: uid
+ *        required: true
+ *        description: 유저 인덱스
+ *        schema:
+ *          type: number
+ *    responses:
+ *      "200":
+ *        description: 탈퇴가 성공적으로 이루어진 경우
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                result:
+ *                  type: boolean
+ *                  description: 회원탈퇴 성공 여부
+ *                  example: "회원이 정상 탈퇴 되었습니다."
+ *      "400":
+ *        description: 요청 값이 없거나 형식에 맞지 않습니다.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "에러 메시지"
+ */
+router.delete("/user/delete/:uid", mypageController.deleteUser);
 
 // profile 등록 API
-router.post("/user/profile/:kakaoId", mypageController.saveProfileImage);
+/**
+ * @swagger
+ * /api/mypage/user/profile/{uid}:
+ *   post:
+ *    summary: "프로필 이미지 등록"
+ *    description: "프로필 이미지 등록 API"
+ *    tags: [MyPage]
+ *    parameters:
+ *      - in: path
+ *        name: uid
+ *        required: true
+ *        description: 유저 인덱스
+ *        schema:
+ *          type: number
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              profileImg:
+ *                type: string
+ *                description: 프로필 이미지 URL
+ *                example: "URL"
+ *    responses:
+ *      "200":
+ *        description: 프로필 이미지 URL이 성공적으로 업데이트 된 경우
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                result:
+ *                  type: boolean
+ *                  description: 성공 여부
+ *                  example: true
+ *                message:
+ *                  description: 메시지
+ *                  example: "프로필 이미지 URL이 성공적으로 업데이트 되었습니다."
+ *      "400":
+ *        description: 요청 값이 없거나 형식에 맞지 않습니다.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "에러 메시지"
+ */
+router.post("/user/profile/:uid", mypageController.saveProfileImage);
 
 // profile 삭제 API
-router.delete("/user/profile/:kakaoId", mypageController.deleteProfileImage);
+/**
+ * @swagger
+ * /api/mypage/user/profile/{uid}:
+ *   delete:
+ *    summary: "이미지 삭제 API"
+ *    description: "Profile 이미지 삭제 API"
+ *    tags: [MyPage]
+ *    parameters:
+ *      - in: path
+ *        name: uid
+ *        required: true
+ *        description: 유저 인덱스
+ *        schema:
+ *          type: number
+ *    responses:
+ *      "200":
+ *        description: Profile 이미지가 성공적으로 삭제된 경우
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                result:
+ *                  type: string
+ *                  description: 응답 메시지
+ *                  example: "profile 이미지 삭제"
+ *      "400":
+ *        description: 요청 값이 없거나 형식에 맞지 않습니다.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "에러 메시지"
+ */
+router.delete("/user/profile/:uid", mypageController.deleteProfileImage);
 
 // 국적 등록 API
-router.post("/user/nationality/:kakaoId", mypageController.saveNationality);
+/**
+ * @swagger
+ * /api/mypage/user/nationality/{uid}:
+ *   post:
+ *    summary: "국적 등록"
+ *    description: "국적 등록 API"
+ *    tags: [MyPage]
+ *    parameters:
+ *      - in: path
+ *        name: uid
+ *        required: true
+ *        description: 유저 인덱스
+ *        schema:
+ *          type: number
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              nationality:
+ *                type: string
+ *                description: 국적 정보
+ *                example: "대한민국"
+ *    responses:
+ *      "200":
+ *        description: 국적이 성공적으로 등록된 경우
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                result:
+ *                  type: boolean
+ *                  description: 성공 여부
+ *                  example: true
+ *                message:
+ *                  description: 메시지
+ *                  example: "국적이 등록되었습니다"
+ *      "400":
+ *        description: 요청 값이 없거나 형식에 맞지 않습니다.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "에러 메시지"
+ */
+router.post("/user/nationality/:uid", mypageController.saveNationality);
 
 // 국적 수정 API
-router.put("/user/nationality/:kakaoId", mypageController.updateNationality);
+/**
+ * @swagger
+ * /api/mypage/user/nationality/{uid}:
+ *   put:
+ *    summary: "국적 수정"
+ *    description: "국적 수정 API"
+ *    tags: [MyPage]
+ *    parameters:
+ *      - in: path
+ *        name: uid
+ *        required: true
+ *        description: 유저 인덱스
+ *        schema:
+ *          type: number
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              nationality:
+ *                type: string
+ *                description: 수정할 국적 정보
+ *                example: "영국"
+ *    responses:
+ *      "200":
+ *        description: 국적이 성공적으로 수정된 경우
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                result:
+ *                  type: boolean
+ *                  description: 성공 여부
+ *                  example: true
+ *                message:
+ *                  description: 메시지
+ *                  example: "국적이 수정되었습니다"
+ *      "400":
+ *        description: 요청 값이 없거나 형식에 맞지 않습니다.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "에러 메시지"
+ */
+router.put("/user/nationality/:uid", mypageController.updateNationality);
 
 // 국적 삭제 API
-router.delete("/user/nationality/:kakaoId", mypageController.deleteNationality);
+/**
+ * @swagger
+ * /api/mypage/user/nationality/{uid}:
+ *   delete:
+ *    summary: "국적 삭제 API"
+ *    description: "국적 삭제 API"
+ *    tags: [MyPage]
+ *    parameters:
+ *      - in: path
+ *        name: uid
+ *        required: true
+ *        description: 유저 인덱스
+ *        schema:
+ *          type: number
+ *    responses:
+ *      "200":
+ *        description: 국적이 성공적으로 삭제된 경우
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: 응답 메시지
+ *                  example: "국적이 삭제되었습니다."
+ *      "400":
+ *        description: 요청 값이 없거나 형식에 맞지 않습니다.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "에러 메시지"
+ */
+router.delete("/user/nationality/:uid", mypageController.deleteNationality);
 
 module.exports = router;

@@ -1,4 +1,3 @@
-// const mysqlConnection = require("../../../module/db_connect");
 const { conn } = require("../../../module/db_connect");
 const mysqlConnection = conn();
 //친구 요청 API 쿼리
@@ -147,27 +146,21 @@ exports.friendSearch = (user_idx, keyword) => {
 
 //현재 접속중인 유저의 access token을 이용해 userId를 가져와야한다, userId를 1로 가정
 //반대로 userId를 통해 유저 정보를 확인할 api도 필요하다.
-exports.userFriendList = (user_idx) => {
+exports.userFriendList = (userId) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `SELECT DISTINCT
       CASE
-          WHEN from_user_index = ${user_idx} THEN to_user_index
-          WHEN to_user_index = ${user_idx} THEN from_user_index
+          WHEN from_user_index = 1 THEN to_user_index
+          WHEN to_user_index = 1 THEN from_user_index
       END AS user_index
   FROM friend
-  WHERE (from_user_index = ${user_idx} OR to_user_index = ${user_idx}) AND are_we_friend = 1;
+  WHERE (from_user_index = 1 OR to_user_index = 1) AND are_we_friend = 1;
   `,
       (err, rows) => {
         if (err) reject(err);
-        console.log(rows);
-        try {
-          const friendList = rows.map((row) => row.user_index);
-          resolve(friendList);
-        } catch (err) {
-          console.log(err);
-          reject(err);
-        }
+        const friendList = rows.map((row) => row.user_index);
+        resolve(friendList);
       }
     );
   });
@@ -189,30 +182,14 @@ exports.breakFriend = (user_idx, friend_idx) => {
   });
 };
 
-//친구 끊기 쿼리 -> friend 테이블에서 행 삭제
-exports.unFriend = (user_idx, friend_idx) => {
-  return new Promise((resolve, reject) => {
-    mysqlConnection.query(
-      `DELETE FROM friend
-      WHERE ((from_user_index = ${user_idx} AND to_user_index = ${friend_idx})
-        OR (from_user_index = ${friend_idx} AND to_user_index = ${user_idx}))
-      AND are_we_friend = 1 AND isblocked = 0;
-      `,
-      (err, result) => {
-        if (err) reject(err);
-        resolve(result.affectedRows);
-      }
-    );
-  });
-};
 // 유저 정보 조회 API
-exports.getUserByInfoId = (kakaoId) => {
+exports.getUserByInfoId = (uid) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `
                   SELECT nickname, email, nationality, profileImg 
                   FROM user  
-                  WHERE kakaoId = ${kakaoId}`,
+                  WHERE user_index = ${uid}`,
       (err, result) => {
         if (err) {
           reject(err);
@@ -225,13 +202,13 @@ exports.getUserByInfoId = (kakaoId) => {
 };
 
 // 유저 탈퇴 API
-exports.deleteUser = (kakaoId) => {
+exports.deleteUser = (uid) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `
                   DELETE
                   FROM user
-                  WHERE kakaoId = ${kakaoId}`,
+                  WHERE user_index = ${uid}`,
 
       (err, result) => {
         if (err) reject(err);
@@ -242,13 +219,13 @@ exports.deleteUser = (kakaoId) => {
 };
 
 //profile 이미지 등록 API
-exports.saveProfileImage = (kakaoId, profileImg) => {
+exports.saveProfileImage = (uid, profileImg) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `UPDATE user 
    SET profileImg = ? 
-   WHERE kakaoId = ?`,
-      [profileImg, kakaoId],
+   WHERE user_index= ?`,
+      [profileImg, uid],
       (err, result) => {
         if (err) reject(err);
         resolve(true);
@@ -258,12 +235,12 @@ exports.saveProfileImage = (kakaoId, profileImg) => {
 };
 
 //Profile 이미지 삭제 API
-exports.deleteProfileImage = (kakaoId) => {
+exports.deleteProfileImage = (uid) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `UPDATE user 
            SET profileImg = NULL
-           WHERE kakaoId = ${kakaoId}
+           WHERE user_index = ${uid}
            `,
       (err, result) => {
         if (err) reject(err);
@@ -274,14 +251,14 @@ exports.deleteProfileImage = (kakaoId) => {
 };
 
 // 국적 등록 API
-exports.saveNationality = (kakaoId, nationality) => {
+exports.saveNationality = (uid, nationality) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `
                   UPDATE user 
                   SET nationality = ? 
-                  WHERE kakaoId = ?`,
-      [nationality, kakaoId],
+                  WHERE user_index = ?`,
+      [nationality, uid],
       (err, result) => {
         if (err) reject(err);
         resolve(true);
@@ -291,14 +268,14 @@ exports.saveNationality = (kakaoId, nationality) => {
 };
 
 //국적 수정 API
-exports.updateNationality = (kakaoId, nationality) => {
+exports.updateNationality = (uid, nationality) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `UPDATE user
            SET nationality = ?
-           WHERE kakaoId = ?
+           WHERE user_index = ?
            `,
-      [nationality, kakaoId],
+      [nationality, uid],
       (err, result) => {
         if (err) reject(err);
         resolve(true);
@@ -308,12 +285,12 @@ exports.updateNationality = (kakaoId, nationality) => {
 };
 
 //국적 삭제 API
-exports.deleteNationality = (kakaoId) => {
+exports.deleteNationality = (uid) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `UPDATE user
            SET nationality = NULL
-           WHERE kakaoId = ${kakaoId}
+           WHERE user_index = ${uid}
            `,
       (err, result) => {
         if (err) reject(err);

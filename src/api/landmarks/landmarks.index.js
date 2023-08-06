@@ -2,6 +2,7 @@ const router = require("express").Router();
 const landmarkController = require("./landmarks.controller");
 
 router.get("/search-landmarks", landmarkController.searchLandmark);
+
 /**
  * @swagger
  * /api/landmarks/search-landmarks:
