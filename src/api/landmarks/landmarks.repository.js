@@ -74,3 +74,17 @@ exports.filteringSearchQuery = async (continent, country, city) => {
     });
   });
 };
+
+//인기 게시글 10개 조회
+exports.getPopularPosts = async () => {
+  return new Promise((resolve, reject) => {
+    connection.query(
+      `SELECT post_index,post_title,view,thumbs,t.country_name FROM post p INNER JOIN city c ON p.city_index = c.city_index INNER JOIN country t ON c.country_index = t.country_index ORDER BY p.thumbs DESC LIMIT 10`,
+
+      (err, result) => {
+        if (err) reject(err);
+        resolve(result);
+      }
+    );
+  });
+};

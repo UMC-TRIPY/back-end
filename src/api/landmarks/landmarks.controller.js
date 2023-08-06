@@ -53,3 +53,13 @@ exports.filteringSearch = async (req, res) => {
     console.log(err);
   }
 };
+
+exports.getPopularPosts = async (req, res) => {
+  try {
+    const postList = await postService.getPopularPosts();
+    res.status(200).json({ message: "성공", data: postList });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: "서버 내부 오류" });
+  }
+};
