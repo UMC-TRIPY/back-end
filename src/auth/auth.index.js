@@ -42,9 +42,11 @@ const authController = require("./auth.controller");
  *                  type: string
  *                  example: "카카오톡 토큰 발급 실패 or 로그인 실패"
  */
-router.post("/kakao", authController.kakaoLogin);
+router.get("/kakao", authController.kakaoLogin);
 //authorization code test
 router.get("/code", authController.getAccessCode);
+//google login
+router.get("/google", authController.googleLogin);
 //access token이 유효한지 검증
 router.post("/verify/access_token", authController.verifyAccessToken);
 //access token 재발급

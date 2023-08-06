@@ -40,9 +40,9 @@ exports.kakaoLogin = async (req, res) => {
       ).json();
       console.log(userRequest);
 
-      const data = await authService.findUserById(userRequest);
+      const data = await authService.kakaoLogin(userRequest);
 
-      //쿠키에 토큰을 담는다.
+      //쿠키에 리프레쉬 토큰을 담는다.
       res.cookie("refresh_token", data.refreshToken, { httpOnly: true });
       return res.status(200).json({
         success: true,
@@ -52,6 +52,65 @@ exports.kakaoLogin = async (req, res) => {
       // return res.send(JSON.stringify(userRequest));
     } else {
       throw new Error("카카오톡 토큰 발급 실패", 500);
+      // return res.send(JSON.stringify(kakaoTokenRequest));
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: err.message || "로그인 실패",
+    });
+  }
+};
+
+//구글 OAuth
+exports.googleLogin = async (req, res) => {
+  console.log("code", req.query.code);
+  const baseUrl = "https://oauth2.googleapis.com/token";
+  const config = {
+    client_id: process.env.GOOGLE_CLIENT_ID,
+    client_secret: process.env.GOOGLE_SECRET_KEY,
+    grant_type: "authorization_code",
+    redirect_uri: "http://localhost:5000/api/auth/google",
+    code: req.query.code,
+  };
+
+  const params = new URLSearchParams(config).toString();
+  const finalUrl = `${baseUrl}?${params}`;
+  try {
+    const googleTokenRequest = await (
+      await fetch(finalUrl, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+      })
+    ).json();
+    console.log(googleTokenRequest);
+
+    if ("access_token" in googleTokenRequest) {
+      const { access_token } = googleTokenRequest;
+      const userRequest = await (
+        await fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+            "Content-type": "application/json",
+          },
+        })
+      ).json();
+      console.log(userRequest);
+
+      const data = await authService.googleLogin(userRequest);
+
+      // //쿠키에 리프레쉬 토큰을 담는다.
+      res.cookie("refresh_token", data.refreshToken, { httpOnly: true });
+      return res.status(200).json({
+        success: true,
+        uid: data.user_index,
+        access_token: data.accessToken,
+      });
+      // return res.send(JSON.stringify(userRequest));
+    } else {
+      throw new Error("구글 토큰 발급 실패", 500);
       // return res.send(JSON.stringify(kakaoTokenRequest));
     }
   } catch (err) {

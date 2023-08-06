@@ -20,6 +20,7 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use("/api", require("./src"));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
@@ -27,6 +28,15 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 //rds connect
 // const database = require("./module/db_connect");
 // const conn = database.conn();
+app.get("/signup", (req, res) => {
+  console.log("sign up");
+  let url = "https://accounts.google.com/o/oauth2/v2/auth";
+  url += `?client_id=${process.env.GOOGLE_CLIENT_ID}`;
+  (url += `&redirect_uri=http://localhost:5000/api/auth/google`),
+    (url += "&response_type=code");
+  url += "&scope=email profile";
+  res.redirect(url);
+});
 
 //에러처리
 app.use((err, req, res, next) => {

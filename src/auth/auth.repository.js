@@ -1,9 +1,8 @@
 const { conn } = require("../../module/db_connect");
 const { redisCli, redisClient } = require("../../module/redis_connect");
 const mysqlConnection = conn();
-const { promisify } = require("util");
 
-exports.findUserById = async (kakaoId, email) => {
+exports.findUserByKakaoId = async (kakaoId, email) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `SELECT user_index FROM user WHERE kakaoId = ${kakaoId} AND email = '${email}'`,
@@ -15,7 +14,21 @@ exports.findUserById = async (kakaoId, email) => {
   });
 };
 
-exports.signUp = async (kakaoId, email) => {
+exports.findUserByGoogleId = async (googleId, email) => {
+  console.log(googleId);
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `SELECT user_index FROM user WHERE googleId =${googleId} AND email ='${email}'`,
+      (err, rows) => {
+        if (err) reject(err);
+        console.log("findUserByGoogleId", rows);
+        resolve(rows);
+      }
+    );
+  });
+};
+
+exports.signUpWithKakao = async (kakaoId, email) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `INSERT INTO user(
@@ -28,10 +41,36 @@ exports.signUp = async (kakaoId, email) => {
       (err, rows) => {
         if (err) reject(err);
         mysqlConnection.query(
-          `SELECT user_index FROM user WHERE email = ${email} AND kakaoId=${kakaoId}`,
+          `SELECT user_index FROM user WHERE email = '${email}' AND kakaoId=${kakaoId}`,
           (err, rows) => {
             if (err) reject(err);
             console.log(rows);
+            resolve(rows);
+          }
+        );
+      }
+    );
+  });
+};
+
+exports.signUpWithGoogle = async (googleId, email) => {
+  console.log(googleId);
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `INSERT INTO user(
+            googleId,
+            nickname,
+            email,
+            created_at
+        ) VALUES (?, ?, ?, NOW())`,
+      [googleId, "csyy", email],
+      (err, rows) => {
+        if (err) reject(err);
+        mysqlConnection.query(
+          `SELECT user_index FROM user WHERE email = '${email}' AND googleId=${googleId}`,
+          (err, rows) => {
+            if (err) reject(err);
+            console.log(rows, "콜백 쿼리실행");
             resolve(rows);
           }
         );
