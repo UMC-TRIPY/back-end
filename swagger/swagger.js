@@ -10,13 +10,36 @@ const options = {
       description:
         "프로젝트 설명 Node.js Swaager swagger-jsdoc 방식 RestFul API 클라이언트 UI",
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          in: "header",
+          name: "Authorization",
+          description: "Bearer token to access these api endpoints",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     servers: [
       {
-        url: "http://localhost:5000", // 요청 URL
+        url: "http://tripy.site:5000", // 요청 URL
+      },
+      {
+        url: "http://52.79.126.200:5000",
+      },
+      {
+        url: "http://localhost:5000",
       },
     ],
   },
-  apis: ["./src/*.js", "./src/api/**/*.js"], //Swagger 파일 연동
+  apis: ["./src/*.js", "./src/api/**/*.js", "./src/auth/**/*.js"], //Swagger 파일 연동
 };
 const specs = swaggereJsdoc(options);
 

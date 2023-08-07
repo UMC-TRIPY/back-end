@@ -13,3 +13,17 @@ exports.getPopularLandmark = async () => {
 
   return landmarkList;
 };
+
+exports.filteringSearch = async (continent, country, city) => {
+  const landmarkList = await landmarkRepository.filteringSearchQuery(
+    continent,
+    country,
+    city
+  );
+  return landmarkList;
+};
+
+exports.getPopularPosts = async () => {
+  const postList = await postRepository.getPopularPosts();
+  return postList;
+};

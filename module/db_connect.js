@@ -3,11 +3,11 @@ const config = require("../module/db_info");
 
 const conn = function () {
   const connection = mysql.createConnection({
-    host: config.host,
-    port: config.port,
-    user: config.user,
-    password: config.password,
-    database: config.database,
+    host: config.real.host,
+    port: config.real.port,
+    user: config.real.user,
+    password: config.real.password,
+    database: config.real.database,
   });
 
   connection.connect(function (err) {

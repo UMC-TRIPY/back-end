@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const landmarkController = require("./landmarks.controller");
 
+router.get("/search-landmarks", landmarkController.searchLandmark);
+
 /**
  * @swagger
  * /api/landmarks/search-landmarks:
@@ -81,4 +83,9 @@ router.get("/search-landmarks", landmarkController.searchLandmark);
 
 router.get("/popular", landmarkController.getPopularLandmark);
 
+// GET /api/landmarks/filtering-search?continent={continent}&country={country}&city={city}
+router.post("/filtering-search", landmarkController.filteringSearch);
+
+//기능명세서2.4 커뮤니티 인기글 목록 조회 API -> 추천수 상위 10개를 가져온다.
+router.get("/popular", landmarkController.getPopularPosts);
 module.exports = router;
