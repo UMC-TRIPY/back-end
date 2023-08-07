@@ -86,7 +86,7 @@ exports.refresh = async (req, res) => {
         return res.status(200).send({
           // 새로 발급한 access token과 원래 있던 refresh token 모두 클라이언트에게 반환합니다.
           success: true,
-          accessToken: newAccessToken,
+          access_token: newAccessToken,
         });
       }
     } else {

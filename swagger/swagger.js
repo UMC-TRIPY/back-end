@@ -10,7 +10,23 @@ const options = {
       description:
         "프로젝트 설명 Node.js Swaager swagger-jsdoc 방식 RestFul API 클라이언트 UI",
     },
-
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          in: "header",
+          name: "Authorization",
+          description: "Bearer token to access these api endpoints",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
     servers: [
       {
         url: "http://tripy.site:5000", // 요청 URL

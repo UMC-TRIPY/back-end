@@ -103,6 +103,81 @@ router.get("/google", authController.googleLogin);
 //access token이 유효한지 검증
 router.post("/verify/access_token", authController.verifyAccessToken);
 //access token 재발급
+/**
+ * @swagger
+ * /api/auth/refresh:
+ *   post:
+ *    summary: "access token 재발급"
+ *    description: "Header에 Access Token 필요, 쿠키에 Refresh Token 필요"
+ *    tags: [Auth]
+ *    parameters:
+ *      - in: cookie
+ *        name: refresh_token
+ *        required: true
+ *        description: refresh token
+ *        schema:
+ *          type: string
+ *    responses:
+ *      "200":
+ *        description: 성공
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                sucess:
+ *                  type: boolean
+ *                  example: true
+ *                access_token:
+ *                  type: string
+ *                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTEyNTAxNTMsImV4cCI6MTY5MjQ1OTc1MywiaXNzIjoiY3N5In0.2pMuLck04hEP9rUj7Wm1nzeVXpfL_e0qyGjvbSIEWpk
+ *      "401":
+ *        description: access token을 디코딩한 결과가 없습니다.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                  example: false
+ *                message:
+ *                  type: string
+ *                  example: "권한이 없습니다."
+ *      "403":
+ *        description: access token과 refresh token 모두 만료된 상황입니다.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                  example: false
+ *                message:
+ *                  type: string
+ *                  example: "새로 로그인해야 합니다."
+ *      "400":
+ *        description: Acess Token이 아직 유효한 상황입니다.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "Acess Token이 만료되지 않았습니다."
+ *      "406":
+ *        description: access token 또는 refresh token이 요청값에 없는 상황입니다.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "재발급 받기 위해 Access Token과 Refresh Token이 필요합니다."
+ */
 router.post("/refresh", refresh);
 //logout api
 /**
