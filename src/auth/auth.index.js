@@ -38,7 +38,7 @@ const authController = require("./auth.controller");
  *                access_token:
  *                  type: string
  *                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTEyNTAxNTMsImV4cCI6MTY5MjQ1OTc1MywiaXNzIjoiY3N5In0.2pMuLck04hEP9rUj7Wm1nzeVXpfL_e0qyGjvbSIEWpk
- *      "500":
+ *      "401":
  *        description: 로그인 실패
  *        content:
  *          application/json:
@@ -88,7 +88,7 @@ router.get("/code", authController.getAccessCode);
  *                access_token:
  *                  type: string
  *                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTEyNTAxNTMsImV4cCI6MTY5MjQ1OTc1MywiaXNzIjoiY3N5In0.2pMuLck04hEP9rUj7Wm1nzeVXpfL_e0qyGjvbSIEWpk
- *      "500":
+ *      "401":
  *        description: 로그인 실패
  *        content:
  *          application/json:
