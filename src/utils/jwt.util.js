@@ -1,5 +1,6 @@
-const { getRefreshToekInRedis } = require("../auth/auth.repository");
+const { getRefreshTokenInRedis } = require("../auth/auth.repository");
 const jwt = require("jsonwebtoken");
+
 //Access Token 생성
 exports.makeAccessToken = (email) => {
   try {
