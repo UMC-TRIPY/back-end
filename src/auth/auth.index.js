@@ -10,13 +10,20 @@ const authController = require("./auth.controller");
  *    summary: "카카오 로그인"
  *    description: "카카오 로그인"
  *    tags: [Auth]
+ *    parameters:
+ *      - in: query
+ *        name: code
+ *        required: true
+ *        description: authorization code
+ *        schema:
+ *          type: string
  *    responses:
  *      "200":
  *        description: 성공
  *        headers:
  *          Set-Cookie:
  *             type: string
- *             description: "로그인 성공 시 설정되는 쿠키"
+ *             description: "로그인 성공 시 쿠키에 refresh token 설정"
  *        content:
  *          application/json:
  *            schema:
@@ -45,6 +52,54 @@ const authController = require("./auth.controller");
 router.get("/kakao", authController.kakaoLogin);
 //authorization code test
 router.get("/code", authController.getAccessCode);
+//google login
+/**
+ * @swagger
+ * /api/auth/google:
+ *   get:
+ *    summary: "구글 로그인"
+ *    description: "구글 로그인"
+ *    tags: [Auth]
+ *    parameters:
+ *      - in: query
+ *        name: code
+ *        required: true
+ *        description: authorization code
+ *        schema:
+ *          type: string
+ *    responses:
+ *      "200":
+ *        description: 성공
+ *        headers:
+ *          Set-Cookie:
+ *             type: string
+ *             description: "로그인 성공 시 쿠키에 refresh token 설정"
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: string
+ *                  example: true
+ *                uid:
+ *                  type: integer
+ *                  example: 11
+ *                access_token:
+ *                  type: string
+ *                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTEyNTAxNTMsImV4cCI6MTY5MjQ1OTc1MywiaXNzIjoiY3N5In0.2pMuLck04hEP9rUj7Wm1nzeVXpfL_e0qyGjvbSIEWpk
+ *      "500":
+ *        description: 로그인 실패
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  example: "구글 토큰 발급 실패 or 로그인 실패"
+ */
+router.get("/google", authController.googleLogin);
 //access token이 유효한지 검증
 router.post("/verify/access_token", authController.verifyAccessToken);
 //access token 재발급
