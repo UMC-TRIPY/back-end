@@ -4,20 +4,6 @@ const swaggereJsdoc = require("swagger-jsdoc");
 const options = {
   swaggerDefinition: {
     openapi: "3.0.0",
-    components: {
-      securitySchemes: {
-        cookieAuth: {
-          name: "refresh_token",
-          type: "apiKey",
-          in: "cookie",
-        },
-      },
-    },
-    security: [
-      {
-        cookieAuth: [],
-      },
-    ],
     info: {
       version: "",
       title: "Tripy API",
