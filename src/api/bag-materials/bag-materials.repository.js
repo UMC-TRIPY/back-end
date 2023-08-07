@@ -1,3 +1,6 @@
+const { conn } = require("../../../module/db_connect");
+const connection = conn();
+
 exports.createBagMaterials = async (bagIndex, materialIndex) => {
   const query =
     "INSERT INTO bag_materials(bag_index, materials_index) VALUE(? , ? )";
