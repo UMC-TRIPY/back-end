@@ -34,6 +34,20 @@ const postController = require("./posts.controller");
  *         description: 게시물 검색어
  *         schema:
  *           type: string
+ *       - in: query
+ *         name: orderField
+ *         required: false
+ *         description: 정렬 필드
+ *         schema:
+ *           type: string
+ *           enum: [created_at, thumbs]
+ *       - in: query
+ *         name: orderDirection
+ *         required: false
+ *         description: 정렬 방향
+ *         schema:
+ *           type: string
+ *           enum: [asc, desc]
  *
  *    responses:
  *      "200":
