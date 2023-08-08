@@ -74,7 +74,7 @@ exports.refresh = async (req, res) => {
     if (authResult.success === false && authResult.message === "jwt expired") {
       // 1. access token이 만료되고, refresh token도 만료 된 경우 => 새로 로그인
       if (refreshResult.success === false) {
-        res.status(401).send({
+        res.status(403).send({
           success: false,
           message: "새로 로그인해야 합니다.",
         });
@@ -98,7 +98,7 @@ exports.refresh = async (req, res) => {
     }
   } else {
     // access token 또는 refresh token이 헤더에 없는 경우
-    return res.status(400).send({
+    return res.status(406).send({
       success: false,
       message: "재발급 받기 위해 Access Token과 Refresh Token이 필요합니다.",
     });

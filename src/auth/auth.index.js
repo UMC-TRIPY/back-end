@@ -125,7 +125,7 @@ router.post("/verify/access_token", authController.verifyAccessToken);
  *            schema:
  *              type: object
  *              properties:
- *                sucess:
+ *                success:
  *                  type: boolean
  *                  example: true
  *                access_token:

@@ -51,12 +51,12 @@ exports.kakaoLogin = async (req, res) => {
       });
       // return res.send(JSON.stringify(userRequest));
     } else {
-      throw new Error("카카오톡 토큰 발급 실패", 500);
+      throw new Error("카카오톡 토큰 발급 실패", 401);
       // return res.send(JSON.stringify(kakaoTokenRequest));
     }
   } catch (err) {
     console.log(err);
-    return res.status(500).json({
+    return res.status(401).json({
       message: err.message || "로그인 실패",
     });
   }
@@ -110,12 +110,12 @@ exports.googleLogin = async (req, res) => {
       });
       // return res.send(JSON.stringify(userRequest));
     } else {
-      throw new Error("구글 토큰 발급 실패", 500);
+      throw new Error("구글 토큰 발급 실패", 401);
       // return res.send(JSON.stringify(kakaoTokenRequest));
     }
   } catch (err) {
     console.log(err);
-    return res.status(500).json({
+    return res.status(401).json({
       message: err.message || "로그인 실패",
     });
   }
