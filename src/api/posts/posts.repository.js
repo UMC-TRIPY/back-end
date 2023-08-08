@@ -2,7 +2,15 @@ const { resolve } = require("path");
 const { conn } = require("../../../module/db_connect");
 const connection = conn();
 
-exports.getPosts = async (tagsStr, page, pageSize, tagCount, nameQuery) => {
+exports.getPosts = async (
+  tagsStr,
+  page,
+  pageSize,
+  tagCount,
+  nameQuery,
+  orderField,
+  orderDirection
+) => {
   const offset = (page - 1) * pageSize;
 
   const likeQuery = "%" + nameQuery + "%";
@@ -13,7 +21,7 @@ exports.getPosts = async (tagsStr, page, pageSize, tagCount, nameQuery) => {
   WHERE t.tag_name IN ('${tagsStr}')
   GROUP BY p.post_index, p.user_index, p.post_title, p.post_content, p.city_index, p.view, p.thumbs, p.created_at, p.updated_at, pt.tag_index
   HAVING COUNT(DISTINCT t.tag_name) = ${tagCount}
-  ORDER BY p.created_at DESC
+  ORDER BY p.${orderField} ${orderDirection}
   LIMIT ${pageSize}
   OFFSET ${offset}
   `;
@@ -25,7 +33,7 @@ exports.getPosts = async (tagsStr, page, pageSize, tagCount, nameQuery) => {
     WHERE t.tag_name IN ('${tagsStr}') AND p.post_title LIKE ?
     GROUP BY p.post_index, p.user_index, p.post_title, p.post_content, p.city_index, p.view, p.thumbs, p.created_at, p.updated_at, pt.tag_index
     HAVING COUNT(DISTINCT t.tag_name) = ${tagCount}
-    ORDER BY p.created_at DESC
+    ORDER BY p.${orderField} ${orderDirection}
     LIMIT ${pageSize}
     OFFSET ${offset}
     `;
