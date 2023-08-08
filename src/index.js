@@ -8,6 +8,7 @@ const landmarkRouter = require("./api/landmarks/landmarks.index");
 const travelPlanRouter = require("./api/travel-plans/travel-plans.index");
 const materialRouter = require("./api/materials/materials.index");
 const postRouter = require("./api/posts/posts.index");
+const bagMaterialRouter = require("./api/bag-materials/bag-materials.index");
 const authRouter = require("./auth/auth.index");
 //const loginRouter = require("./api/oauth/google.js")
 
@@ -24,6 +25,7 @@ router.use("/landmarks", landmarkRouter);
 router.use("/travel-plans", travelPlanRouter);
 router.use("/materials", materialRouter);
 router.use("/posts", postRouter);
+router.use("/bag-materials", bagMaterialRouter);
 /**
  * @swagger
  * tags:
