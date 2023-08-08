@@ -6,12 +6,12 @@ const authController = require("./auth.controller");
 /**
  * @swagger
  * /api/auth/kakao:
- *   get:
+ *   post:
  *    summary: "카카오 로그인"
  *    description: "카카오 로그인"
  *    tags: [Auth]
  *    parameters:
- *      - in: query
+ *      - in: param
  *        name: code
  *        required: true
  *        description: authorization code
@@ -49,19 +49,19 @@ const authController = require("./auth.controller");
  *                  type: string
  *                  example: "카카오톡 토큰 발급 실패 or 로그인 실패"
  */
-router.get("/kakao", authController.kakaoLogin);
+router.post("/kakao", authController.kakaoLogin);
 //authorization code test
 router.get("/code", authController.getAccessCode);
 //google login
 /**
  * @swagger
  * /api/auth/google:
- *   get:
+ *   post:
  *    summary: "구글 로그인"
  *    description: "구글 로그인"
  *    tags: [Auth]
  *    parameters:
- *      - in: query
+ *      - in: param
  *        name: code
  *        required: true
  *        description: authorization code
