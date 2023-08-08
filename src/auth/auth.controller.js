@@ -10,7 +10,7 @@ exports.kakaoLogin = async (req, res) => {
   const config = {
     client_id: process.env.KAKAO_APP_KEY,
     grant_type: "authorization_code",
-    redirect_uri: "http://tripy.site:5000/api/auth/kakao",
+    redirect_uri: "http://localhost:3000/auth/code",
     code: req.query.code,
   };
 
@@ -70,7 +70,7 @@ exports.googleLogin = async (req, res) => {
     client_id: process.env.GOOGLE_CLIENT_ID,
     client_secret: process.env.GOOGLE_SECRET_KEY,
     grant_type: "authorization_code",
-    redirect_uri: "http://tripy.site:5000/api/auth/google",
+    redirect_uri: "http://localhost:3000/auth/code",
     code: req.query.code,
   };
 
