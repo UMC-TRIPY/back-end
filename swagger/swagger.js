@@ -29,10 +29,10 @@ const options = {
     ],
     servers: [
       {
-        url: "https://tripy.site:5000", // 요청 URL
+        url: "https://tripy.site", // 요청 URL
       },
       {
-        url: "https://52.79.126.200:5000",
+        url: "https://52.79.126.200",
       },
       {
         url: "http://localhost:5000",
