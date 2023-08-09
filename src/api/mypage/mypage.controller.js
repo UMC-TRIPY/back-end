@@ -187,9 +187,7 @@ exports.friendList = async (req, res) => {
     const friends = await mypageService.findFriendsList(user_idx);
 
     //반환 형태 {friends_index : [2,4,5]}
-    res
-      .status(200)
-      .json({ message: "친구 목록 조회 성공", friends_index: friends });
+    res.status(200).json({ message: "친구 목록 조회 성공", data: friends });
   } catch (err) {
     console.log(err);
   }

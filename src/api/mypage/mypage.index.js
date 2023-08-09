@@ -386,7 +386,7 @@ router.get("/friends/:uid/search", mypageController.friendSearch);
  *          type: integer
  *    responses:
  *      "200":
- *        description: 성공, 검색해서 나온 친구들의 uid 반환
+ *        description: 성공, 검색해서 나온 친구들의 uid,nickname,profileImg 반환
  *        content:
  *          application/json:
  *            schema:
@@ -395,9 +395,9 @@ router.get("/friends/:uid/search", mypageController.friendSearch);
  *                message:
  *                  type: string
  *                  example: "친구 목록 조회 성공"
- *                users_index:
- *                  type: array
- *                  example: [1,4]
+ *                data:
+ *                  type: object
+ *                  example: [{user_index,nickname,profileImg}]
  *      "400":
  *        description: 요청 값이 없거나 형식에 맞지 않습니다.
  *        content:

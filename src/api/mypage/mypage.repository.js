@@ -150,16 +150,22 @@ exports.userFriendList = (userId) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `SELECT DISTINCT
-      CASE
-          WHEN from_user_index = ${userId} THEN to_user_index
-          WHEN to_user_index = ${userId} THEN from_user_index
-      END AS user_index
-  FROM friend
-  WHERE (from_user_index = ${userId} OR to_user_index = ${userId}) AND are_we_friend = 1;
-  `,
+          CASE
+              WHEN from_user_index = ${userId} THEN to_user_index
+              WHEN to_user_index = ${userId} THEN from_user_index
+          END AS user_index,
+          u.nickname,u.profileImg
+      FROM friend AS f
+      INNER JOIN user AS u ON 
+          (f.from_user_index = ${userId} AND f.to_user_index = u.user_index) OR 
+          (f.to_user_index = ${userId} AND f.from_user_index = u.user_index)
+      WHERE (f.from_user_index = ${userId} OR f.to_user_index = ${userId}) AND f.are_we_friend = 1;
+      `,
       (err, rows) => {
         if (err) reject(err);
-        const friendList = rows.map((row) => row.user_index);
+        const friendList = rows.map((row) => {
+          return row;
+        });
         resolve(friendList);
       }
     );

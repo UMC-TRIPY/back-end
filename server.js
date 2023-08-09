@@ -17,7 +17,12 @@ app.use((req, res, next) => {
   }
 });
 
-app.use(cors());
+//다른 도메인간 쿠키 공유
+app.use(
+  cors({
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
