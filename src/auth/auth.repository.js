@@ -1,11 +1,11 @@
 const { conn } = require("../../module/db_connect");
-const { redisCli, redisClient } = require("../../module/redis_connect");
+const { redisClient } = require("../../module/redis_connect");
 const mysqlConnection = conn();
 
 exports.findUserByKakaoId = async (kakaoId, email) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
-      `SELECT user_index FROM user WHERE kakaoId = ${kakaoId} AND email = '${email}'`,
+      `SELECT user_index,email,nickname,profileImg FROM user WHERE kakaoId = ${kakaoId} AND email = '${email}'`,
       (err, rows) => {
         if (err) reject(err);
         resolve(rows);
@@ -15,13 +15,11 @@ exports.findUserByKakaoId = async (kakaoId, email) => {
 };
 
 exports.findUserByGoogleId = async (googleId, email) => {
-  console.log(googleId);
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
-      `SELECT user_index FROM user WHERE googleId =${googleId} AND email ='${email}'`,
+      `SELECT user_index,email,nickname,profileImg FROM user WHERE googleId =${googleId} AND email ='${email}'`,
       (err, rows) => {
         if (err) reject(err);
-        console.log("findUserByGoogleId", rows);
         resolve(rows);
       }
     );
@@ -41,10 +39,10 @@ exports.signUpWithKakao = async (kakaoId, email) => {
       (err, rows) => {
         if (err) reject(err);
         mysqlConnection.query(
-          `SELECT user_index FROM user WHERE email = '${email}' AND kakaoId=${kakaoId}`,
+          `SELECT user_index,email,nickname,profileImg FROM user WHERE email = '${email}' AND kakaoId=${kakaoId}`,
           (err, rows) => {
             if (err) reject(err);
-            console.log(rows);
+
             resolve(rows);
           }
         );
@@ -54,7 +52,6 @@ exports.signUpWithKakao = async (kakaoId, email) => {
 };
 
 exports.signUpWithGoogle = async (googleId, email) => {
-  console.log(googleId);
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `INSERT INTO user(
@@ -67,10 +64,9 @@ exports.signUpWithGoogle = async (googleId, email) => {
       (err, rows) => {
         if (err) reject(err);
         mysqlConnection.query(
-          `SELECT user_index FROM user WHERE email = '${email}' AND googleId=${googleId}`,
+          `SELECT user_index,email,nickname,profileImg FROM user WHERE email = '${email}' AND googleId=${googleId}`,
           (err, rows) => {
             if (err) reject(err);
-            console.log(rows, "콜백 쿼리실행");
             resolve(rows);
           }
         );

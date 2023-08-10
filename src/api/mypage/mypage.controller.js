@@ -149,7 +149,7 @@ exports.userSearch = async (req, res) => {
   }
   try {
     const userList = await mypageService.userSearch(keyword);
-    res.status(200).send({ message: "유저 검색 성공", users_index: userList });
+    res.status(200).send({ message: "유저 검색 성공", data: userList });
   } catch (err) {
     if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
     console.log(err);
@@ -167,9 +167,7 @@ exports.friendSearch = async (req, res) => {
   }
   try {
     const friendList = await mypageService.friendSearch(user_idx, keyword);
-    res
-      .status(200)
-      .json({ message: "친구 검색 성공", friends_index: friendList });
+    res.status(200).json({ message: "친구 검색 성공", data: friendList });
   } catch (err) {
     if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
     console.log(err);
@@ -186,7 +184,6 @@ exports.friendList = async (req, res) => {
   try {
     const friends = await mypageService.findFriendsList(user_idx);
 
-    //반환 형태 {friends_index : [2,4,5]}
     res.status(200).json({ message: "친구 목록 조회 성공", data: friends });
   } catch (err) {
     console.log(err);

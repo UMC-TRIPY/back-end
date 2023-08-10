@@ -65,15 +65,16 @@ exports.rejectFriendRequest = (user_idx, friend_idx) => {
 exports.getFriendRequestList = (user_idx) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
-      `SELECT to_user_index
+      `SELECT DISTINCT user.user_index, user.nickname, user.profileImg
       FROM friend
-      WHERE from_user_index = ${user_idx} AND are_we_friend = 0;
+      JOIN user ON friend.to_user_index = user.user_index
+      WHERE friend.from_user_index = ${user_idx} AND friend.are_we_friend = 0;
       `,
       (err, rows) => {
         if (err) reject(err);
         //쿼리 결과물을 한 배열에 담는다.
-        const result = rows.map((row) => row.to_user_index);
-        resolve(result);
+        console.log(rows);
+        resolve(rows);
       }
     );
   });
@@ -83,15 +84,15 @@ exports.getFriendRequestList = (user_idx) => {
 exports.getFriendRequestRecieveList = (user_idx) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
-      `SELECT from_user_index
+      `SELECT DISTINCT user.user_index, user.nickname, user.profileImg
       FROM friend
-      WHERE to_user_index = ${user_idx} AND are_we_friend = 0;
+      JOIN user ON friend.from_user_index = user.user_index
+      WHERE friend.to_user_index = ${user_idx} AND friend.are_we_friend = 0;
       `,
       (err, rows) => {
         if (err) reject(err);
         //쿼리 결과물을 한 배열에 담는다.
-        const result = rows.map((row) => row.from_user_index);
-        resolve(result);
+        resolve(rows);
       }
     );
   });
@@ -100,15 +101,14 @@ exports.getFriendRequestRecieveList = (user_idx) => {
 exports.userSearch = (keyword) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
-      `SELECT user_index
+      `SELECT user_index,nickname,profileImg
         FROM user
         WHERE nickname LIKE '${keyword}%' OR email LIKE '${keyword}%';
         `,
       (err, rows) => {
         if (err) reject(err);
         try {
-          const result = rows.map((row) => row.user_index);
-          resolve(result);
+          resolve(rows);
         } catch (err) {
           reject(err);
         }
@@ -124,18 +124,19 @@ exports.friendSearch = (user_idx, keyword) => {
         CASE
             WHEN f.from_user_index = ${user_idx} THEN f.to_user_index
             WHEN f.to_user_index = ${user_idx} THEN f.from_user_index
-        END AS user_index
+        END AS user_index,
+        u.nickname,
+        u.profileImg
       FROM friend f
        JOIN user u ON ((f.from_user_index = u.user_index OR f.to_user_index = u.user_index) AND f.from_user_index IS NOT NULL)
       WHERE (u.nickname LIKE '${keyword}%' OR u.email LIKE '${keyword}%')
-      AND f.are_we_friend = 1;
+      AND f.are_we_friend = 1 AND u.user_index != ${user_idx};;
       `,
       (err, rows) => {
         if (err) reject(err);
         try {
           const filteredRows = rows.filter((row) => row.user_index !== null);
-          const result = filteredRows.map((row) => row.user_index);
-          resolve(result);
+          resolve(filteredRows);
         } catch (err) {
           reject(err);
         }

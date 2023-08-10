@@ -48,9 +48,11 @@ exports.verifyJWT = async (req, res, next) => {
 //Access Token 재발급
 exports.refresh = async (req, res) => {
   // access token과 refresh token의 존재 유무를 체크합니다.
-  if (req.headers.authorization && req.cookies.refresh_token) {
+  const { refresh_token } = req.body;
+  // const refresh_token = req.cookies.refresh_token;
+  if (req.headers.authorization && refresh_token && refresh_token !== "") {
     const accessToken = req.headers.authorization.split("Bearer ")[1];
-    const refreshToken = req.cookies.refresh_token;
+    const refreshToken = refresh_token;
 
     // access token 검증 -> expired여야 함.
     const authResult = verifyAccessToken(accessToken);
@@ -87,6 +89,7 @@ exports.refresh = async (req, res) => {
           // 새로 발급한 access token과 원래 있던 refresh token 모두 클라이언트에게 반환합니다.
           success: true,
           access_token: newAccessToken,
+          refresh_token: refreshToken,
         });
       }
     } else {

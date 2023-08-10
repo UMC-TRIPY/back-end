@@ -36,15 +36,15 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 // const conn = database.conn();
 
 //google Oauth test code
-// app.get("/signup", (req, res) => {
-//   console.log("sign up");
-//   let url = "https://accounts.google.com/o/oauth2/v2/auth";
-//   url += `?client_id=${process.env.GOOGLE_CLIENT_ID}`;
-//   (url += `&redirect_uri=http://localhost:5000/api/auth/google`),
-//     (url += "&response_type=code");
-//   url += "&scope=email profile";
-//   res.redirect(url);
-// });
+app.get("/signup", (req, res) => {
+  console.log("sign up");
+  let url = "https://accounts.google.com/o/oauth2/v2/auth";
+  url += `?client_id=${process.env.GOOGLE_CLIENT_ID}`;
+  (url += `&redirect_uri=http://localhost:5000/api/auth/google`),
+    (url += "&response_type=code");
+  url += "&scope=email profile";
+  res.redirect(url);
+});
 
 //에러처리
 app.use((err, req, res, next) => {

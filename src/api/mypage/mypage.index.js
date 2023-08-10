@@ -77,6 +77,9 @@ router.post("/friends/:uid/request", mypageController.sendFriendRequest);
  *                message:
  *                  type: string
  *                  example: "받은 친구 요청 조회 성공"
+ *                data:
+ *                  type: array
+ *                  example: [{user_index,nickname,profileImg}]
  *      "400":
  *        description: 요청 값이 없거나 형식에 맞지 않습니다.
  *        content:
@@ -116,6 +119,9 @@ router.get("/friends/:uid/receive", mypageController.getFriendRecieveList);
  *                message:
  *                  type: string
  *                  example: "보낸 친구 요청 목록 조회 성공"
+ *                data:
+ *                  type: array
+ *                  example: [{user_index,nickname,profileImg}]
  *      "400":
  *        description: 요청 값이 없거나 형식에 맞지 않습니다.
  *        content:
@@ -305,9 +311,9 @@ router.post("/friends/:uid/reject", mypageController.rejectFriendRequest);
  *                 message:
  *                   type: string
  *                   example: "유저 검색 성공"
- *                 users_index:
+ *                 data:
  *                   type: array
- *                   example: [1, 4]
+ *                   example: [{user_index,nickname,profileImg}]
  *       "400":
  *         description: "요청 값이 없거나 형식에 맞지 않습니다."
  *         content:
@@ -354,9 +360,9 @@ router.get("/users/search", mypageController.userSearch);
  *                message:
  *                  type: string
  *                  example: "친구 검색 성공"
- *                friends_index:
+ *                data:
  *                  type: array
- *                  example: [1,4]
+ *                  example: [{user_index,nickname,profileImg}]
  *      "400":
  *        description: 요청 값이 없거나 형식에 맞지 않습니다.
  *        content:

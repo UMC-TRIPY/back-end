@@ -11,7 +11,7 @@ exports.kakaoLogin = async (req, res) => {
   const config = {
     client_id: process.env.KAKAO_APP_KEY,
     grant_type: "authorization_code",
-    redirect_uri: "http://localhost:3000/",
+    redirect_uri: "http://localhost:3000/auth/kakao",
     code,
   };
 
@@ -47,8 +47,9 @@ exports.kakaoLogin = async (req, res) => {
       res.cookie("refresh_token", data.refreshToken, { httpOnly: true });
       return res.status(200).json({
         success: true,
-        uid: data.user_index,
+        user: data.user,
         access_token: data.accessToken,
+        refresh_token: data.refreshToken,
       });
       // return res.send(JSON.stringify(userRequest));
     } else {
@@ -65,13 +66,15 @@ exports.kakaoLogin = async (req, res) => {
 
 //구글 OAuth
 exports.googleLogin = async (req, res) => {
+  const { code } = req.body;
+
   const baseUrl = "https://oauth2.googleapis.com/token";
   const config = {
     client_id: process.env.GOOGLE_CLIENT_ID,
     client_secret: process.env.GOOGLE_SECRET_KEY,
     grant_type: "authorization_code",
-    redirect_uri: "http://localhost:3000/auth/code",
-    code: req.params.code,
+    redirect_uri: "http://localhost:3000/auth/google",
+    code,
   };
 
   const params = new URLSearchParams(config).toString();
@@ -105,8 +108,9 @@ exports.googleLogin = async (req, res) => {
       res.cookie("refresh_token", data.refreshToken, { httpOnly: true });
       return res.status(200).json({
         success: true,
-        uid: data.user_index,
+        user: data.user,
         access_token: data.accessToken,
+        refresh_token: data.refreshToken,
       });
       // return res.send(JSON.stringify(userRequest));
     } else {
@@ -152,13 +156,18 @@ exports.verifyAccessToken = async (req, res) => {
 };
 
 exports.logout = async (req, res) => {
+  const { refresh_token } = req.body; //refresh token body로 받는다.
+  // const refresh_token = req.cookies.refresh_token
+
   try {
-    if (!req.cookies.refresh_token || req.cookies.refresh_token === null) {
-      res.status(400).json({ message: "refresh_token이 없습니다." });
+    if (!refresh_token || refresh_token === null) {
+      res
+        .status(400)
+        .json({ success: false, message: "refresh_token이 없습니다." });
     }
-    await authService.logout(req.cookies.refresh_token);
-    res.clearCookie("refresh_token");
-    res.status(200).json({ message: "로그아웃 성공" });
+    await authService.logout(refresh_token);
+    // res.clearCookie("refresh_token");
+    res.status(200).json({ success: true, message: "로그아웃 성공" });
   } catch (err) {
     console.log(err);
   }
