@@ -20,6 +20,7 @@ app.use((req, res, next) => {
 //다른 도메인간 쿠키 공유
 app.use(
   cors({
+    origin: "*",
     credentials: true,
   })
 );
