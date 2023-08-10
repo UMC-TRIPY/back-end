@@ -10,6 +10,7 @@ const materialRouter = require("./api/materials/materials.index");
 const postRouter = require("./api/posts/posts.index");
 const bagMaterialRouter = require("./api/bag-materials/bag-materials.index");
 const authRouter = require("./auth/auth.index");
+const travelbagRouter = require("./api/travel-bag/travel-bag.index");
 //const loginRouter = require("./api/oauth/google.js")
 
 /**
@@ -26,6 +27,7 @@ router.use("/travel-plans", travelPlanRouter);
 router.use("/materials", materialRouter);
 router.use("/posts", postRouter);
 router.use("/bag-materials", bagMaterialRouter);
+router.use("/trave-bag",travelbagRouter);
 /**
  * @swagger
  * tags:
