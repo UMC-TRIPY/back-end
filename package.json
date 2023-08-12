@@ -4,9 +4,10 @@
   "description": "TRIPY back-end",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "coverage": "jest --coverage"
   },
   "author": "",
   "license": "ISC",
@@ -31,10 +32,12 @@
     "express-session": "^1.17.3",
     "googleapis": "^122.0.0",
     "http": "^0.0.1-security",
+    "jest": "^29.6.2",
     "mysql": "latest",
     "passport": "^0.6.0",
     "passport-google-oauth2": "^0.2.0",
     "promise-mysql": "^5.2.0",
+    "supertest": "^6.3.3",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
   },

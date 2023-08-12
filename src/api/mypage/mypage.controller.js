@@ -5,7 +5,6 @@ exports.sendFriendRequest = async (req, res) => {
   const user_idx = Number(req.params.uid);
 
   const { friend_idx } = req.body;
-  console.log(user_idx, typeof user_idx);
   if (
     typeof user_idx !== "number" ||
     typeof friend_idx !== "number" ||
@@ -20,8 +19,8 @@ exports.sendFriendRequest = async (req, res) => {
     await mypageService.sendRequestFriend(user_idx, friend_idx);
     res.status(200).json({ message: "친구 요청 성공" });
   } catch (err) {
-    if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
     console.log(err);
+    next(err);
   }
 };
 
