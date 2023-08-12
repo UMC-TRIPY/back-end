@@ -252,7 +252,7 @@ exports.getUserByInfoId = async function (req, res) {
       return res.status(404).json({ error: "유저를 찾을 수 없음" });
     }
 
-    return res.status(200).json(result);
+    return res.status(200).json(result[0]);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ error: "에러" });

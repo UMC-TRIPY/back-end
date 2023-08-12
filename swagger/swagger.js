@@ -28,12 +28,12 @@ const options = {
       },
     ],
     servers: [
-      {
-        url: "https://tripy.site", // 요청 URL
-      },
-      {
-        url: "https://52.79.126.200",
-      },
+      // {
+      //   url: "https://tripy.site", // 요청 URL
+      // },
+      // {
+      //   url: "https://52.79.126.200",
+      // },
       {
         url: "http://localhost:5000",
       },
