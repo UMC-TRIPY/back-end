@@ -24,7 +24,7 @@ const mypageController = require("./mypage.controller");
  *          schema:
  *            type: object
  *            properties:
- *              friend_idx:
+ *              friend_index:
  *                type: number
  *                description: "친구의 유저 아이디"
  *    responses:
@@ -47,7 +47,7 @@ const mypageController = require("./mypage.controller");
  *              properties:
  *                message:
  *                  type: number
- *                  example: "user_idx 또는 friend_idx 값이 없거나 int 자료형이 아닙니다."
+ *                  example: "user_index 또는 friend_index 값이 없거나 int 자료형이 아닙니다."
  */
 router.post("/friends/:uid/request", mypageController.sendFriendRequest);
 
@@ -89,7 +89,7 @@ router.post("/friends/:uid/request", mypageController.sendFriendRequest);
  *              properties:
  *                message:
  *                  type: string
- *                  example: "user_idx값이 없거나 int 자료형이 아닙니다."
+ *                  example: "user_index값이 없거나 int 자료형이 아닙니다."
  */
 router.get("/friends/:uid/receive", mypageController.getFriendRecieveList);
 
@@ -131,7 +131,7 @@ router.get("/friends/:uid/receive", mypageController.getFriendRecieveList);
  *              properties:
  *                message:
  *                  type: string
- *                  example: "user_idx값이 없거나 int 자료형이 아닙니다."
+ *                  example: "user_index값이 없거나 int 자료형이 아닙니다."
  */
 router.get("/friends/:uid/request", mypageController.getFriendRequestList);
 
@@ -158,7 +158,7 @@ router.get("/friends/:uid/request", mypageController.getFriendRequestList);
  *          schema:
  *            type: object
  *            properties:
- *              friend_idx:
+ *              friend_index:
  *                type: number
  *                description: "친구의 유저 아이디"
  *    responses:
@@ -181,7 +181,7 @@ router.get("/friends/:uid/request", mypageController.getFriendRequestList);
  *              properties:
  *                message:
  *                  type: string
- *                  example: "user_idx 또는 friend_idx값이 없거나 int 자료형이 아닙니다."
+ *                  example: "user_index 또는 friend_index값이 없거나 int 자료형이 아닙니다."
  */
 router.post("/friends/:uid/cancel", mypageController.cancelFriendRequest);
 
@@ -208,7 +208,7 @@ router.post("/friends/:uid/cancel", mypageController.cancelFriendRequest);
  *          schema:
  *            type: object
  *            properties:
- *              friend_idx:
+ *              friend_index:
  *                type: number
  *                description: "친구의 유저 아이디"
  *    responses:
@@ -231,7 +231,7 @@ router.post("/friends/:uid/cancel", mypageController.cancelFriendRequest);
  *              properties:
  *                message:
  *                  type: string
- *                  example: "user_idx 또는 friend_idx값이 없거나 int 자료형이 아닙니다."
+ *                  example: "user_index 또는 friend_index값이 없거나 int 자료형이 아닙니다."
  */
 router.post("/friends/:uid/accept", mypageController.acceptFriendRequest);
 
@@ -258,7 +258,7 @@ router.post("/friends/:uid/accept", mypageController.acceptFriendRequest);
  *          schema:
  *            type: object
  *            properties:
- *              friend_idx:
+ *              friend_index:
  *                type: number
  *                description: "친구의 유저 아이디"
  *    responses:
@@ -281,7 +281,7 @@ router.post("/friends/:uid/accept", mypageController.acceptFriendRequest);
  *              properties:
  *                message:
  *                  type: string
- *                  example: "user_idx 또는 friend_idx값이 없거나 int 자료형이 아닙니다."
+ *                  example: "user_index 또는 friend_index값이 없거나 int 자료형이 아닙니다."
  */
 router.post("/friends/:uid/reject", mypageController.rejectFriendRequest);
 
@@ -440,7 +440,7 @@ router.get("/:uid/friends", mypageController.friendList);
  *          schema:
  *            type: object
  *            properties:
- *              friend_idx:
+ *              friend_index:
  *                type: number
  *                description: "친구의 유저 아이디"
  *    responses:
@@ -463,7 +463,7 @@ router.get("/:uid/friends", mypageController.friendList);
  *              properties:
  *                message:
  *                  type: string
- *                  example: "user_idx 또는 friend_idx값이 없거나 int 자료형이 아닙니다."
+ *                  example: "user_index 또는 friend_index값이 없거나 int 자료형이 아닙니다."
  */
 router.post("/friends/:uid/break", mypageController.friendBreak);
 
@@ -490,7 +490,7 @@ router.post("/friends/:uid/break", mypageController.friendBreak);
  *          schema:
  *            type: object
  *            properties:
- *              friend_idx:
+ *              friend_index:
  *                type: number
  *                description: "친구의 유저 아이디"
  *    responses:
@@ -513,7 +513,7 @@ router.post("/friends/:uid/break", mypageController.friendBreak);
  *              properties:
  *                message:
  *                  type: string
- *                  example: "user_idx 또는 friend_idx값이 없거나 int 자료형이 아닙니다."
+ *                  example: "user_index 또는 friend_index값이 없거나 int 자료형이 아닙니다."
  */
 router.delete("/friends/:uid", mypageController.unFriend);
 

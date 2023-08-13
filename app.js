@@ -48,7 +48,9 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 //에러처리
 app.use((err, req, res, next) => {
   console.log(err);
-  res.status(500).json({ error: "Internal Server Error" });
+  res
+    .status(500)
+    .json({ error: "Internal Server Error", message: err.message });
 });
 
 module.exports = app;

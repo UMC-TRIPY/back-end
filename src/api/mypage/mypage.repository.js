@@ -1,11 +1,11 @@
 const { conn } = require("../../../module/db_connect");
 const mysqlConnection = conn();
 //친구 요청 API 쿼리
-exports.insertFriendRequest = (user_idx, friend_idx) => {
+exports.insertFriendRequest = (user_index, friend_index) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `INSERT INTO friend (from_user_index, to_user_index, are_we_friend, created_at)
-    VALUES (${user_idx}, ${friend_idx}, 0, NOW());
+    VALUES (${user_index}, ${friend_index}, 0, NOW());
     `,
       (err, rows) => {
         if (err) reject(err);
@@ -16,11 +16,11 @@ exports.insertFriendRequest = (user_idx, friend_idx) => {
 };
 
 //friend 테이블에서 친구 요청(are_we_friend = 0)을 삭제한다.
-exports.deleteFriendRequest = (user_idx, friend_idx) => {
+exports.deleteFriendRequest = (user_index, friend_index) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `DELETE FROM friend
-      WHERE from_user_index = ${user_idx} AND to_user_index = ${friend_idx} AND are_we_friend = 0;
+      WHERE from_user_index = ${user_index} AND to_user_index = ${friend_index} AND are_we_friend = 0;
       `,
       (err, rows) => {
         if (err) reject(err);
@@ -31,12 +31,12 @@ exports.deleteFriendRequest = (user_idx, friend_idx) => {
 };
 
 //친구 요청 수락 API 쿼리
-exports.updateFriendRequest = (user_idx, friend_idx) => {
+exports.updateFriendRequest = (user_index, friend_index) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `UPDATE friend
       SET are_we_friend = 1
-      WHERE from_user_index = ${friend_idx} AND to_user_index = ${user_idx} AND are_we_friend = 0;
+      WHERE from_user_index = ${friend_index} AND to_user_index = ${user_index} AND are_we_friend = 0;
       `,
       (err, rows) => {
         if (err) reject(err);
@@ -47,11 +47,11 @@ exports.updateFriendRequest = (user_idx, friend_idx) => {
 };
 
 //친구 요청 거절 API
-exports.rejectFriendRequest = (user_idx, friend_idx) => {
+exports.rejectFriendRequest = (user_index, friend_index) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `DELETE FROM friend
-      WHERE from_user_index = ${friend_idx} AND to_user_index = ${user_idx} AND are_we_friend = 0;
+      WHERE from_user_index = ${friend_index} AND to_user_index = ${user_index} AND are_we_friend = 0;
       `,
       (err, rows) => {
         if (err) reject(err);
@@ -62,13 +62,13 @@ exports.rejectFriendRequest = (user_idx, friend_idx) => {
 };
 
 //내가 보낸 친구 요청 조회 API
-exports.getFriendRequestList = (user_idx) => {
+exports.getFriendRequestList = (user_index) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `SELECT DISTINCT user.user_index, user.nickname, user.profileImg
       FROM friend
       JOIN user ON friend.to_user_index = user.user_index
-      WHERE friend.from_user_index = ${user_idx} AND friend.are_we_friend = 0;
+      WHERE friend.from_user_index = ${user_index} AND friend.are_we_friend = 0;
       `,
       (err, rows) => {
         if (err) reject(err);
@@ -81,13 +81,13 @@ exports.getFriendRequestList = (user_idx) => {
 };
 
 //내가 받은 친구 요청 목록 조회 API
-exports.getFriendRequestRecieveList = (user_idx) => {
+exports.getFriendRequestRecieveList = (user_index) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `SELECT DISTINCT user.user_index, user.nickname, user.profileImg
       FROM friend
       JOIN user ON friend.from_user_index = user.user_index
-      WHERE friend.to_user_index = ${user_idx} AND friend.are_we_friend = 0;
+      WHERE friend.to_user_index = ${user_index} AND friend.are_we_friend = 0;
       `,
       (err, rows) => {
         if (err) reject(err);
@@ -117,20 +117,20 @@ exports.userSearch = (keyword) => {
   });
 };
 
-exports.friendSearch = (user_idx, keyword) => {
+exports.friendSearch = (user_index, keyword) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `SELECT DISTINCT
         CASE
-            WHEN f.from_user_index = ${user_idx} THEN f.to_user_index
-            WHEN f.to_user_index = ${user_idx} THEN f.from_user_index
+            WHEN f.from_user_index = ${user_index} THEN f.to_user_index
+            WHEN f.to_user_index = ${user_index} THEN f.from_user_index
         END AS user_index,
         u.nickname,
         u.profileImg
       FROM friend f
        JOIN user u ON ((f.from_user_index = u.user_index OR f.to_user_index = u.user_index) AND f.from_user_index IS NOT NULL)
       WHERE (u.nickname LIKE '${keyword}%' OR u.email LIKE '${keyword}%')
-      AND f.are_we_friend = 1 AND u.user_index != ${user_idx};;
+      AND f.are_we_friend = 1 AND u.user_index != ${user_index};;
       `,
       (err, rows) => {
         if (err) reject(err);
@@ -174,12 +174,12 @@ exports.userFriendList = (userId) => {
 };
 
 //친구 차단 API 쿼리
-exports.breakFriend = (user_idx, friend_idx) => {
+exports.breakFriend = (user_index, friend_index) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `UPDATE friend
     SET isblocked = 1
-    WHERE (from_user_index = ${user_idx} AND to_user_index = ${friend_idx}) OR (from_user_index = ${friend_idx} AND to_user_index = ${user_idx});
+    WHERE (from_user_index = ${user_index} AND to_user_index = ${friend_index}) OR (from_user_index = ${friend_index} AND to_user_index = ${user_index});
     `,
       (err, rows) => {
         if (err) reject(err);
@@ -189,11 +189,11 @@ exports.breakFriend = (user_idx, friend_idx) => {
   });
 };
 
-exports.unFriend = (user_idx, friend_idx) => {
+exports.unFriend = (user_index, friend_index) => {
   return new Promise((resolve, reject) => {
     mysqlConnection.query(
       `DELETE FROM friend
-       WHERE ((from_user_index = ${user_idx} AND to_user_index = ${friend_idx}) OR (from_user_index = ${friend_idx} AND to_user_index = ${user_idx}))
+       WHERE ((from_user_index = ${user_index} AND to_user_index = ${friend_index}) OR (from_user_index = ${friend_index} AND to_user_index = ${user_index}))
        AND are_we_friend = 1;
       `,
       (err, rows) => {

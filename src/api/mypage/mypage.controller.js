@@ -1,7 +1,7 @@
 const mypageService = require("./mypage.service");
 
 //접속중인 사용자가 인덱스가 friend_idx인 유저에게 친구요청을 보낸다.
-exports.sendFriendRequest = async (req, res) => {
+exports.sendFriendRequest = async (req, res, next) => {
   const user_idx = Number(req.params.uid);
 
   const { friend_idx } = req.body;
@@ -11,7 +11,7 @@ exports.sendFriendRequest = async (req, res) => {
     (user_idx === null && friend_idx === null)
   ) {
     res.status(400).json({
-      error: "user_idx 또는 friend_idx 값이 없거나 int 자료형이 아닙니다.",
+      error: "user_index 또는 friend_index 값이 없거나 int 자료형이 아닙니다.",
     });
     return;
   }
@@ -19,13 +19,12 @@ exports.sendFriendRequest = async (req, res) => {
     await mypageService.sendRequestFriend(user_idx, friend_idx);
     res.status(200).json({ message: "친구 요청 성공" });
   } catch (err) {
-    console.log(err);
     next(err);
   }
 };
 
 //친구 요청 취소 API
-exports.cancelFriendRequest = async (req, res) => {
+exports.cancelFriendRequest = async (req, res, next) => {
   const user_idx = Number(req.params.uid);
   const { friend_idx } = req.body;
   if (
@@ -34,7 +33,7 @@ exports.cancelFriendRequest = async (req, res) => {
     (user_idx === null && friend_idx === null)
   ) {
     res.status(400).json({
-      error: "user_idx 또는 friend_idx 값이 없거나 int 자료형이 아닙니다.",
+      error: "user_index 또는 friend_index 값이 없거나 int 자료형이 아닙니다.",
     });
     return;
   }
@@ -42,14 +41,12 @@ exports.cancelFriendRequest = async (req, res) => {
     await mypageService.cancelRequestFriend(user_idx, friend_idx);
     res.status(200).json({ message: "친구 요청 취소 성공" });
   } catch (err) {
-    if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
-
-    console.log(err);
+    next(err);
   }
 };
 
 //친구 요청 수락 API
-exports.acceptFriendRequest = async (req, res) => {
+exports.acceptFriendRequest = async (req, res, next) => {
   const user_idx = Number(req.params.uid);
   const { friend_idx } = req.body;
   if (
@@ -58,7 +55,7 @@ exports.acceptFriendRequest = async (req, res) => {
     (user_idx === null && friend_idx === null)
   ) {
     res.status(400).json({
-      error: "user_idx 또는 friend_idx 값이 없거나 int 자료형이 아닙니다.",
+      error: "user_index 또는 friend_index 값이 없거나 int 자료형이 아닙니다.",
     });
     return;
   }
@@ -66,14 +63,12 @@ exports.acceptFriendRequest = async (req, res) => {
     await mypageService.acceptRequestFriend(user_idx, friend_idx);
     res.status(200).json({ message: "친구 요청 수락 성공" });
   } catch (err) {
-    if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
-
-    console.log(err);
+    next(err);
   }
 };
 
 //친구 요청 거절 API
-exports.rejectFriendRequest = async (req, res) => {
+exports.rejectFriendRequest = async (req, res, next) => {
   const user_idx = Number(req.params.uid);
   const { friend_idx } = req.body;
   if (
@@ -82,7 +77,7 @@ exports.rejectFriendRequest = async (req, res) => {
     (user_idx === null && friend_idx === null)
   ) {
     res.status(400).json({
-      error: "user_idx 또는 friend_idx 값이 없거나 int 자료형이 아닙니다.",
+      error: "user_index 또는 friend_index 값이 없거나 int 자료형이 아닙니다.",
     });
     return;
   }
@@ -90,18 +85,16 @@ exports.rejectFriendRequest = async (req, res) => {
     await mypageService.rejectRequestFriend(user_idx, friend_idx);
     res.status(200).json({ message: "친구 요청 거절 성공" });
   } catch (err) {
-    if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
-
-    console.log(err);
+    next(err);
   }
 };
 
 //내가 받은 친구 요청 목록 조회 API
-exports.getFriendRecieveList = async (req, res) => {
+exports.getFriendRecieveList = async (req, res, next) => {
   const user_idx = Number(req.params.uid);
   if (typeof user_idx !== "number" || user_idx === null) {
     res.status(400).json({
-      error: "user_idx 값이 없거나 int 자료형이 아닙니다.",
+      error: "user_index 값이 없거나 int 자료형이 아닙니다.",
     });
     return;
   }
@@ -111,18 +104,16 @@ exports.getFriendRecieveList = async (req, res) => {
       .status(200)
       .json({ message: "받은 친구 요청 목록 조회 성공", data: result });
   } catch (err) {
-    if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
-
-    console.log(err);
+    next(err);
   }
 };
 
 //내가 보낸 친구 요청 목록 조회 API
-exports.getFriendRequestList = async (req, res) => {
+exports.getFriendRequestList = async (req, res, next) => {
   const user_idx = Number(req.params.uid);
   if (typeof user_idx !== "number" || user_idx === null) {
     res.status(400).json({
-      error: "user_idx 값이 없거나 int 자료형이 아닙니다.",
+      error: "user_index 값이 없거나 int 자료형이 아닙니다.",
     });
     return;
   }
@@ -132,14 +123,12 @@ exports.getFriendRequestList = async (req, res) => {
       .status(200)
       .json({ message: "보낸 친구 요청 목록 조회 성공", data: result });
   } catch (err) {
-    if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
-
-    console.log(err);
+    next(err);
   }
 };
 
 //검색한 keyword로 시작하는 email,nickname을 가진 유저들 반환,
-exports.userSearch = async (req, res) => {
+exports.userSearch = async (req, res, next) => {
   const keyword = req.query.keyword;
   console.log("작동");
   if (typeof keyword !== "string" || keyword === null) {
@@ -150,13 +139,12 @@ exports.userSearch = async (req, res) => {
     const userList = await mypageService.userSearch(keyword);
     res.status(200).send({ message: "유저 검색 성공", data: userList });
   } catch (err) {
-    if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
-    console.log(err);
+    next(err);
   }
 };
 
 //친구 검색 api
-exports.friendSearch = async (req, res) => {
+exports.friendSearch = async (req, res, next) => {
   const user_idx = Number(req.params.uid);
   const keyword = req.query.keyword;
 
@@ -168,13 +156,12 @@ exports.friendSearch = async (req, res) => {
     const friendList = await mypageService.friendSearch(user_idx, keyword);
     res.status(200).json({ message: "친구 검색 성공", data: friendList });
   } catch (err) {
-    if (err.sqlMessage) res.status(400).json({ error: err.sqlMessage });
-    console.log(err);
+    next(err);
   }
 };
 
 //친구 목록 가져오기 API
-exports.friendList = async (req, res) => {
+exports.friendList = async (req, res, next) => {
   const user_idx = Number(req.params.uid);
   if (typeof user_idx !== "number" || user_idx === null) {
     res.status(400).json({ error: "uid 값이 없거나 int형이 아닙니다." });
@@ -185,7 +172,7 @@ exports.friendList = async (req, res) => {
 
     res.status(200).json({ message: "친구 목록 조회 성공", data: friends });
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 };
 
@@ -200,7 +187,7 @@ exports.friendBreak = async (req, res) => {
     friend_idx === null
   ) {
     res.status(400).json({
-      error: "user_idx,friend_idx가 값이 없거나 int 자료형이 아닙니다.",
+      error: "user_index,friend_idx가 값이 없거나 int 자료형이 아닙니다.",
     });
     return;
   }
@@ -215,7 +202,7 @@ exports.friendBreak = async (req, res) => {
 };
 
 //친구 끊기 API
-exports.unFriend = async (req, res) => {
+exports.unFriend = async (req, res, next) => {
   const user_idx = Number(req.params.uid);
   const { friend_idx } = req.body;
   if (
@@ -225,7 +212,7 @@ exports.unFriend = async (req, res) => {
     friend_idx === null
   ) {
     res.status(400).json({
-      error: "user_idx,friend_idx가 값이 없거나 int 자료형이 아닙니다.",
+      error: "user_index,friend_idx가 값이 없거나 int 자료형이 아닙니다.",
     });
     return;
   }
@@ -233,8 +220,8 @@ exports.unFriend = async (req, res) => {
     await mypageService.unFriend(user_idx, friend_idx);
     res.status(200).json({ message: "친구 끊기(삭제) 성공" });
   } catch (err) {
-    if (err.sqlMessage) res.status(400).json({ message: err.sqlMessage });
     console.log(err);
+    next(err);
   }
 };
 
