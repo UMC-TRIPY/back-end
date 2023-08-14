@@ -7,7 +7,7 @@ exports.getUserTravelPlan = async function(req,res) {
     try{
       const uid = req.params.uid;
       if (!uid) {
-        return res.status(400).json({ error: "plan 인덱스를 확인해주세요." });
+        return res.status(400).json({ error: "user 인덱스를 확인해주세요." });
       }
       const result = await travelBagService.getUserTravelPlan(uid);
       return res.status(200).json(result);

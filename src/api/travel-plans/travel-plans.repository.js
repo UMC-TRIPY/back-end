@@ -114,24 +114,26 @@ exports.getFriendTravelPlan = (uid) => {
 }; 
 
 //일정에 친구 초대 기능 API
-exports.postFriendTravelPlan = (pid,rid) => {
+exports.postFriendTravelPlan = (pid, rid) => {
   return new Promise((resolve, reject) => {
       connection.query(
-                  `
-                  INSERT INTO plan_friend(plan_index, relation_index)
-                  VALUE(?,?)
-                  `,
-                  [pid, rid],
-      (err,result) => {
-      if(err){
-           reject(err);
-       }else {
-          resolve(result);
-      }
-      }
+          `
+          INSERT INTO plan_friend (plan_index, relation_index)
+          SELECT ?, f.relation_index
+          FROM friend f
+          WHERE f.relation_index = ?
+          `,
+          [pid, rid],
+          (err, result) => {
+              if (err) {
+                  reject(err);
+              } else {
+                  resolve(result);
+              }
+          }
       );
   });
-}; 
+};
 
 //상세 일정 추가 기능 API
 exports.postUserDetailedPlan = (pid, plan_date, plan_color, plan_title, start_time, end_time, plan_place, plan_budget, plan_memo, plan_image, plan_file) =>{

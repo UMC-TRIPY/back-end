@@ -119,52 +119,19 @@ exports.deleteUser = async (uid) => {
   }
 };
 
-// profile Img 등록 API
-exports.saveProfileImage = async (uid, profileImg) => {
-  try {
-    await mypageRepository.saveProfileImage(uid, profileImg);
-    return;
-  } catch (err) {
-    throw err;
-  }
-};
 
-//profile Img 삭제 API
-exports.deleteProfileImage = async (uid) => {
-  try {
-    await mypageRepository.deleteProfileImage(uid);
-    return;
-  } catch (err) {
-    throw err;
-  }
-};
+//프로필Img 국적 수정 API
+exports.updateUserInfo = async (uid,profileImg,nationality) => {
+  try{
+    const updateUserInfo = await mypageRepository.updateUserInfo(
+      uid,
+      profileImg,
+      nationality
+    );
 
-// 국적 등록  API
-exports.saveNationality = async (uid, nationality) => {
-  try {
-    await mypageRepository.saveNationality(uid, nationality);
-    return;
-  } catch (err) {
-    throw err;
-  }
-};
-
-// 국적 수정 API
-exports.updateNationality = async (uid, nationality) => {
-  try {
-    await mypageRepository.updateNationality(uid, nationality);
-    return;
-  } catch (err) {
-    throw err;
-  }
-};
-
-//국적 삭제 API
-exports.deleteNationality = async (uid) => {
-  try {
-    await mypageRepository.deleteNationality(uid);
-    return;
-  } catch (err) {
+    return updateUserInfo;
+  }catch(err){
+    console.error(err);
     throw err;
   }
 };

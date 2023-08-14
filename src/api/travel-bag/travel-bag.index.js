@@ -493,50 +493,6 @@ router.delete('/bag/material/:mid',travelBagController.deleteBagMaterial);
  */
 router.post('/material/check/:bid/:mid',travelBagController.MaterialCheck);
 
-//가방 준비물 체크박스 체크 취소 기능 API
-/**
- * @swagger
- * /api/travel-bag/material/check/{bid}/{mid}:
- *   delete:
- *     summary: "가방 준비물 체크취소"
- *     description: "특정 가방 준비물의 체크 상태를 취소하는 API"
- *     tags: [Travel-Bag]
- *     parameters:
- *       - in: path
- *         name: bid
- *         required: true
- *         description: 가방 인덱스
- *         schema:
- *           type: number
- *       - in: path
- *         name: mid
- *         required: true
- *         description: 준비물 인덱스
- *         schema:
- *           type: number
- *     responses:
- *       "200":
- *         description: 가방 준비물 체크취소가 성공한 경우
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: "가방 내부에 준비물 체크취소"
- *       "400":
- *         description: 잘못된 요청 또는 값이 들어온 경우
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: "bag 인덱스를 확인해주세요."
- */
-router.delete('/material/check/:bid/:mid',travelBagController.deleteMaterialCheck);
 
 
 //일정에 해당하는 가방 리스트 불러오기 API

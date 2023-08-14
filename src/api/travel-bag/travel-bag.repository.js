@@ -244,7 +244,8 @@ exports.MaterialCheck = (bid,mid) =>{
         connection.query(
                     `
                     UPDATE bag_materials
-                    SET check_box = 1
+                    SET check_box = 
+                    CASE WHEN check_box =1 THEN 0 ELSE 1 END
                     WHERE bag_index =? and materials_index = ?
                     `,
                     [bid,mid],
@@ -259,26 +260,7 @@ exports.MaterialCheck = (bid,mid) =>{
     });
 };
 
-//가방 준비물 체크박스 취소 기능 API
-exports.deleteMaterialCheck = (bid,mid) =>{
-    return new Promise((resolve,reject) =>{
-        connection.query(
-                    `
-                    UPDATE bag_materials
-                    SET check_box = 0
-                    WHERE bag_index =? and materials_index = ?
-                    `,
-                    [bid,mid],
-        (err,result) => {
-            if(err){
-                reject(err);
-            }else{
-                resolve(result);
-            }
-        }
-        );
-    });
-};
+
 
 //일정에 해당하는 가방 리스트 불러오기 API
 exports.getUserPlanBag = (pid) =>{

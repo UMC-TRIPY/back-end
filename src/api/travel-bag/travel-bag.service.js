@@ -103,15 +103,7 @@ exports.MaterialCheck = async(bid,mid) =>{
     }
 };
 
-//가방 준비물 체크박스 체크 취소 API
-exports.deleteMaterialCheck = async(bid,mid) =>{
-    try{
-        const result = await travelBagRepository.deleteMaterialCheck(bid,mid);
-        return result;
-    }catch(err){
-        throw err;
-    }
-};
+
 
 //일정에 해당하는 모든 가방 불러오기 API
 exports.getUserPlanBag = async(pid) =>{
