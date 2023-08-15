@@ -126,3 +126,15 @@ exports.logout = async (token) => {
     }
   });
 };
+
+exports.setNickname = async (user_index, nickname) => {
+  return new Promise((resolve, reject) => {
+    mysqlConnection.query(
+      `UPDATE user SET nickname = "${nickname}" WHERE user_index = ${user_index}`,
+      (err, rows) => {
+        if (err) reject(err);
+        resolve(rows);
+      }
+    );
+  });
+};

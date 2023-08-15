@@ -23,7 +23,7 @@ const authController = require("./auth.controller");
  *        headers:
  *          Set-Cookie:
  *             type: string
- *             description: "로그인 성공 시 쿠키에 refresh token 설정"
+ *             description: "로그인 성공 시 쿠키에 refresh token 설정, 신규 유저면 newUser값이 true입니다."
  *        content:
  *          application/json:
  *            schema:
@@ -32,12 +32,15 @@ const authController = require("./auth.controller");
  *                success:
  *                  type: string
  *                  example: true
- *                uid:
- *                  type: integer
- *                  example: 11
+ *                user:
+ *                  type: object
+ *                  example: [{user_index,newUser,email,nickname,profileImg}]
  *                access_token:
  *                  type: string
  *                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTEyNTAxNTMsImV4cCI6MTY5MjQ1OTc1MywiaXNzIjoiY3N5In0.2pMuLck04hEP9rUj7Wm1nzeVXpfL_e0qyGjvbSIEWpk
+ *                refresh_token:
+ *                  type: string
+ *                  example: eyThNGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTEyNTAxNTMsImV4cCI6MTY5MjQ1OTc1MywiaXNzIjoiY3N5In0.2pMuLck04hEP9rUj7Wm1nzeVXpfL_e0qyGjvbSIEWpk
  *      "401":
  *        description: 로그인 실패
  *        content:
@@ -82,12 +85,15 @@ router.get("/code", authController.getAccessCode);
  *                success:
  *                  type: string
  *                  example: true
- *                uid:
- *                  type: integer
- *                  example: 11
+ *                user:
+ *                  type: object
+ *                  example: [{user_index,newUser,email,nickname,profileImg}]
  *                access_token:
  *                  type: string
  *                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTEyNTAxNTMsImV4cCI6MTY5MjQ1OTc1MywiaXNzIjoiY3N5In0.2pMuLck04hEP9rUj7Wm1nzeVXpfL_e0qyGjvbSIEWpk
+ *                refresh_token:
+ *                  type: string
+ *                  example: eyThNGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTEyNTAxNTMsImV4cCI6MTY5MjQ1OTc1MywiaXNzIjoiY3N5In0.2pMuLck04hEP9rUj7Wm1nzeVXpfL_e0qyGjvbSIEWpk
  *      "401":
  *        description: 로그인 실패
  *        content:
@@ -234,4 +240,55 @@ router.post("/refresh", refresh);
  *                  example: "refresh_token이 없습니다."
  */
 router.post("/logout", authController.logout);
+
+/**
+ * @swagger
+ * /api/auth/nickname:
+ *   post:
+ *    summary: "닉네임 설정"
+ *    description: "닉네임 설정"
+ *    tags: [Auth]
+ *    requestBody:
+ *      description: user_index,nickname
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              user_index:
+ *                type: number
+ *                example: 1
+ *              nickname:
+ *                type: string
+ *                example: tripy
+ *    responses:
+ *      "200":
+ *        description: 성공
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                  example: true
+ *                message:
+ *                  type: string
+ *                  example: "닉네임 설정 성공"
+ *      "400":
+ *        description: user_index 또는 nickname 값이 없습니다.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                success:
+ *                  type: boolean
+ *                  example: false
+ *                message:
+ *                  type: string
+ *                  example: "nickname 또는 user_index값이 없습니다."
+ */
+router.post("/nickname", authController.setNickname);
 module.exports = router;

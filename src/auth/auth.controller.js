@@ -172,3 +172,20 @@ exports.logout = async (req, res) => {
     console.log(err);
   }
 };
+
+exports.setNickname = async (req, res, next) => {
+  const { nickname } = req.body;
+  const { user_index } = req.body;
+  if (!nickname || !user_index) {
+    return res.status(400).json({
+      success: false,
+      message: "nickname 또는 user_index값이 없습니다.",
+    });
+  }
+  try {
+    await authService.setNickname(user_index, nickname);
+    return res.status(200).json({ success: true, message: "닉네임 설정 성공" });
+  } catch (err) {
+    next(err);
+  }
+};
