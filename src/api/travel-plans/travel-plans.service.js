@@ -16,7 +16,6 @@ exports.createCityPlan = async (travelPlanId, cityId) => {
     cityId
   );
 };
-const travelPlanRepository = require("./travel-plans.repository");
 
 exports.createTravel = async (userId, departureDate, arrivalDate) => {
   const createdTravelPlanId = await travelPlanRepository.createTravelPlan(

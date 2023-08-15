@@ -13,9 +13,9 @@ exports.createTravelPlan = async (req, res) => {
 
     await travelPlanService.createCityPlan(travelPlanId, cityId);
 
-    res.status(201).send({ message: "여행 계획 등록에 성공하였습니다!" });
+    res.status(201).json({ message: "여행 계획 등록에 성공하였습니다!" });
   } catch (err) {
-    res.status(500).send({ message: "서버 내부 오류" });
+    res.status(500).json({ message: "서버 내부 오류" });
   }
 };
 
@@ -83,9 +83,9 @@ exports.postUserDetailedPlan = async function(req,res){
       plan_image,
       plan_file
     );
-      res.status(200).send({ message: "여행 세부 계획 등록에 성공하였습니다!" });
+      res.status(200).json({ message: "여행 세부 계획 등록에 성공하였습니다!" });
     } catch (err) {
-      res.status(500).send({ message: "서버 내부 오류" });
+      res.status(500).json({ message: "서버 내부 오류" });
   } 
  };
 
@@ -107,9 +107,9 @@ exports.postUserDetailedPlan = async function(req,res){
       plan_image,
       plan_file
     );
-      res.status(200).send({ message: "여행 세부 계획 수정에 성공하였습니다!" });
+      res.status(200).json({ message: "여행 세부 계획 수정에 성공하였습니다!" });
     } catch (err) {
-      res.status(500).send({ message: "서버 내부 오류" });
+      res.status(500).json({ message: "서버 내부 오류" });
   } 
  };
 

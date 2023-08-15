@@ -274,8 +274,8 @@ exports.updateUserInfo = async function(req,res){
       profileImg,
       nationality
     );
-      res.status(200).send({ message: "유저 정보 수정에 성공하였습니다!" });
+      res.status(200).json({ message: "유저 정보 수정에 성공하였습니다!" });
     } catch (err) {
-      res.status(500).send({ message: "서버 내부 오류" });
+      res.status(500).json({ message: "서버 내부 오류" });
   } 
  };
