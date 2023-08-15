@@ -62,8 +62,32 @@ exports.createPost = async (req, res) => {
     const createdPost = await postService.getPostWithTitle(post_title);
 
     await postService.createPostTags(createdPost.post_index, tags);
+  } catch (error) {
+    throw error;
+  }
+};
 
-    await postService;
+exports.updatePost = async (req, res) => {
+  try {
+    const {
+      user_index,
+      post_title,
+      post_content,
+      city_index,
+      tags,
+      post_image,
+      post_file,
+      plan_index,
+    } = req.body;
+
+    await postService.updatePost(
+      post_index,
+      user_index,
+      post_title,
+      post_content,
+      city_index,
+      plan_index
+    );
   } catch (error) {
     throw error;
   }

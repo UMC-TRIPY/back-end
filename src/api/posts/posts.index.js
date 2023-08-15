@@ -127,6 +127,8 @@ router.get("/:post_index", postController.getPost);
 
 router.post("/", postController.createPost);
 
+router.put("/", postController.updatePost);
+
 //기능명세서2.4 커뮤니티 인기글 목록 조회 API -> 추천수 상위 10개를 가져온다.
 router.get("/popular", postController.getPopularPosts);
 module.exports = router;

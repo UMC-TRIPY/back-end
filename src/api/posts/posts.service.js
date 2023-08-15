@@ -44,6 +44,24 @@ exports.createPost = async (
   );
 };
 
+exports.updatePost = async (
+  post_index,
+  user_index,
+  post_title,
+  post_content,
+  city_index,
+  plan_index
+) => {
+  await postRepository.updatePost(
+    post_index,
+    user_index,
+    post_title,
+    post_content,
+    city_index,
+    plan_index
+  );
+};
+
 exports.getPostWithTitle = async (post_title) => {
   const post = await postRepository.getPostWithTitle(post_title);
   return post;

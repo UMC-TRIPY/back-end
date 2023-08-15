@@ -123,6 +123,30 @@ exports.createPost = async (
   });
 };
 
+exports.updatePost = async (
+  post_index,
+  user_index,
+  post_title,
+  post_content,
+  city_index,
+  plan_index
+) => {
+  const query = `UPDATE tag
+  SET user_index = ${user_index}, post_title = ${post_title}, post_content = ${post_content}, city_index = ${city_index}, plan_index = ${plan_index}
+  WHERE post_index = ${post_index};
+  `;
+
+  const result = await new Promise((resolve, reject) => {
+    connection.query(query, (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
+
 exports.createPostTags = async (postId, tagId) => {
   const query = `INSERT INTO post_tag (post_index, tag_index) VALUES (${postId}, ${tagId})`;
 
