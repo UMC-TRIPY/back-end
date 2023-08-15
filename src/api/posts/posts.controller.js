@@ -4,7 +4,6 @@ exports.getPosts = async (req, res) => {
   try {
     const { tags, page, pageSize, nameQuery, orderField, orderDirection } =
       req.query;
-    console.log(req.query);
 
     const tagsStr = tags.join();
     const tagCount = tags.length;
@@ -24,6 +23,18 @@ exports.getPosts = async (req, res) => {
   } catch (err) {
     console.log(err);
     throw err;
+  }
+};
+
+exports.getPost = async (req, res) => {
+  try {
+    const { post_index } = req.params;
+
+    const post = await postService.getPost(post_index);
+
+    res.send(post);
+  } catch (err) {
+    res.send(err);
   }
 };
 

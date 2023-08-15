@@ -61,6 +61,27 @@ exports.getPosts = async (
   }
 };
 
+exports.getPost = async (postId) => {
+  try {
+    const query = `SELECT * FROM post WHERE post_index = ${postId}`;
+
+    const result = await new Promise((resolve, reject) => {
+      console.log(query);
+      connection.query(query, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+
+    return result;
+  } catch (err) {
+    throw err;
+  }
+};
+
 //나라 이름은 어떻게 가져오지?
 exports.getPopularPosts = async () => {
   return new Promise((resolve, reject) => {

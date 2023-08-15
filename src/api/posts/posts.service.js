@@ -22,6 +22,11 @@ exports.getPosts = async (
   return postList;
 };
 
+exports.getPost = async (post_index) => {
+  const post = await postRepository.getPost(post_index);
+  return post;
+};
+
 exports.getPopularPosts = async () => {
   const postList = await postRepository.getPopularPosts();
   return postList;

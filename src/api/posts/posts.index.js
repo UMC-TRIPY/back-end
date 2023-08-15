@@ -5,7 +5,7 @@ const postController = require("./posts.controller");
  * @swagger
  * /api/posts:
  *   get:
- *    description: "게시물 조회"
+ *    description: "게시물 검색"
  *    tags: [Posts]
  *    parameters:
  *       - in: query
@@ -77,6 +77,53 @@ const postController = require("./posts.controller");
  */
 
 router.get("/", postController.getPosts);
+
+/**
+ * @swagger
+ * /api/posts/{post_index}:
+ *   get:
+ *    description: "게시물 조회"
+ *    tags: [Posts]
+ *    parameters:
+ *       - in: path
+ *         name: post_index
+ *         required: true
+ *         description: 게시물 index
+ *         schema:
+ *           type: integer
+ *
+ *    responses:
+ *      "200":
+ *        description: "게시물 조회 성공"
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                statusCode:
+ *                  type: number
+ *                message:
+ *                  type: string
+ *                  example: "게시물 조회 성공"
+ *                post:
+ *                  type: object
+ *                  properties:
+ *
+ *      "400":
+ *        description: 요청 값이 없거나 형식에 맞지 않습니다.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                statusCode:
+ *                  type: number
+ *                message:
+ *                  type: string
+ *
+ */
+
+router.get("/:post_index", postController.getPost);
 
 //기능명세서2.4 커뮤니티 인기글 목록 조회 API -> 추천수 상위 10개를 가져온다.
 router.get("/popular", postController.getPopularPosts);
