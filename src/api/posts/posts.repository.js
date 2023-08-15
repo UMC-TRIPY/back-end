@@ -82,6 +82,61 @@ exports.getPost = async (postId) => {
   }
 };
 
+exports.getPostWithTitle = async (postTitle) => {
+  try {
+    const query = `SELECT * FROM post WHERE post_title = ${postTitle}`;
+
+    const result = await new Promise((resolve, reject) => {
+      console.log(query);
+      connection.query(query, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+
+    return result;
+  } catch (err) {
+    throw err;
+  }
+};
+
+exports.createPost = async (
+  user_index,
+  post_title,
+  post_content,
+  city_index,
+  plan_index
+) => {
+  const query = `INSERT INTO post (user_index, post_title, post_content, city_index, plan_index) VALUES (${user_index}, ${post_title}, ${post_content}, ${city_index}, ${plan_index})`;
+
+  const result = await new Promise((resolve, reject) => {
+    connection.query(query, (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
+
+exports.createPostTags = async (postId, tagId) => {
+  const query = `INSERT INTO post_tag (post_index, tag_index) VALUES (${postId}, ${tagId})`;
+
+  const result = await new Promise((resolve, reject) => {
+    connection.query(query, (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
+
 //나라 이름은 어떻게 가져오지?
 exports.getPopularPosts = async () => {
   return new Promise((resolve, reject) => {

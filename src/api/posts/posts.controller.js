@@ -38,6 +38,37 @@ exports.getPost = async (req, res) => {
   }
 };
 
+exports.createPost = async (req, res) => {
+  try {
+    const {
+      user_index,
+      post_title,
+      post_content,
+      city_index,
+      tags,
+      post_image,
+      post_file,
+      plan_index,
+    } = req.body;
+
+    await postService.createPost(
+      user_index,
+      post_title,
+      post_content,
+      city_index,
+      plan_index
+    );
+
+    const createdPost = await postService.getPostWithTitle(post_title);
+
+    await postService.createPostTags(createdPost.post_index, tags);
+
+    await postService;
+  } catch (error) {
+    throw error;
+  }
+};
+
 exports.getPopularPosts = async (req, res) => {
   try {
     const postList = await postService.getPopularPosts();
