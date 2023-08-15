@@ -94,6 +94,12 @@ exports.updatePost = async (req, res) => {
   }
 };
 
+exports.deletePost = async (req, res) => {
+  const { post_index } = req.params;
+
+  await postService.deletePost(post_index);
+};
+
 exports.getPopularPosts = async (req, res) => {
   try {
     const postList = await postService.getPopularPosts();

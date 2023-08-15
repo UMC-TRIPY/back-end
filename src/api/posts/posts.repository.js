@@ -147,6 +147,20 @@ exports.updatePost = async (
   });
 };
 
+exports.deletePost = async (post_index) => {
+  const query = `DELETE FROM post
+  WHERE post_index = ${post_index};
+  `;
+
+  connection.query(query, (err, result) => {
+    if (err) {
+      reject(err);
+    } else {
+      resolve(result);
+    }
+  });
+};
+
 exports.createPostTags = async (postId, tagId) => {
   const query = `INSERT INTO post_tag (post_index, tag_index) VALUES (${postId}, ${tagId})`;
 

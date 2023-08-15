@@ -62,6 +62,10 @@ exports.updatePost = async (
   );
 };
 
+exports.deletePost = async (post_index) => {
+  await postRepository.deletePost(post_index);
+};
+
 exports.getPostWithTitle = async (post_title) => {
   const post = await postRepository.getPostWithTitle(post_title);
   return post;
