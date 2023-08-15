@@ -70,6 +70,7 @@ exports.createPost = async (req, res) => {
 exports.updatePost = async (req, res) => {
   try {
     const {
+      post_index,
       user_index,
       post_title,
       post_content,
