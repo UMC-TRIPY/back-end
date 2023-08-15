@@ -240,84 +240,18 @@ exports.deleteUser = (uid) => {
   });
 };
 
-//profile 이미지 등록 API
-exports.saveProfileImage = (uid, profileImg) => {
-  return new Promise((resolve, reject) => {
-    mysqlConnection.query(
-      `UPDATE user 
-   SET profileImg = ? 
-   WHERE user_index= ?`,
-      [profileImg, uid],
-      (err, result) => {
-        if (err) reject(err);
-        resolve(true);
-      }
-    );
-  });
-};
-
-//Profile 이미지 삭제 API
-exports.deleteProfileImage = (uid) => {
-  return new Promise((resolve, reject) => {
-    mysqlConnection.query(
-      `UPDATE user 
-           SET profileImg = NULL
-           WHERE user_index = ${uid}
-           `,
-      (err, result) => {
-        if (err) reject(err);
-        resolve(true);
-      }
-    );
-  });
-};
-
-// 국적 등록 API
-exports.saveNationality = (uid, nationality) => {
-  return new Promise((resolve, reject) => {
-    mysqlConnection.query(
-      `
-                  UPDATE user 
-                  SET nationality = ? 
-                  WHERE user_index = ?`,
-      [nationality, uid],
-      (err, result) => {
-        if (err) reject(err);
-        resolve(true);
-      }
-    );
-  });
-};
-
-//국적 수정 API
-exports.updateNationality = (uid, nationality) => {
-  return new Promise((resolve, reject) => {
+//프로필Img 국적 수정 API
+exports.updateUserInfo = (uid,profileImg,nationality) => {
+  return new Promise((resolve,reject) => {
     mysqlConnection.query(
       `UPDATE user
-           SET nationality = ?
-           WHERE user_index = ?
-           `,
-      [nationality, uid],
-      (err, result) => {
-        if (err) reject(err);
-        resolve(true);
-      }
-    );
-  });
-};
-
-//국적 삭제 API
-exports.deleteNationality = (uid) => {
-  return new Promise((resolve, reject) => {
-    mysqlConnection.query(
-      `UPDATE user
-           SET nationality = NULL
-           WHERE user_index = ${uid}
-           `,
-      (err, result) => {
-        if (err) reject(err);
-
-        resolve(true);
+          SET nationality = ?, profileImg = ? 
+          WHERE user_index = ? 
+          `,
+          [nationality, profileImg, uid],
+       (err, result) => {
+         if (err) reject(err);
+         resolve(true);
       }
     );
   });

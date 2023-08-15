@@ -264,85 +264,18 @@ exports.deleteUser = async function (req, res) {
   }
 };
 
-//profile img 등록 API
-exports.saveProfileImage = async (req, res) => {
-  const uid = req.params.uid;
-  const profileImg = req.body.profileImg;
-  try {
-    const result = await mypageService.saveProfileImage(uid, profileImg);
-    if (uid) {
-      res.json({ success: true, message: "프로필 URL이 업데이트되었습니다." });
-    } else {
-      res.status(404).json({ error: "사용자를 찾을 수 없습니다." });
-    }
-  } catch (err) {
-    res.status(500).json({ error: "API 호출 실패" });
-    console.log(err);
-  }
-};
-
-//Profile Img 삭제 API
-exports.deleteProfileImage = async (req, res) => {
-  try {
-    const uid = req.params.uid;
-
-    if (!uid) {
-      return res.status(400).json({ error: "user index 입력" });
-    }
-    await mypageService.deleteProfileImage(uid);
-    return res.status(200).json({ message: "profile 이미지 삭제" });
-  } catch (err) {
-    res.status(500).json({ error: "API 호출 실패" });
-    console.log(err);
-  }
-};
-
-// 국적 등록 API
-exports.saveNationality = async (req, res) => {
-  const uid = req.params.uid;
-  const nationality = req.body.nationality;
-  try {
-    const result = await mypageService.saveNationality(uid, nationality);
-    if (uid) {
-      res.json({ success: true, message: "국적이 등록되었습니다." });
-    } else {
-      res.status(404).json({ error: "사용자를 찾을 수 없습니다." });
-    }
-  } catch (err) {
-    res.status(500).json({ error: "API 호출 실패" });
-    console.log(err);
-  }
-};
-
-//국적 수정 API
-exports.updateNationality = async (req, res) => {
-  const uid = req.params.uid;
-  const nationality = req.body.nationality;
-  try {
-    const result = await mypageService.updateNationality(uid, nationality);
-    if (uid) {
-      res.json({ success: true, message: "국적이 수정되었습니다." });
-    } else {
-      res.status(404).json({ error: "사용자를 찾을 수 없습니다." });
-    }
-  } catch (err) {
-    res.status(500).json({ error: "API 호출 실패" });
-    console.log(err);
-  }
-};
-
-//국적 삭제 API
-exports.deleteNationality = async (req, res) => {
-  try {
-    const uid = req.params.uid;
-
-    if (!uid) {
-      return res.status(400).json({ error: "user index 입력" });
-    }
-    await mypageService.deleteNationality(uid);
-    return res.status(200).json({ message: " 국적 정보 삭제" });
-  } catch (err) {
-    res.status(500).json({ error: "API 호출 실패" });
-    console.log(err);
-  }
-};
+//프로필Img 국적 수정 API
+exports.updateUserInfo = async function(req,res){
+  try{
+    const uid = req.params.uid; //user_index
+    const {profileImg, nationality} = req.body;
+    await mypageService.updateUserInfo(
+      uid,
+      profileImg,
+      nationality
+    );
+      res.status(200).send({ message: "유저 정보 수정에 성공하였습니다!" });
+    } catch (err) {
+      res.status(500).send({ message: "서버 내부 오류" });
+  } 
+ };
