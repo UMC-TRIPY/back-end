@@ -136,14 +136,14 @@ exports.postFriendTravelPlan = (pid, rid) => {
 };
 
 //상세 일정 추가 기능 API
-exports.postUserDetailedPlan = (pid, plan_date, plan_color, plan_title, start_time, end_time, plan_place, plan_budget, plan_memo, plan_image, plan_file) =>{
+exports.postUserDetailedPlan = (pid, plan_date, plan_color, plan_lindColor, plan_title, plan_column, start_time, plan_halfHour , plan_place, plan_budget, plan_memo, plan_image, plan_file) =>{
   return new Promise((resolve, reject) => {
     connection.query(
                 `
-                INSERT INTO timeplan(traveplan_index, plan_date, plan_color, plan_title, start_time, end_time, plan_place, plan_budget, plan_memo, plan_image, plan_file)
-                VALUE(?,?,?,?,?,?,?,?,?,?,?)
+                INSERT INTO timeplan(traveplan_index, plan_date, plan_color, plan_lindColor, plan_title, plan_column, start_time, plan_halfHour , plan_place, plan_budget, plan_memo, plan_image, plan_file)
+                VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?)
                 `,
-                [pid, plan_date, plan_color, plan_title, start_time, end_time, plan_place, plan_budget, plan_memo, plan_image, plan_file],
+                [pid, plan_date, plan_color, plan_lindColor, plan_title, plan_column, start_time, plan_halfHour , plan_place, plan_budget, plan_memo, plan_image, plan_file],
     (err,result) => {
     if(err){
          reject(err);
@@ -156,15 +156,15 @@ exports.postUserDetailedPlan = (pid, plan_date, plan_color, plan_title, start_ti
 }; 
 
 //상세 일정 수정 기능 API
-exports.putUserDetailedPlan = (tid, plan_date, plan_color, plan_title, start_time, end_time, plan_place, plan_budget, plan_memo, plan_image, plan_file) =>{
+exports.putUserDetailedPlan = (tid, plan_date, plan_color, plan_lindColor, plan_title, plan_column, start_time, plan_halfHour , plan_place, plan_budget, plan_memo, plan_image, plan_file) =>{
   return new Promise((resolve, reject) => {
     connection.query(
                 `
                 UPDATE timeplan
-                SET  plan_date = ?, plan_color = ?, plan_title = ?, start_time = ?, end_time = ?, plan_place = ?, plan_budget = ?, plan_memo = ?, plan_image = ?, plan_file = ?
+                SET  plan_date = ?, plan_color = ?,plan_lindColor =?, plan_title = ?, plan_column =?, start_time = ?, plan_halfHour =? , plan_place = ?, plan_budget = ?, plan_memo = ?, plan_image = ?, plan_file = ?
                 WHERE timeplan_index = ?
                 `,
-      [ plan_date, plan_color, plan_title, start_time, end_time, plan_place, plan_budget, plan_memo, plan_image, plan_file, tid],
+      [ plan_date, plan_color, plan_lindColor, plan_title, plan_column, start_time, plan_halfHour, plan_place, plan_budget, plan_memo, plan_image, plan_file, tid],
     (err,result) => {
     if(err){
          reject(err);
@@ -202,7 +202,7 @@ exports.getUserAllTravelPlan = (pid) =>{
   return new Promise((resolve, reject) => {
     connection.query(
                `
-               SELECT plan_color, plan_date, start_time, end_time, plan_title, plan_memo
+               SELECT plan_date, plan_color,plan_lindColor, start_time, plan_halfHour, plan_title, plan_memo
                FROM timeplan
                WHERE traveplan_index = ${pid}
                `,
@@ -222,7 +222,7 @@ exports.getUserOneTravelPlan = (tid) =>{
   return new Promise((resolve, reject) => {
     connection.query(
                `
-               SELECT plan_date, plan_color, plan_title, start_time, end_time, plan_place, plan_budget, plan_memo, plan_image, plan_file
+               SELECT plan_date, plan_color,plan_lindColor, plan_title, start_time, plan_halfHour, plan_place, plan_budget, plan_memo, plan_image, plan_file
                FROM timeplan
                WHERE timeplan_index = ${tid}
                `,
