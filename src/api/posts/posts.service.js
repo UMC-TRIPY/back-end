@@ -66,17 +66,18 @@ exports.deletePost = async (post_index) => {
   await postRepository.deletePost(post_index);
 };
 
-exports.getPostWithTitle = async (post_title) => {
-  const post = await postRepository.getPostWithTitle(post_title);
+exports.getPostWithTitle = async (post_title, post_content) => {
+  const post = await postRepository.getPostWithTitle(post_title, post_content);
   return post;
 };
 
 exports.createPostTags = async (postId, tags) => {
-  Proisme.all(
+  await Promise.all(
     tags.map(async (tag_name) => {
-      const tag = await tagsService.findOrCreateTag;
+      const tag = await tagsService.findOrCreateTag(tag_name);
+      console.log(tag);
 
-      await postRepository.createPostTags(postId, tag_index);
+      await postRepository.createPostTags(postId, tag.tag_index);
     })
   );
 };

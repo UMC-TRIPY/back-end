@@ -82,13 +82,12 @@ exports.getPost = async (postId) => {
   }
 };
 
-exports.getPostWithTitle = async (postTitle) => {
+exports.getPostWithTitle = async (postTitle, postContent) => {
   try {
-    const query = `SELECT * FROM post WHERE post_title = ${postTitle}`;
+    const query = `SELECT * FROM post WHERE post_title = ? AND post_content = ?`;
 
     const result = await new Promise((resolve, reject) => {
-      console.log(query);
-      connection.query(query, (err, result) => {
+      connection.query(query, [postTitle, postContent], (err, result) => {
         if (err) {
           reject(err);
         } else {
@@ -110,16 +109,20 @@ exports.createPost = async (
   city_index,
   plan_index
 ) => {
-  const query = `INSERT INTO post (user_index, post_title, post_content, city_index, plan_index) VALUES (${user_index}, ${post_title}, ${post_content}, ${city_index}, ${plan_index})`;
+  const query = `INSERT INTO post (user_index, post_title, post_content, city_index, plan_index) VALUES (?,?,?,?,?)`;
 
   const result = await new Promise((resolve, reject) => {
-    connection.query(query, (err, result) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(result);
+    connection.query(
+      query,
+      [user_index, post_title, post_content, city_index, plan_index],
+      (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
       }
-    });
+    );
   });
 };
 
@@ -132,27 +135,38 @@ exports.updatePost = async (
   plan_index
 ) => {
   const query = `UPDATE tag
-  SET user_index = ${user_index}, post_title = ${post_title}, post_content = ${post_content}, city_index = ${city_index}, plan_index = ${plan_index}
-  WHERE post_index = ${post_index};
+  SET user_index = ?, post_title = ?, post_content = ?, city_index = ?, plan_index = ?
+  WHERE post_index = ?;
   `;
 
   const result = await new Promise((resolve, reject) => {
-    connection.query(query, (err, result) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(result);
+    connection.query(
+      query,
+      [
+        user_index,
+        post_title,
+        post_content,
+        city_index,
+        plan_index,
+        post_index,
+      ],
+      (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
       }
-    });
+    );
   });
 };
 
 exports.deletePost = async (post_index) => {
   const query = `DELETE FROM post
-  WHERE post_index = ${post_index};
+  WHERE post_index = ?;
   `;
 
-  connection.query(query, (err, result) => {
+  connection.query(query, [post_index], (err, result) => {
     if (err) {
       reject(err);
     } else {
@@ -162,10 +176,11 @@ exports.deletePost = async (post_index) => {
 };
 
 exports.createPostTags = async (postId, tagId) => {
-  const query = `INSERT INTO post_tag (post_index, tag_index) VALUES (${postId}, ${tagId})`;
+  console.log(tagId);
+  const query = `INSERT INTO post_tag (post_index, tag_index) VALUES (?, ?)`;
 
   const result = await new Promise((resolve, reject) => {
-    connection.query(query, (err, result) => {
+    connection.query(query, [postId, tagId], (err, result) => {
       if (err) {
         reject(err);
       } else {

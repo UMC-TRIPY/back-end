@@ -59,9 +59,16 @@ exports.createPost = async (req, res) => {
       plan_index
     );
 
-    const createdPost = await postService.getPostWithTitle(post_title);
+    console.log(post_content);
+    const createdPost = await postService.getPostWithTitle(
+      post_title,
+      post_content
+    );
+    console.log(createdPost[0]);
 
-    await postService.createPostTags(createdPost.post_index, tags);
+    await postService.createPostTags(createdPost[0].post_index, tags);
+
+    res.send("성공");
   } catch (error) {
     throw error;
   }
