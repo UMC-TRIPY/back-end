@@ -3,6 +3,7 @@ const tagsService = require("../tags/tags.service");
 
 exports.getPosts = async (
   tagsStr,
+  city_index,
   page,
   pageSize,
   tagCount,
@@ -10,8 +11,10 @@ exports.getPosts = async (
   orderField,
   orderDirection
 ) => {
+  console.log(city_index);
   const postList = await postRepository.getPosts(
     tagsStr,
+    city_index,
     page,
     pageSize,
     tagCount,

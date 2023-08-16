@@ -4,6 +4,7 @@ const connection = conn();
 
 exports.getPosts = async (
   tagsStr,
+  city_index,
   page,
   pageSize,
   tagCount,
@@ -18,7 +19,7 @@ exports.getPosts = async (
   let query = `SELECT * FROM post p JOIN post_tag pt ON p.post_index = pt.post_index
   JOIN user u ON p.user_index = u.user_index
   JOIN tag t ON pt.tag_index = t.tag_index
-  WHERE t.tag_name IN ('${tagsStr}')
+  WHERE t.tag_name IN ('${tagsStr}') AND p.city_index = ${city_index}
   GROUP BY p.post_index, p.user_index, p.post_title, p.post_content, p.city_index, p.view, p.thumbs, p.created_at, p.updated_at, pt.tag_index
   HAVING COUNT(DISTINCT t.tag_name) = ${tagCount}
   ORDER BY p.${orderField} ${orderDirection}
@@ -30,7 +31,7 @@ exports.getPosts = async (
     query = `SELECT * FROM post p JOIN post_tag pt ON p.post_index = pt.post_index
     JOIN user u ON p.user_index = u.user_index
     JOIN tag t ON pt.tag_index = t.tag_index
-    WHERE t.tag_name IN ('${tagsStr}') AND p.post_title LIKE ?
+    WHERE t.tag_name IN ('${tagsStr}') AND p.post_title LIKE ? AND p.city_index = ${city_index}
     GROUP BY p.post_index, p.user_index, p.post_title, p.post_content, p.city_index, p.view, p.thumbs, p.created_at, p.updated_at, pt.tag_index
     HAVING COUNT(DISTINCT t.tag_name) = ${tagCount}
     ORDER BY p.${orderField} ${orderDirection}

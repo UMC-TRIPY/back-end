@@ -17,6 +17,12 @@ const postController = require("./posts.controller");
  *           items:
  *             type: string
  *       - in: query
+ *         name: city_index
+ *         required: false
+ *         description: 도시 index
+ *         schema:
+ *           type: integer
+ *       - in: query
  *         name: page
  *         required: false
  *         description: 페이지 번호

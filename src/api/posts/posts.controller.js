@@ -2,14 +2,24 @@ const postService = require("./posts.service");
 
 exports.getPosts = async (req, res) => {
   try {
-    const { tags, page, pageSize, nameQuery, orderField, orderDirection } =
-      req.query;
+    const {
+      tags,
+      city_index,
+      page,
+      pageSize,
+      nameQuery,
+      orderField,
+      orderDirection,
+    } = req.query;
+
+    console.log(tags);
 
     const tagsStr = tags.join();
     const tagCount = tags.length;
 
     const postList = await postService.getPosts(
       tagsStr,
+      city_index,
       page,
       pageSize,
       tagCount,
