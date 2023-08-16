@@ -65,15 +65,17 @@ exports.postFriendTravelPlan = async(pid,rid) =>{
 }
 
 //세부일정 등록 API
-exports.postUserDetailedPlan = async (pid, plan_date, plan_color, plan_title, start_time, end_time, plan_place, plan_budget,plan_memo,plan_image,plan_file) => {
+exports.postUserDetailedPlan = async (pid, plan_date, plan_color, plan_lindColor, plan_title, plan_column, start_time, plan_halfHour , plan_place, plan_budget, plan_memo, plan_image, plan_file) => {
   try{
     const detailedplan= await travelPlanRepository.postUserDetailedPlan(
       pid,
       plan_date,
-      plan_color, 
-      plan_title, 
+      plan_color,
+      plan_lindColor, 
+      plan_title,
+      plan_column, 
       start_time, 
-      end_time, 
+      plan_halfHour, 
       plan_place, 
       plan_budget,
       plan_memo,
@@ -89,15 +91,17 @@ exports.postUserDetailedPlan = async (pid, plan_date, plan_color, plan_title, st
 };
 
 //상세 일정 수정 API
-exports.putUserDetailedPlan = async (tid, plan_date, plan_color, plan_title, start_time, end_time, plan_place, plan_budget,plan_memo,plan_image,plan_file) => {
+exports.putUserDetailedPlan = async (tid,plan_date, plan_color, plan_lindColor, plan_title, plan_column, start_time, plan_halfHour , plan_place, plan_budget, plan_memo, plan_image, plan_file) => {
   try{
     const detailedplan= await travelPlanRepository.putUserDetailedPlan(
       tid,
       plan_date,
-      plan_color, 
-      plan_title, 
+      plan_color,
+      plan_lindColor, 
+      plan_title,
+      plan_column, 
       start_time, 
-      end_time, 
+      plan_halfHour, 
       plan_place, 
       plan_budget,
       plan_memo,

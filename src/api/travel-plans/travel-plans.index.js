@@ -296,20 +296,27 @@ router.post('/user/plans/friend/:pid',travelPlanController.postFriendTravelPlan)
  *                 type: string
  *                 description: 상세 일정 색상
  *                 example: "1"
+ *               plan_lindColor:
+ *                 type: string
+ *                 description: plan line color
+ *                 example: "1"
  *               plan_title:
  *                 type: string
  *                 description: 상세 일정 제목
  *                 example: "맛집 탐방"
+ *               plan_column:
+ *                 type: number
+ *                 description: column
+ *                 example: "3"
  *               start_time:
  *                 type: number
  *                 format: time
  *                 description: 시작 시간
  *                 example: "09:00:00"
- *               end_time:
+ *               plan_halfHour:
  *                 type: number
- *                 format: time
- *                 description: 종료 시간
- *                 example: "12:00:00"
+ *                 description: 시간 사이클
+ *                 example: "3"
  *               plan_place:
  *                 type: string
  *                 description: 장소
@@ -385,20 +392,27 @@ router.post('/user/plans/detailed/:pid',travelPlanController.postUserDetailedPla
  *                 type: string
  *                 description: 상세 일정 색상
  *                 example: "2"
+ *               plan_lindColor:
+ *                 type: string
+ *                 description: plan line color
+ *                 example: "3"
  *               plan_title:
  *                 type: string
  *                 description: 상세 일정 제목
  *                 example: "주변 둘러보기"
+ *               plan_column:
+ *                 type: number
+ *                 description: column
+ *                 example: "2"
  *               start_time:
  *                 type: number
  *                 format: time
  *                 description: 시작 시간
  *                 example: "09:00:00"
- *               end_time:
+ *               plan_halfHour:
  *                 type: number
- *                 format: time
- *                 description: 종료 시간
- *                 example: "12:00:00"
+ *                 description: 시간 사이클
+ *                 example: "2"
  *               plan_place:
  *                 type: string
  *                 description: 장소
@@ -512,6 +526,10 @@ router.delete('/user/plans/detailed/:tid',travelPlanController.deleteUserDetaile
  *                     type: string
  *                     description: 일정 색상
  *                     example: "1"
+ *                   plan_lindColor:
+ *                     type: string
+ *                     description: plan line color
+ *                     example: "2"
  *                   plan_date:
  *                     type: string
  *                     format: date
@@ -522,11 +540,10 @@ router.delete('/user/plans/detailed/:tid',travelPlanController.deleteUserDetaile
  *                     format: time
  *                     description: 시작 시간
  *                     example: "09:00"
- *                   end_time:
+ *                   plan_halfHour:
  *                     type: number
- *                     format: time
- *                     description: 종료 시간
- *                     example: "18:00"
+ *                     description: 시간 사이클
+ *                     example: "4"
  *                   plan_title:
  *                     type: string
  *                     description: 일정 제목
@@ -580,20 +597,27 @@ router.get('/user/plans/all/:pid',travelPlanController.getUserAllTravelPlan);
  *                   type: string
  *                   description: 일정 색상
  *                   example: "3"
+ *                 plan_lindColor:
+ *                   type: string
+ *                   description: plan line color
+ *                   example: "4"
  *                 plan_title:
  *                   type: string
  *                   description: 일정 제목
  *                   example: "관광"
+ *                 plan_column:
+ *                   type: number
+ *                   description: column
+ *                   example: "3"
  *                 start_time:
  *                   type: number
  *                   format: time
  *                   description: 시작 시간
  *                   example: "09:00"
- *                 end_time:
- *                   type: string
- *                   format: number
- *                   description: 종료 시간
- *                   example: "18:00"
+ *                 plan_halfHour:
+ *                   type: number
+ *                   description: 시간 사이클
+ *                   example: "1"
  *                 plan_place:
  *                   type: string
  *                   description: 일정 장소

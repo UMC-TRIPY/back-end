@@ -68,15 +68,17 @@ exports.postFriendTravelPlan = async function(req,res){
 exports.postUserDetailedPlan = async function(req,res){
   try{
     const pid = req.params.pid;
-    const { plan_date, plan_color, plan_title, start_time, end_time, plan_place, plan_budget, plan_memo, plan_image, plan_file } = req.body;
+    const { plan_date, plan_color, plan_lindColor, plan_title, plan_column, start_time, plan_halfHour , plan_place, plan_budget, plan_memo, plan_image, plan_file } = req.body;
     
     await travelPlanService.postUserDetailedPlan(
       pid,
       plan_date,
-      plan_color, 
-      plan_title, 
+      plan_color,
+      plan_lindColor, 
+      plan_title,
+      plan_column, 
       start_time, 
-      end_time, 
+      plan_halfHour, 
       plan_place, 
       plan_budget,
       plan_memo,
@@ -93,14 +95,16 @@ exports.postUserDetailedPlan = async function(req,res){
  exports.putUserDetailedPlan = async function(req,res){
   try{
     const tid = req.params.tid; //timeplna_index
-    const {plan_date,plan_color,plan_title,start_time,end_time,plan_place,plan_budget,plan_memo,plan_image,plan_file} = req.body;
+    const {plan_date, plan_color, plan_lindColor, plan_title, plan_column, start_time, plan_halfHour , plan_place, plan_budget, plan_memo, plan_image, plan_file} = req.body;
     await travelPlanService.putUserDetailedPlan(
       tid,
       plan_date,
-      plan_color, 
-      plan_title, 
+      plan_color,
+      plan_lindColor, 
+      plan_title,
+      plan_column, 
       start_time, 
-      end_time, 
+      plan_halfHour, 
       plan_place, 
       plan_budget,
       plan_memo,
