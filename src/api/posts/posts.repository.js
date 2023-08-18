@@ -4,6 +4,7 @@ const connection = conn();
 
 exports.getPosts = async (
   tagsStr,
+  city_index,
   page,
   pageSize,
   tagCount,
@@ -18,7 +19,7 @@ exports.getPosts = async (
   let query = `SELECT * FROM post p JOIN post_tag pt ON p.post_index = pt.post_index
   JOIN user u ON p.user_index = u.user_index
   JOIN tag t ON pt.tag_index = t.tag_index
-  WHERE t.tag_name IN ('${tagsStr}')
+  WHERE t.tag_name IN ('${tagsStr}') AND p.city_index = ${city_index}
   GROUP BY p.post_index, p.user_index, p.post_title, p.post_content, p.city_index, p.view, p.thumbs, p.created_at, p.updated_at, pt.tag_index
   HAVING COUNT(DISTINCT t.tag_name) = ${tagCount}
   ORDER BY p.${orderField} ${orderDirection}
@@ -30,7 +31,7 @@ exports.getPosts = async (
     query = `SELECT * FROM post p JOIN post_tag pt ON p.post_index = pt.post_index
     JOIN user u ON p.user_index = u.user_index
     JOIN tag t ON pt.tag_index = t.tag_index
-    WHERE t.tag_name IN ('${tagsStr}') AND p.post_title LIKE ?
+    WHERE t.tag_name IN ('${tagsStr}') AND p.post_title LIKE ? AND p.city_index = ${city_index}
     GROUP BY p.post_index, p.user_index, p.post_title, p.post_content, p.city_index, p.view, p.thumbs, p.created_at, p.updated_at, pt.tag_index
     HAVING COUNT(DISTINCT t.tag_name) = ${tagCount}
     ORDER BY p.${orderField} ${orderDirection}
@@ -59,6 +60,135 @@ exports.getPosts = async (
   } catch (error) {
     throw error;
   }
+};
+
+exports.getPost = async (postId) => {
+  try {
+    const query = `SELECT * FROM post WHERE post_index = ${postId}`;
+
+    const result = await new Promise((resolve, reject) => {
+      console.log(query);
+      connection.query(query, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+
+    return result;
+  } catch (err) {
+    throw err;
+  }
+};
+
+exports.getPostWithTitle = async (postTitle, postContent) => {
+  try {
+    const query = `SELECT * FROM post WHERE post_title = ? AND post_content = ?`;
+
+    const result = await new Promise((resolve, reject) => {
+      connection.query(query, [postTitle, postContent], (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+
+    return result;
+  } catch (err) {
+    throw err;
+  }
+};
+
+exports.createPost = async (
+  user_index,
+  post_title,
+  post_content,
+  city_index,
+  plan_index
+) => {
+  const query = `INSERT INTO post (user_index, post_title, post_content, city_index, plan_index) VALUES (?,?,?,?,?)`;
+
+  const result = await new Promise((resolve, reject) => {
+    connection.query(
+      query,
+      [user_index, post_title, post_content, city_index, plan_index],
+      (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      }
+    );
+  });
+};
+
+exports.updatePost = async (
+  post_index,
+  user_index,
+  post_title,
+  post_content,
+  city_index,
+  plan_index
+) => {
+  const query = `UPDATE tag
+  SET user_index = ?, post_title = ?, post_content = ?, city_index = ?, plan_index = ?
+  WHERE post_index = ?;
+  `;
+
+  const result = await new Promise((resolve, reject) => {
+    connection.query(
+      query,
+      [
+        user_index,
+        post_title,
+        post_content,
+        city_index,
+        plan_index,
+        post_index,
+      ],
+      (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      }
+    );
+  });
+};
+
+exports.deletePost = async (post_index) => {
+  const query = `DELETE FROM post
+  WHERE post_index = ?;
+  `;
+
+  connection.query(query, [post_index], (err, result) => {
+    if (err) {
+      reject(err);
+    } else {
+      resolve(result);
+    }
+  });
+};
+
+exports.createPostTags = async (postId, tagId) => {
+  console.log(tagId);
+  const query = `INSERT INTO post_tag (post_index, tag_index) VALUES (?, ?)`;
+
+  const result = await new Promise((resolve, reject) => {
+    connection.query(query, [postId, tagId], (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
 };
 
 //나라 이름은 어떻게 가져오지?
