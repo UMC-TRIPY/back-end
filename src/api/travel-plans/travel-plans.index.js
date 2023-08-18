@@ -121,6 +121,131 @@ router.post("/user/:userId", travelPlanController.createTravelPlan);
  */
 router.post("/user/:userId", travelPlanController.createTravelPlan);
 
+//여행 등록 API
+/**
+ * @swagger
+ * /api/travel-plans/user/travel/{uid}:
+ *   post:
+ *     summary: "여행 등록"
+ *     description: "사용자의 여행 계획을 등록하는 API"
+ *     tags: [Travel-Plan]
+ *     parameters:
+ *       - in: path
+ *         name: uid
+ *         required: true
+ *         description: 유저 인덱스
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               cityId:
+ *                 type: number
+ *                 description: 도시 인덱스
+ *               departureDate:
+ *                 type: string
+ *                 format: date
+ *                 description: 출발 날짜
+ *               arrivalDate:
+ *                 type: string
+ *                 format: date
+ *                 description: 도착 날짜
+ *     responses:
+ *       "200":
+ *         description: 여행 계획 등록 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "여행 계획 등록에 성공하였습니다!"
+ *       "400":
+ *         description: 서버 내부 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "서버 내부 오류"
+ */
+
+router.post("/user/travel/:uid", travelPlanController.postTravelPlan);
+
+//내가 생성한 여행 목록 조회 API
+/**
+ * @swagger
+ * /api/travel-plans/user/made/plan/{uid}:
+ *   get:
+ *     summary: 내가 생성한 여행 목록 조회
+ *     description: 내가 생성한 여행 목록을 조회하는 API
+ *     tags: [Travel-Plan]
+ *     parameters:
+ *       - in: path
+ *         name: uid
+ *         required: true
+ *         description: 사용자 인덱스
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       "200":
+ *         description: 여행 목록 조회 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 travelPlans:
+ *                   type: array
+ *                   description: 여행 목록
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       city_name:
+ *                         type: string
+ *                         description: 도시 이름
+ *                         example: "서울"
+ *                       departureDate:
+ *                         type: string
+ *                         format: date
+ *                         description: 출발 날짜
+ *                         example: "2023-08-15"
+ *                       arrivalDate:
+ *                         type: string
+ *                         format: date
+ *                         description: 도착 날짜
+ *                         example: "2023-08-20"
+ *       "400":
+ *         description: 잘못된 요청 또는 값이 들어온 경우
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "user 인덱스를 확인해주세요."
+ *       "500":
+ *         description: 서버 내부 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "에러"
+ */
+router.get("/user/made/plan/:uid",travelPlanController.UserMadeTravelPlan);
+
+
 //내 여행 목록 조회 API
 /**
  * @swagger
@@ -296,7 +421,7 @@ router.post('/user/plans/friend/:pid',travelPlanController.postFriendTravelPlan)
  *                 type: string
  *                 description: 상세 일정 색상
  *                 example: "1"
- *               plan_lindColor:
+ *               plan_lineColor:
  *                 type: string
  *                 description: plan line color
  *                 example: "1"
@@ -392,7 +517,7 @@ router.post('/user/plans/detailed/:pid',travelPlanController.postUserDetailedPla
  *                 type: string
  *                 description: 상세 일정 색상
  *                 example: "2"
- *               plan_lindColor:
+ *               plan_lineColor:
  *                 type: string
  *                 description: plan line color
  *                 example: "3"
@@ -526,7 +651,7 @@ router.delete('/user/plans/detailed/:tid',travelPlanController.deleteUserDetaile
  *                     type: string
  *                     description: 일정 색상
  *                     example: "1"
- *                   plan_lindColor:
+ *                   plan_lineColor:
  *                     type: string
  *                     description: plan line color
  *                     example: "2"
@@ -597,7 +722,7 @@ router.get('/user/plans/all/:pid',travelPlanController.getUserAllTravelPlan);
  *                   type: string
  *                   description: 일정 색상
  *                   example: "3"
- *                 plan_lindColor:
+ *                 plan_lineColor:
  *                   type: string
  *                   description: plan line color
  *                   example: "4"

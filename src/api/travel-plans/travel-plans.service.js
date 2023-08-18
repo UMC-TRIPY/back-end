@@ -34,6 +34,32 @@ exports.createCityPlan = async (travelPlanId, cityId) => {
   );
 };
 
+//여행 일정 등록API
+exports.postTravelPlan = async(uid,departureDate,arrivalDate,cityId) =>{
+  try{
+    const plan = await travelPlanRepository.postTravelPlan(
+    uid,
+    departureDate,
+    arrivalDate,
+    cityId
+  );
+  return plan;
+  }catch(err){
+    throw err;
+  }
+};
+
+//내가 만든 여행일정 조회 API
+exports.UserMadeTravelPlan = async(uid)=>{
+  try{
+    const result = await travelPlanRepository.UserMadeTravelPlan(uid);
+    return result;
+  }catch(err){
+    throw err;
+  }
+};
+
+
 //내 여행 목록 조회 API
 exports.getUserTravelPlan = async (uid) => {
   try {
@@ -62,16 +88,16 @@ exports.postFriendTravelPlan = async(pid,rid) =>{
   }catch(err){
     throw err;
   }
-}
+};
 
 //세부일정 등록 API
-exports.postUserDetailedPlan = async (pid, plan_date, plan_color, plan_lindColor, plan_title, plan_column, start_time, plan_halfHour , plan_place, plan_budget, plan_memo, plan_image, plan_file) => {
+exports.postUserDetailedPlan = async (pid, plan_date, plan_color, plan_lineColor, plan_title, plan_column, start_time, plan_halfHour , plan_place, plan_budget, plan_memo, plan_image, plan_file) => {
   try{
     const detailedplan= await travelPlanRepository.postUserDetailedPlan(
       pid,
       plan_date,
       plan_color,
-      plan_lindColor, 
+      plan_lineColor, 
       plan_title,
       plan_column, 
       start_time, 
@@ -91,13 +117,13 @@ exports.postUserDetailedPlan = async (pid, plan_date, plan_color, plan_lindColor
 };
 
 //상세 일정 수정 API
-exports.putUserDetailedPlan = async (tid,plan_date, plan_color, plan_lindColor, plan_title, plan_column, start_time, plan_halfHour , plan_place, plan_budget, plan_memo, plan_image, plan_file) => {
+exports.putUserDetailedPlan = async (tid,plan_date, plan_color, plan_lineColor, plan_title, plan_column, start_time, plan_halfHour , plan_place, plan_budget, plan_memo, plan_image, plan_file) => {
   try{
     const detailedplan= await travelPlanRepository.putUserDetailedPlan(
       tid,
       plan_date,
       plan_color,
-      plan_lindColor, 
+      plan_lineColor, 
       plan_title,
       plan_column, 
       start_time, 
@@ -134,7 +160,7 @@ exports.getUserAllTravelPlan = async(pid) =>{
   }catch(err){
     throw err;
   }
-}
+};
 
 //상세 일정 조회 기능(하나) API
 exports.getUserOneTravelPlan = async(tid) =>{
@@ -144,4 +170,4 @@ exports.getUserOneTravelPlan = async(tid) =>{
   }catch(err){
     throw err;
   }
-}
+};

@@ -19,6 +19,38 @@ exports.createTravelPlan = async (req, res) => {
   }
 };
 
+//여행 일정 등록 기능 API
+exports.postTravelPlan = async function(req,res) {
+  try{
+    const uid = req.params.uid;
+    const { cityId, departureDate, arrivalDate } =req.body;
+  
+  await travelPlanService.postTravelPlan(
+    uid,
+    departureDate,
+    arrivalDate,
+    cityId
+    );
+    res.status(200).json({ message: "여행 계획 등록에 성공하였습니다!" });
+  }catch(err){
+    res.status(500).json({ message: "서버 내부 오류" });
+  }
+};
+
+//내가 생성한 여행 목록 조회 API
+exports.UserMadeTravelPlan = async function(req,res){
+  try{
+    const uid = req.params.uid;
+    if(!uid){
+      return res.status(400).json({error:"user 인덱스를 확인해주세요."});
+    }
+    const result = await travelPlanService.UserMadeTravelPlan(uid);
+    return res.status(200).json(result);
+  }catch(err){
+    console.log(err);
+    return res.status(500).json({error:"에러"});
+  }
+};
 
 //내 여행 목록 조회 API
 exports.getUserTravelPlan = async function(req,res) {
@@ -33,6 +65,7 @@ exports.getUserTravelPlan = async function(req,res) {
     console.log(err);
     return res.status(500).json({ error: "에러" });
   }
+
 };
 
 //일정 공유 중인 친구 조회 API
@@ -68,13 +101,13 @@ exports.postFriendTravelPlan = async function(req,res){
 exports.postUserDetailedPlan = async function(req,res){
   try{
     const pid = req.params.pid;
-    const { plan_date, plan_color, plan_lindColor, plan_title, plan_column, start_time, plan_halfHour , plan_place, plan_budget, plan_memo, plan_image, plan_file } = req.body;
+    const { plan_date, plan_color, plan_lineColor, plan_title, plan_column, start_time, plan_halfHour , plan_place, plan_budget, plan_memo, plan_image, plan_file } = req.body;
     
     await travelPlanService.postUserDetailedPlan(
       pid,
       plan_date,
       plan_color,
-      plan_lindColor, 
+      plan_lineColor, 
       plan_title,
       plan_column, 
       start_time, 
@@ -95,12 +128,12 @@ exports.postUserDetailedPlan = async function(req,res){
  exports.putUserDetailedPlan = async function(req,res){
   try{
     const tid = req.params.tid; //timeplna_index
-    const {plan_date, plan_color, plan_lindColor, plan_title, plan_column, start_time, plan_halfHour , plan_place, plan_budget, plan_memo, plan_image, plan_file} = req.body;
+    const {plan_date, plan_color, plan_lineColor, plan_title, plan_column, start_time, plan_halfHour , plan_place, plan_budget, plan_memo, plan_image, plan_file} = req.body;
     await travelPlanService.putUserDetailedPlan(
       tid,
       plan_date,
       plan_color,
-      plan_lindColor, 
+      plan_lineColor, 
       plan_title,
       plan_column, 
       start_time, 
