@@ -50,7 +50,7 @@ exports.createCityPlan = async (travelPlanId, cityId) => {
 };
 
 //여행 등록 API
-exports.postTravelPlan = async (uid, departureDate, arrivalDate, cityId) => {
+exports.postTravelPlan = async (uid, departureDate, arrivalDate, cityname) => {
   return new Promise((resolve, reject) => {
     connection.query(
       `
@@ -68,9 +68,10 @@ exports.postTravelPlan = async (uid, departureDate, arrivalDate, cityId) => {
           connection.query(
             `
             INSERT INTO city_plan(city_index, plan_index)
-            VALUES (?, ?);
+            VALUES (
+            (SELECT city_index FROM city WHERE city_name = ?),?);
             `,
-            [cityId, planIndex], // 수정된 부분
+            [cityname, planIndex], // 수정된 부분
             (err, result) => {
               if (err) {
                 reject(err);

@@ -23,13 +23,13 @@ exports.createTravelPlan = async (req, res) => {
 exports.postTravelPlan = async function(req,res) {
   try{
     const uid = req.params.uid;
-    const { cityId, departureDate, arrivalDate } =req.body;
+    const { cityname, departureDate, arrivalDate } =req.body;
   
   await travelPlanService.postTravelPlan(
     uid,
     departureDate,
     arrivalDate,
-    cityId
+    cityname
     );
     res.status(200).json({ message: "여행 계획 등록에 성공하였습니다!" });
   }catch(err){

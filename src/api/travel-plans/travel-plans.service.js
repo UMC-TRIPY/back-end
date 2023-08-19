@@ -35,13 +35,13 @@ exports.createCityPlan = async (travelPlanId, cityId) => {
 };
 
 //여행 일정 등록API
-exports.postTravelPlan = async(uid,departureDate,arrivalDate,cityId) =>{
+exports.postTravelPlan = async(uid,departureDate,arrivalDate,cityname) =>{
   try{
     const plan = await travelPlanRepository.postTravelPlan(
     uid,
     departureDate,
     arrivalDate,
-    cityId
+    cityname
   );
   return plan;
   }catch(err){
