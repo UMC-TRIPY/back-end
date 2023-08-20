@@ -143,9 +143,9 @@ router.post("/user/:userId", travelPlanController.createTravelPlan);
  *           schema:
  *             type: object
  *             properties:
- *               cityId:
- *                 type: number
- *                 description: 도시 인덱스
+ *               cityname:
+ *                 type: string
+ *                 description: 도시 이름
  *               departureDate:
  *                 type: string
  *                 format: date
@@ -176,7 +176,6 @@ router.post("/user/:userId", travelPlanController.createTravelPlan);
  *                   type: string
  *                   example: "서버 내부 오류"
  */
-
 router.post("/user/travel/:uid", travelPlanController.postTravelPlan);
 
 //내가 생성한 여행 목록 조회 API
