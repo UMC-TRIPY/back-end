@@ -1,15 +1,16 @@
 const landmarkRepository = require("./landmarks.repository");
 
-exports.findLandmarkByLandmarkNameQuery = async (nameQuery) => {
+exports.findLandmarkByLandmarkNameQuery = async (nameQuery, city_index) => {
   const landmarkList = await landmarkRepository.findLandmarkByLandmarkNameQuery(
-    nameQuery
+    nameQuery,
+    city_index
   );
 
   return landmarkList;
 };
 
-exports.getPopularLandmark = async () => {
-  const landmarkList = await landmarkRepository.getPopularLandmark();
+exports.getPopularLandmark = async (city_index) => {
+  const landmarkList = await landmarkRepository.getPopularLandmark(city_index);
 
   return landmarkList;
 };
