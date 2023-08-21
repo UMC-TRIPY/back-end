@@ -288,7 +288,7 @@ exports.UserBagMaterial = (bid) =>{
     return new Promise((resolve,reject) =>{
         connection.query(
                     `
-                    SELECT materials_name, m.materials_index
+                    SELECT materials_name, m.materials_index, bm.check_box
                     FROM materials m
                     LEFT JOIN bag_materials bm ON m.materials_index = bm.materials_index
                     LEFT JOIN bag b ON b.bag_index = bm.bag_index
