@@ -16,6 +16,12 @@ router.get("/search-landmarks", landmarkController.searchLandmark);
  *        description: "검색어"
  *        schema:
  *          type: string
+ *      - in: query
+ *        name: city_index
+ *        required: false
+ *        description: "도시 index"
+ *        schema:
+ *          type: integer
  *
  *
  *    responses:
@@ -53,6 +59,13 @@ router.get("/search-landmarks", landmarkController.searchLandmark);
  *   get:
  *    description: "인기 여행지 조회"
  *    tags: [Lamdmarks]
+ *    parameters:
+ *      - in: query
+ *        name: city_index
+ *        required: false
+ *        description: "도시 index"
+ *        schema:
+ *          type: integer
  *
  *    responses:
  *      "200":

@@ -4,11 +4,13 @@ const landMarksService = require("./landmarks.service");
 exports.searchLandmark = async (req, res) => {
   try {
     const nameQuery = req.query.nameQuery;
+    const city_index = req.query.city_index;
 
     console.log(nameQuery);
 
     const landmarkList = await landMarksService.findLandmarkByLandmarkNameQuery(
-      nameQuery
+      nameQuery,
+      city_index
     );
 
     res.send(landmarkList);
@@ -19,6 +21,7 @@ exports.searchLandmark = async (req, res) => {
 
 exports.getPopularLandmark = async (req, res) => {
   try {
+    const { city_index } = req.query;
     const landmarkList = await landMarksService.getPopularLandmark();
 
     res.send(landmarkList);

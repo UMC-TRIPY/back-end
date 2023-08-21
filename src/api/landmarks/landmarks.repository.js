@@ -2,17 +2,18 @@
 const { conn } = require("../../../module/db_connect");
 const connection = conn();
 
-exports.findLandmarkByLandmarkNameQuery = async (nameQuery) => {
+exports.findLandmarkByLandmarkNameQuery = async (nameQuery, city_index) => {
   const likeQuery = "%" + nameQuery + "%";
 
-  let query = "SELECT * FROM landmark";
+  let query = "SELECT * FROM landmark WHERE city_index = ?";
 
   if (nameQuery) {
-    query = "SELECT * FROM landmark WHERE landmark_name LIKE ?";
+    query =
+      "SELECT * FROM landmark WHERE city_index = ? AND landmark_name LIKE ?";
   }
   try {
     const result = await new Promise((resolve, reject) => {
-      connection.query(query, [likeQuery], (err, result) => {
+      connection.query(query, [city_index, likeQuery], (err, result) => {
         if (err) {
           reject(err);
         } else {
@@ -29,12 +30,12 @@ exports.findLandmarkByLandmarkNameQuery = async (nameQuery) => {
   }
 };
 
-exports.getPopularLandmark = async () => {
-  const query = "SELECT * FROM landmark WHERE ispopular = ?";
+exports.getPopularLandmark = async (city_index) => {
+  const query = "SELECT * FROM landmark WHERE city_index = ? AND ispopular = ?";
 
   try {
     const result = await new Promise((resolve, reject) => {
-      connection.query(query, [1], (err, result) => {
+      connection.query(query, [city_index, 1], (err, result) => {
         if (err) {
           reject(err);
         } else {
