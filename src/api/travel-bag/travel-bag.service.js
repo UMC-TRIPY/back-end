@@ -114,3 +114,13 @@ exports.getUserPlanBag = async(pid) =>{
         throw err;
     }
 };
+
+//가방 인덱스로 준비물 불러오기 API 
+exports.UserBagMaterial = async(bid) => {
+    try{
+        const result = await travelBagRepository.UserBagMaterial(bid);
+        return result;
+    }catch(err){
+        throw err;
+    }
+};

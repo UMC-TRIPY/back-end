@@ -282,3 +282,25 @@ exports.getUserPlanBag = (pid) =>{
         );
     });
 };
+
+//가방에 해당하는 준비물 모두 불러오기 API
+exports.UserBagMaterial = (bid) =>{
+    return new Promise((resolve,reject) =>{
+        connection.query(
+                    `
+                    SELECT materials_name, m.materials_index
+                    FROM materials m
+                    LEFT JOIN bag_materials bm ON m.materials_index = bm.materials_index
+                    LEFT JOIN bag b ON b.bag_index = bm.bag_index
+                    WHERE b.bag_index = ?`,
+                    [bid],
+            (err,result) => {
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(result);
+                }
+            }
+        );
+    });
+};

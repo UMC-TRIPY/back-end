@@ -549,4 +549,52 @@ router.post('/material/check/:bid/:mid',travelBagController.MaterialCheck);
  */
 router.get('/user/plan/bag/:pid',travelBagController.getUserPlanBag);
 
+
+// 가방안에 준비물 모두 조회 API
+/**
+ * @swagger
+ * /api/travel-bag/user/bag/materials/{bid}:
+ *   get:
+ *     summary: "가방에 해당하는 준비물 모두 불러오기"
+ *     description: "특정 가방에 해당하는 모든 준비물을 조회하는 API"
+ *     tags: [Travel-Bag]
+ *     parameters:
+ *       - in: path
+ *         name: bid
+ *         required: true
+ *         description: 가방 인덱스
+ *         schema:
+ *           type: number
+ *     responses:
+ *       "200":
+ *         description: 가방에 해당하는 준비물 조회가 성공한 경우
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   materials_name:
+ *                     type: string
+ *                     description: 준비물 이름
+ *                     example: "선글라스"
+ *                   materials_index:
+ *                     type: number
+ *                     description: 준비물 인덱스
+ *                     example: 1
+ *       "400":
+ *         description: 잘못된 요청 또는 값이 들어온 경우
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "bag_index를 확인해주세요."
+ */
+router.get('/user/bag/materials/:bid',travelBagController.UserBagMaterial);
+
+
 module.exports = router;
