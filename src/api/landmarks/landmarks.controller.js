@@ -22,12 +22,11 @@ exports.searchLandmark = async (req, res) => {
 exports.getPopularLandmark = async (req, res) => {
   try {
     const { city_index } = req.query;
-    const landmarkList = await landMarksService.getPopularLandmark();
+    const landmarkList = await landMarksService.getPopularLandmark(city_index);
 
     res.send(landmarkList);
   } catch (err) {
-    console.log(err);
-    res.status(500).send({ message: "서버 내부 오류" });
+    res.send(err);
   }
 };
 
