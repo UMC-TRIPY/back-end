@@ -76,7 +76,7 @@ exports.postTravelPlan = async (uid, departureDate, arrivalDate, cityname) => {
               if (err) {
                 reject(err);
               } else {
-                resolve(result);
+                resolve(planIndex);
               }
             }
           );
@@ -92,7 +92,7 @@ exports.UserMadeTravelPlan = (uid) => {
     connection.query(
                   `
                   SELECT
-                  city_name, departureDate,arrivalDate
+                  city_name, departureDate,arrivalDate, a1.plan_index
                   FROM
                   travelplan a1
                   LEFT JOIN city_plan b1 ON a1.plan_index = b1.plan_index
@@ -118,7 +118,7 @@ exports.getUserTravelPlan = (uid) => {
       connection.query(
                   `
                   SELECT DISTINCT
-                  city_name, departureDate,arrivalDate
+                  city_name, departureDate,arrivalDate, a1.plan_index
                   FROM
                   travelplan a1
                   LEFT JOIN city_plan b1 ON a1.plan_index = b1.plan_index
@@ -129,7 +129,7 @@ exports.getUserTravelPlan = (uid) => {
                   UNION
 
                   SELECT DISTINCT
-                  city_name, departureDate, arrivalDate
+                  city_name, departureDate, arrivalDate, a2.plan_index AS friend_plan_index
                   FROM
                   friend f
                   JOIN plan_friend pf ON f.relation_index = pf.relation_index

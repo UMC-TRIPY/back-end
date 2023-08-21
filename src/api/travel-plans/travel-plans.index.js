@@ -221,6 +221,10 @@ router.post("/user/travel/:uid", travelPlanController.postTravelPlan);
  *                         format: date
  *                         description: 도착 날짜
  *                         example: "2023-08-20"
+ *                       plan_index:
+ *                         type: number
+ *                         description: 여행 계획 인덱스
+ *                         example: 1
  *       "400":
  *         description: 잘못된 요청 또는 값이 들어온 경우
  *         content:
@@ -284,6 +288,10 @@ router.get("/user/made/plan/:uid",travelPlanController.UserMadeTravelPlan);
  *                     format: date
  *                     description: 도착 날짜
  *                     example: "2023-08-20"
+ *                   plan_index:
+ *                     type: number
+ *                     description: 여행 계획 인덱스
+ *                     example: 2
  *       "400":
  *         description: 잘못된 요청 또는 값이 들어온 경우
  *         content:
