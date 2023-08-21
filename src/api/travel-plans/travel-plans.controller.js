@@ -25,15 +25,16 @@ exports.postTravelPlan = async function(req,res) {
     const uid = req.params.uid;
     const { cityname, departureDate, arrivalDate } =req.body;
   
-  await travelPlanService.postTravelPlan(
+  const planIndex = await travelPlanService.postTravelPlan(
     uid,
     departureDate,
     arrivalDate,
     cityname
     );
-    res.status(200).json({ message: "여행 계획 등록에 성공하였습니다!" });
+    res.status(200).json({ message: "여행 계획 등록에 성공하였습니다!",
+                           plan_index: planIndex, });
   }catch(err){
-    res.status(500).json({ message: "서버 내부 오류" });
+    res.status(500).json({ message: err.message });
   }
 };
 

@@ -37,13 +37,13 @@ exports.createCityPlan = async (travelPlanId, cityId) => {
 //여행 일정 등록API
 exports.postTravelPlan = async(uid,departureDate,arrivalDate,cityname) =>{
   try{
-    const plan = await travelPlanRepository.postTravelPlan(
+    const planIndex = await travelPlanRepository.postTravelPlan(
     uid,
     departureDate,
     arrivalDate,
     cityname
   );
-  return plan;
+  return planIndex;
   }catch(err){
     throw err;
   }
