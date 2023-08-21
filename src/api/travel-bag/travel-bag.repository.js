@@ -218,15 +218,15 @@ exports.updateBagMaterial = (mid,material) =>{
 };
 
 // 가방 준비물 삭제 API
-exports.deleteBagMaterial = (mid) =>{
+exports.deleteBagMaterial = (bid, mid) =>{
     return new Promise((resolve,reject) =>{
         connection.query(
                     `
                     DELETE 
-                    FROM materials
-                    WHERE materials_index = ?
+                    FROM bag_materials
+                    WHERE bag_index = ? and materials_index = ?
                     `,
-                    [mid],
+                    [bid, mid],
         (err,result) => {
             if(err){
                 reject(err);

@@ -450,7 +450,7 @@ router.put('/bag/material/:mid',travelBagController.updateBagMaterial);
  *                   type: string
  *                   example: "material 인덱스를 확인해주세요."
  */
-router.delete('/bag/material/:mid',travelBagController.deleteBagMaterial);
+router.delete('/bag/material/:bid/:mid',travelBagController.deleteBagMaterial);
 
 //가방 준비물 체크박스 체크기능 API
 /**

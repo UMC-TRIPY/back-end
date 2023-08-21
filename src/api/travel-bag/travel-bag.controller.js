@@ -130,7 +130,11 @@ exports.updateBagMaterial = async function(req,res){
 //가방 준비물 삭제
 exports.deleteBagMaterial = async function(req,res){
     try{
+        const bid = req.params.bid;  //bag_index
         const mid = req.params.mid;  //material_index
+         if(!bid){
+            return res.status(400).json({error:"bag 인덱스를 확인해주세요."});
+        }
         if(!mid){
             return res.status(400).json({error:"material 인덱스를 확인해주세요."});
         }
