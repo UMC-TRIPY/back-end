@@ -40,6 +40,10 @@ const travelBagController = require("./travel-bag.controller");
  *                     format: date
  *                     description: 도착 날짜
  *                     example: "2023-08-20"
+ *                   plna_index:
+ *                     type: number
+ *                     description: 여행 계획 인덱스
+ *                     example: 3
  *       "400":
  *         description: 잘못된 요청 또는 값이 들어온 경우
  *         content:
