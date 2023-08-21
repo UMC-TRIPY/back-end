@@ -190,3 +190,17 @@ exports.getUserPlanBag = async function(req,res){
         return res.status(500).json({error:"error"});
     }
 };
+
+//가방 인덱스로 준비물 불러오기 API
+exports.UserBagMaterial = async function(req,res){
+    try{
+        const bid = req.params.bid; //가방 인덱스
+        if(!bid){
+            return res.status(400).json({error:"bag_index를 확인 해주세요."});
+        }
+        const result = await travelBagService.UserBagMaterial(bid);
+        return res.status(200).json(result);
+    }catch(err){
+        return res.status(500).json({error: "에러"});
+    }
+}
