@@ -117,16 +117,13 @@ exports.getUserBagMaterial = (pid) =>{
 };
 
 //여행지 준비물 불러오기 API
-exports.getCountryMaterial = (cid) =>{
-    return new Promise((resolve,reject) =>{
+exports.getCountryMaterial = (cname) =>{
+    return new Promise((resolve,reject) =>{console.log(cname)
         connection.query(
                     `
-                    SELECT materials_name
-                    FROM country c
-                    LEFT JOIN country_material cm ON cm.country_index = c.country_index
-                    LEFT JOIN materials m ON m.materials_index = cm.materials_index
-                    WHERE c.country_index = ?`,
-                    [cid],
+                    select * from country_material inner join country c on country_material.country_index = c.country_index where c.country_name = ?
+                    `,
+                    [cname],
         (err,result) => {
             if(err){
                 reject(err);
