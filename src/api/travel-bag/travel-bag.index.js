@@ -256,7 +256,7 @@ router.get('/user/bag/material/:pid', travelBagController.getUserBagMaterial);
  *                   type: string
  *                   example: "country 인덱스를 확인해주세요."
  */
-router.get('/material/:cid',travelBagController.getCountryMaterial);
+router.get('/material/:cname',travelBagController.getCountryMaterial);
 
 //여행지별 날씨 불러오기 API
 

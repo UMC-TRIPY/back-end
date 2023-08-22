@@ -68,11 +68,11 @@ exports.getUserBagMaterial = async function(req,res){
 //여행지별 준비물 불러오기 API
 exports.getCountryMaterial = async function(req,res){
     try{
-        const cid = req.params.cid; // country_index
-        if(!cid){
+        const cname = req.params.cname; // country_name
+        if(!cname){
             return res.status(400).json({error: "country 인덱스를 확인해주세요."});
         }
-        const result = await travelBagService.getCountryMaterial(cid);
+        const result = await travelBagService.getCountryMaterial(cname);
         return res.status(200).json(result);
     }catch(err){
         return res.status(500).json({error:"에러"});

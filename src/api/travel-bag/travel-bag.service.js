@@ -41,9 +41,9 @@ exports.getUserBagMaterial = async(pid) => {
 };
 
 //여행지 준비물 불러오기 API
-exports.getCountryMaterial = async(cid) =>{
+exports.getCountryMaterial = async(cname) =>{
     try{
-        const result = await travelBagRepository.getCountryMaterial(cid);
+        const result = await travelBagRepository.getCountryMaterial(cname);
         return result;
     }catch(err){
         throw err;
