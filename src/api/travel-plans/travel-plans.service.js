@@ -71,9 +71,9 @@ exports.getUserTravelPlan = async (uid) => {
 };
 
 //일정 공유 중인 친구 조회 API
-exports.getFriendTravelPlan = async (uid) => {
+exports.getFriendTravelPlan = async (uid,pid) => {
   try{
-    const result = await travelPlanRepository.getFriendTravelPlan(uid);
+    const result = await travelPlanRepository.getFriendTravelPlan(uid,pid);
     return result;
   }catch(err){
     throw err;

@@ -73,13 +73,14 @@ exports.getUserTravelPlan = async function(req,res) {
 exports.getFriendTravelPlan = async function(req,res) {
   try{
     const uid = req.params.uid;
+    const pid = req.params.pid;
     if(!uid){
       return res.status(400).json({error: "user_index 확인해주세요."});
     }
-    const result = await travelPlanService.getFriendTravelPlan(uid);
+    const result = await travelPlanService.getFriendTravelPlan(uid,pid);
     return res.status(200).json(result);
   }catch(err){
-    return res.status(400).json({error: "err"});
+    return res.status(400).json({error: err.message});
   }
 };
 
