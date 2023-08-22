@@ -87,14 +87,15 @@ exports.getFriendTravelPlan = async function(req,res) {
 exports.postFriendTravelPlan = async function(req,res){
   try{
     const pid = req.params.pid;
-    const rid = req.body.rid;
+    const uid1 = req.params.uid; //유저 인덱스
+    const uid2 = req.body.uid2; // 친구의 유저 인덱스
     if(!pid){
       return res.status(400).json({error: "plan_index 확인해주세요"});
     }
-    const result = await travelPlanService.postFriendTravelPlan(pid,rid);
+    const result = await travelPlanService.postFriendTravelPlan(pid,uid1,uid2);
     return res.status(200).json(result);
   }catch(err){
-    return res.status(400).json({error:"err"});
+    return res.status(400).json({error: err.message});
   }
 };
 
