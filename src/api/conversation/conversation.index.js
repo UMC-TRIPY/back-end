@@ -1,13 +1,13 @@
 const router = require("express").Router();
-const countryController = require("./country-materials.controller");
+const conversationController = require("./conversation.controller");
 
 /**
  * @swagger
- * /api/country-materials/{country}:
+ * /api/conversation/{country}:
  *   get:
- *     summary: "특정 나라에 필요한 준비물 불러오기"
- *     description: "특정 나라의 여행 준비물을 조회하는 API"
- *     tags: [Country-materials]
+ *     summary: "특정 나라별 회화정보 불러오기"
+ *     description: "특정 나라의 회화정보를 조회하는 API"
+ *     tags: [Conversation]
  *     parameters:
  *       - in: path
  *         name: country
@@ -31,14 +31,14 @@ const countryController = require("./country-materials.controller");
  *                   items:
  *                     type: object
  *                     properties:
- *                       material_description:
+ *                       conver_korean:
  *                         type: string
- *                         description: 준비물 설명
- *                         example: "일본은 우리나라와 전압이 다른 110v를 사용해요. 일본에서 사용 가능한 변압기나 멀티어댑터를 챙겨가야 해요!"
- *                       materials_name:
+ *                         description: 한국말
+ *                         example: "안녕하세요(아침)"
+ *                       country_translation:
  *                         type: string
- *                         description: 준비물 이름
- *                         example: "멀티어댑터"
+ *                         description: 번역
+ *                         example: "おはようございます"
  *       "400":
  *         description: 잘못된 요청 또는 값이 들어온 경우
  *         content:
@@ -53,6 +53,6 @@ const countryController = require("./country-materials.controller");
  *                   type: string
  *                   example: "country값이 없거나, integer 타입이 아닙니다."
  */
-router.get("/:country", countryController.getMaterialsByCountry);
+router.get("/:country", conversationController.getConversationByCountry);
 
 module.exports = router;
