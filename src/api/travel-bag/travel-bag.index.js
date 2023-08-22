@@ -416,12 +416,18 @@ router.put('/bag/material/:mid',travelBagController.updateBagMaterial);
 //가방 준비물 삭제 API
 /**
  * @swagger
- * /api/travel-bag/bag/material/{mid}:
+ * /api/travel-bag/bag/material/{bid}/{mid}:
  *   delete:
  *     summary: "가방 준비물 삭제"
  *     description: "특정 가방 준비물을 삭제하는 API"
  *     tags: [Travel-Bag]
  *     parameters:
+ *       - in: path
+ *         name: bid
+ *         required: true
+ *         description: 가방 인덱스
+ *         schema:
+ *           type: number
  *       - in: path
  *         name: mid
  *         required: true
@@ -596,5 +602,43 @@ router.get('/user/plan/bag/:pid',travelBagController.getUserPlanBag);
  */
 router.get('/user/bag/materials/:bid',travelBagController.UserBagMaterial);
 
-
+//가방 메모 불러오기 API
+/**
+ * @swagger
+ * /api/travel-bag/user/bag/memo/{bid}:
+ *   get:
+ *     summary: "가방 메모 불러오기"
+ *     description: "특정 가방의 메모를 조회하는 API"
+ *     tags: [Travel-Bag]
+ *     parameters:
+ *       - in: path
+ *         name: bid
+ *         required: true
+ *         description: 가방 인덱스
+ *         schema:
+ *           type: number
+ *     responses:
+ *       "200":
+ *         description: 가방 메모 조회가 성공한 경우
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 bag_memo:
+ *                   type: string
+ *                   description: 가방 메모 내용
+ *                   example: "여행 준비물을 챙겨야 합니다."
+ *       "400":
+ *         description: 잘못된 요청 또는 값이 들어온 경우
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "bag_index를 확인해주세요."
+ */
+router.get('/user/bag/memo/:bid',travelBagController.UserBagMemo);
 module.exports = router;
