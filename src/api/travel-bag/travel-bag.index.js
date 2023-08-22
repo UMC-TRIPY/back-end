@@ -258,6 +258,7 @@ router.get('/user/bag/material/:pid', travelBagController.getUserBagMaterial);
  */
 router.get('/material/:cname',travelBagController.getCountryMaterial);
 
+router.get('/materialname/:cname',travelBagController.getCountryMaterialName);
 //여행지별 날씨 불러오기 API
 
 //가방 내부에 메모 작성 API
@@ -601,6 +602,8 @@ router.get('/user/plan/bag/:pid',travelBagController.getUserPlanBag);
  *                   example: "bag_index를 확인해주세요."
  */
 router.get('/user/bag/materials/:bid',travelBagController.UserBagMaterial);
+
+//여행지별 준비물 불러오기 API(준비물 이름+인덱스)
 
 //가방 메모 불러오기 API
 /**

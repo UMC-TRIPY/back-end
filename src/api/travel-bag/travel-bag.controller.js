@@ -65,7 +65,7 @@ exports.getUserBagMaterial = async function(req,res){
     }
 };
 
-//여행지별 준비물 불러오기 API
+//여행지별 준비물 불러오기 API(준비물+설명)
 exports.getCountryMaterial = async function(req,res){
     try{
         const cname = req.params.cname; // country_name
@@ -73,6 +73,20 @@ exports.getCountryMaterial = async function(req,res){
             return res.status(400).json({error: "country 인덱스를 확인해주세요."});
         }
         const result = await travelBagService.getCountryMaterial(cname);
+        return res.status(200).json(result);
+    }catch(err){
+        return res.status(500).json({error:"에러"});
+    }
+};
+
+//여행지별 준비물 불러오기 API(준비물 이름+인덱스)
+exports.getCountryMaterialName = async function(req,res){
+    try{
+        const cname = req.params.cname; // country_name
+        if(!cname){
+            return res.status(400).json({error: "country 인덱스를 확인해주세요."});
+        }
+        const result = await travelBagService.getCountryMaterialName(cname);
         return res.status(200).json(result);
     }catch(err){
         return res.status(500).json({error:"에러"});

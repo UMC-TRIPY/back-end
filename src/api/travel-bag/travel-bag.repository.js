@@ -116,12 +116,32 @@ exports.getUserBagMaterial = (pid) =>{
     });
 };
 
-//여행지 준비물 불러오기 API
+//여행지별 준비물 불러오기 API(준비물+설명)
 exports.getCountryMaterial = (cname) =>{
     return new Promise((resolve,reject) =>{console.log(cname)
         connection.query(
                     `
                     select * from country_material inner join country c on country_material.country_index = c.country_index where c.country_name = ?
+                    `,
+                    [cname],
+        (err,result) => {
+            if(err){
+                reject(err);
+            }else{
+                resolve(result);
+            }
+        }
+        );
+    });
+}; 
+
+//여행지별 준비물 불러오기 API(준비물+설명)
+exports.getCountryMaterialName = (cname) =>{
+    return new Promise((resolve,reject) =>{console.log(cname)
+        connection.query(
+                    `
+                    select country_material.materials_index, m.materials_name from country_material inner join materials m
+                    on country_material.materials_index = m.materials_index inner join country c on country_material.country_index = c.country_index where c.country_name = ?
                     `,
                     [cname],
         (err,result) => {

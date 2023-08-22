@@ -39,11 +39,20 @@ exports.getUserBagMaterial = async(pid) => {
         throw err;
     }
 };
-
-//여행지 준비물 불러오기 API
+//여행지별 준비물 불러오기 API(준비물+설명)
 exports.getCountryMaterial = async(cname) =>{
     try{
         const result = await travelBagRepository.getCountryMaterial(cname);
+        return result;
+    }catch(err){
+        throw err;
+    }
+};
+
+//여행지 준비물 불러오기 API
+exports.getCountryMaterialName = async(cname) =>{
+    try{
+        const result = await travelBagRepository.getCountryMaterialName(cname);
         return result;
     }catch(err){
         throw err;
