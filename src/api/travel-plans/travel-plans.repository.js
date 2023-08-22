@@ -177,16 +177,18 @@ exports.getFriendTravelPlan = (uid) => {
 }; 
 
 //일정에 친구 초대 기능 API
-exports.postFriendTravelPlan = (pid, rid) => {
+exports.postFriendTravelPlan = (pid, uid1,uid2) => {
   return new Promise((resolve, reject) => {
       connection.query(
           `
           INSERT INTO plan_friend (plan_index, relation_index)
           SELECT ?, f.relation_index
           FROM friend f
-          WHERE f.relation_index = ?
-          `,
-          [pid, rid],
+          WHERE ((f.from_user_index = ? AND f.to_user_index = ?)
+          OR (f.from_user_index = ? AND f.to_user_index = ?))
+          AND f.are_we_friend = 1 AND f.isblocked = 0
+            `,
+            [pid, uid1, uid2, uid2, uid1],
           (err, result) => {
               if (err) {
                   reject(err);

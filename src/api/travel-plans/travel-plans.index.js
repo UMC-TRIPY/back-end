@@ -350,12 +350,18 @@ router.get('/user/plans/friend/:uid', travelPlanController.getFriendTravelPlan);
 //일정에 친구 초대 기능 API
 /**
  * @swagger
- * /api/travel-plans/user/plans/friend/{pid}:
+ * /api/travel-plans/user/plans/friend/{uid}/{pid}:
  *   post:
  *     summary: "일정에 친구 초대"
  *     description: "특정 일정에 친구를 초대하는 API"
  *     tags: [Travel-Plan]
  *     parameters:
+ *       - in: path
+ *         name: uid
+ *         required: true
+ *         description: 유저1 인덱스
+ *         schema:
+ *           type: number
  *       - in: path
  *         name: pid
  *         required: true
@@ -369,9 +375,9 @@ router.get('/user/plans/friend/:uid', travelPlanController.getFriendTravelPlan);
  *           schema:
  *             type: object
  *             properties:
- *               rid:
+ *               uid2:
  *                 type: number
- *                 description: 친구 관계 인덱스
+ *                 description: 친구 유저 인덱스
  *                 example: 1
  *     responses:
  *       "200":
@@ -395,7 +401,7 @@ router.get('/user/plans/friend/:uid', travelPlanController.getFriendTravelPlan);
  *                   type: string
  *                   example: "plan_index 확인해주세요"
  */
-router.post('/user/plans/friend/:pid',travelPlanController.postFriendTravelPlan);
+router.post('/user/plans/friend/:uid/:pid',travelPlanController.postFriendTravelPlan);
 
 //상세 일정 추가 기능 API
 /**
