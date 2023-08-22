@@ -66,8 +66,8 @@ exports.kakaoLogin = async (req, res) => {
 
 //구글 OAuth
 exports.googleLogin = async (req, res) => {
-  const { code } = req.body;
-
+  const { Decode } = req.body;
+  const code = decodeURIComponent(Decode);
   const baseUrl = "https://oauth2.googleapis.com/token";
   const config = {
     client_id: process.env.GOOGLE_CLIENT_ID,
