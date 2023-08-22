@@ -84,9 +84,9 @@ exports.updateBagMaterial = async(mid,material) =>{
 };
 
 //가방 준비물 삭제 API
-exports.deleteBagMaterial = async(mid) =>{
+exports.deleteBagMaterial = async(bid, mid) =>{
     try{
-        const result = await travelBagRepository.deleteBagMaterial(mid);
+        const result = await travelBagRepository.deleteBagMaterial(bid, mid);
         return result;
     }catch(err){
         throw err;

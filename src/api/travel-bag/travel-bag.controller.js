@@ -138,7 +138,7 @@ exports.deleteBagMaterial = async function(req,res){
         if(!mid){
             return res.status(400).json({error:"material 인덱스를 확인해주세요."});
         }
-        const result = await travelBagService.deleteBagMaterial(mid);
+        const result = await travelBagService.deleteBagMaterial(bid, mid);
         return res.status(200).json({ message: "가방 준비물 삭제" });
     }catch(err){
         return res.status(500).json({error:err.message});
