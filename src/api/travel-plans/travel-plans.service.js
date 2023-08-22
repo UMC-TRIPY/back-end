@@ -81,9 +81,9 @@ exports.getFriendTravelPlan = async (uid) => {
 };
 
 //일정에 친구 초대 기능 API
-exports.postFriendTravelPlan = async(pid,rid) =>{
+exports.postFriendTravelPlan = async(pid,uid1,uid2) =>{
   try{
-    const result = await travelPlanRepository.postFriendTravelPlan(pid,rid);
+    const result = await travelPlanRepository.postFriendTravelPlan(pid,uid1,uid2);
     return result;
   }catch(err){
     throw err;
