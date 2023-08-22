@@ -11,8 +11,10 @@ const postRouter = require("./api/posts/posts.index");
 const bagMaterialRouter = require("./api/bag-materials/bag-materials.index");
 const travelBagRouter = require("./api/travel-bag/travel-bag.index");
 const authRouter = require("./auth/auth.index");
-const countryMaterials = require("./api/country-materials/country-materials.index");
-const conversation = require("./api/conversation/conversation.index");
+const countryMaterialsRouter = require("./api/country-materials/country-materials.index");
+const conversationRouter = require("./api/conversation/conversation.index");
+const currencyRouter = require("./api/currency/currency.index");
+const cityRouter = require("./api/city/city.index");
 //const loginRouter = require("./api/oauth/google.js")
 
 /**
@@ -30,8 +32,10 @@ router.use("/materials", materialRouter);
 router.use("/posts", postRouter);
 router.use("/bag-materials", bagMaterialRouter);
 router.use("/travel-bag", travelBagRouter);
-router.use("/country-materials", countryMaterials);
-router.use("/conversation", conversation);
+router.use("/country-materials", countryMaterialsRouter);
+router.use("/conversation", conversationRouter);
+router.use("/currency", currencyRouter);
+router.use("/city", cityRouter);
 /**
  * @swagger
  * tags:
