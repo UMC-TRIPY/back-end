@@ -11,7 +11,7 @@ exports.kakaoLogin = async (req, res) => {
   const config = {
     client_id: process.env.KAKAO_APP_KEY,
     grant_type: "authorization_code",
-    redirect_uri: "http://localhost:3000/auth/kakao",
+    redirect_uri: "https://tripy-tripy.vercel.app/auth/kakao",
     code,
   };
 
@@ -73,7 +73,7 @@ exports.googleLogin = async (req, res) => {
     client_id: process.env.GOOGLE_CLIENT_ID,
     client_secret: process.env.GOOGLE_SECRET_KEY,
     grant_type: "authorization_code",
-    redirect_uri: "http://localhost:3000/auth/google",
+    redirect_uri: "https://tripy-tripy.vercel.app/auth/google",
     code: code2,
   };
 
