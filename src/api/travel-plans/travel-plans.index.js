@@ -308,7 +308,7 @@ router.get('/user/plans/:uid', travelPlanController.getUserTravelPlan);
 //일정 공유 중인 친구 조회 API
 /**
  * @swagger
- * /api/travel-plans/user/plans/friend/{uid}:
+ * /api/travel-plans/user/plans/friend/{uid}/{pid}:
  *   get:
  *     summary: "일정 공유 중인 친구 조회"
  *     description: "일정 공유 중인 친구 API"
@@ -317,7 +317,13 @@ router.get('/user/plans/:uid', travelPlanController.getUserTravelPlan);
  *       - in: path
  *         name: uid
  *         required: true
- *         description: 사용자 인덱스 (친구의 인덱스)
+ *         description: 사용자 인덱스 
+ *         schema:
+ *           type: number
+ *       - in: path
+ *         name: pid
+ *         required: true
+ *         description: 여행 계획 인덱스
  *         schema:
  *           type: number
  *     responses:
@@ -345,7 +351,7 @@ router.get('/user/plans/:uid', travelPlanController.getUserTravelPlan);
  *                   type: string
  *                   example: "user_index 확인해주세요."
  */
-router.get('/user/plans/friend/:uid', travelPlanController.getFriendTravelPlan);
+router.get('/user/plans/friend/:uid/:pid', travelPlanController.getFriendTravelPlan);
 
 //일정에 친구 초대 기능 API
 /**

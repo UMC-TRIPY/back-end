@@ -151,24 +151,22 @@ exports.getUserTravelPlan = (uid) => {
 };
 
 //일정 공유 중인 친구 조회 API
-exports.getFriendTravelPlan = (uid) => {
-  console.log("getFriendTravelPlan function called with uid:", uid);
+exports.getFriendTravelPlan = (uid,pid) => {
   return new Promise((resolve, reject) => {
       connection.query(
                   `
                   SELECT 
-                  CASE WHEN c.to_user_index = a.user_index THEN c.from_user_index ELSE c.to_user_index END AS result
-                  FROM travelplan a
-                  LEFT JOIN plan_friend b ON a.plan_index = b.plan_index
-                  JOIN friend c ON b.relation_index = c.relation_index
-                  WHERE a.user_index = ${uid} AND c.are_we_friend = 1
+                  CASE WHEN c.to_user_index = ${uid} THEN c.from_user_index ELSE c.to_user_index END AS result
+                  FROM (
+                  SELECT f.from_user_index, f.to_user_index
+                  FROM friend f
+                  INNER JOIN plan_friend pf ON f.relation_index = pf.relation_index
+                  WHERE pf.plan_index = ${pid} AND f.are_we_friend = 1) c;
               `,
       (err,result) => {
       if(err){
-            console.log("Error executing query:", err);
            reject(err);
        }else {
-          console.log("Query result:", result);
           resolve(result);
       }
       }
