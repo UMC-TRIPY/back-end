@@ -67,14 +67,14 @@ exports.kakaoLogin = async (req, res) => {
 //구글 OAuth
 exports.googleLogin = async (req, res) => {
   const { code } = req.body;
-
+  const code2 = decodeURIComponent(code);
   const baseUrl = "https://oauth2.googleapis.com/token";
   const config = {
     client_id: process.env.GOOGLE_CLIENT_ID,
     client_secret: process.env.GOOGLE_SECRET_KEY,
     grant_type: "authorization_code",
     redirect_uri: "http://localhost:3000/auth/google",
-    code,
+    code: code2,
   };
 
   const params = new URLSearchParams(config).toString();
