@@ -336,10 +336,14 @@ router.get('/user/plans/:uid', travelPlanController.getUserTravelPlan);
  *               items:
  *                 type: object
  *                 properties:
- *                   result:
+ *                   nickname:
+ *                     type: string
+ *                     description: 친구의 닉네임
+ *                     example: "Park"
+ *                   user_index:
  *                     type: number
- *                     description: 친구의 인덱스
- *                     example: 2
+ *                     description: 친구의 사용자 인덱스
+ *                     example: 123
  *       "400":
  *         description: 잘못된 요청 또는 값이 들어온 경우
  *         content:
