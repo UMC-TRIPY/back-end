@@ -156,12 +156,13 @@ exports.getFriendTravelPlan = (uid,pid) => {
       connection.query(
                   `
                   SELECT 
-                  CASE WHEN c.to_user_index = ${uid} THEN c.from_user_index ELSE c.to_user_index END AS result
+                  u.nickname,u.user_index
                   FROM (
                   SELECT f.from_user_index, f.to_user_index
                   FROM friend f
                   INNER JOIN plan_friend pf ON f.relation_index = pf.relation_index
-                  WHERE pf.plan_index = ${pid} AND f.are_we_friend = 1) c;
+                  WHERE pf.plan_index = ${pid} AND f.are_we_friend = 1) c
+                  INNER JOIN user u ON u.user_index = CASE WHEN c.to_user_index = ${uid} THEN c.from_user_index ELSE c.to_user_index END;
               `,
       (err,result) => {
       if(err){
