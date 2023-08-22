@@ -45,7 +45,7 @@ exports.createBag = async function(req,res){
             return res.status(400).json({error:"plan 인덱스를 확인해주세요."});
         }
         const result = await travelBagService.createBag(uid,pid,bagname);
-        return res.status(200).json({message: "가방 만들기 성공"});
+        return res.status(200).json({bag_index:result,message: "가방 만들기 성공"});
     }catch(err){
         return res.status(500).json({error: "에러"});
     }
@@ -208,3 +208,17 @@ exports.UserBagMaterial = async function(req,res){
         return res.status(500).json({error: "에러"});
     }
 }
+
+//가방 메모 불러오기 API
+exports.UserBagMemo = async function(req,res){
+    try{
+        const bid = req.params.bid; //가방 인덱스
+        if(!bid){
+            return res.status(400).json({error:"bag_index를 확인 해주세요."});
+        }
+        const result = await travelBagService.UserBagMemo(bid);
+        return res.status(200).json(result);
+    }catch(err){
+        return res.status(500).json({error: "에러"});
+    }
+};

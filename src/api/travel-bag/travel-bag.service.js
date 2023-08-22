@@ -124,3 +124,13 @@ exports.UserBagMaterial = async(bid) => {
         throw err;
     }
 };
+
+//가방 메모 불러오기 API
+exports.UserBagMemo = async(bid) => {
+    try{
+        const result = await travelBagRepository.UserBagMemo(bid);
+        return result;
+    }catch(err){
+        throw err;
+    }
+};

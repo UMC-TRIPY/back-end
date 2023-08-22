@@ -87,7 +87,7 @@ exports.createBag = (uid,pid,bagname) => {
             if(err){
                 reject(err);
             }else{
-                resolve(result);
+                resolve(result.insertId);
             }
         }
         );
@@ -298,6 +298,27 @@ exports.UserBagMaterial = (bid) =>{
                     resolve(result);
                 }
             }
+        );
+    });
+};
+
+
+//가방 메모 불러오기 API
+exports.UserBagMemo = (bid) =>{
+    return new Promise((resolve,reject) =>{
+        connection.query(
+                    `
+                    SELECT bag_memo
+                    FROM bag
+                    WHERE bag_index = ?`,
+                    [bid],
+            (err,result) =>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(result);
+                }
+            }         
         );
     });
 };
