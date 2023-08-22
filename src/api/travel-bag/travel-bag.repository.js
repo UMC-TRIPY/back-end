@@ -218,7 +218,7 @@ exports.updateBagMaterial = (mid,material) =>{
     return new Promise((resolve,reject) =>{
         connection.query(
                     `
-                    UPDATE bag_materials
+                    UPDATE materials
                     SET materials_name = ?
                     WHERE materials_index = ?
                     `,
