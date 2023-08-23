@@ -3,16 +3,16 @@ const cityController = require("./city.controller");
 
 /**
  * @swagger
- * /api/city/{country}:
+ * /api/city/{city}:
  *   get:
- *     summary: "특정 나라별 도시 영어 이름 불러오기"
- *     description: "특정 나라의 도시 영어 이름을 조회하는 API"
+ *     summary: "특정 도시 영어 이름 불러오기"
+ *     description: "특정 도시 영어 이름을 조회하는 API"
  *     tags: [City]
  *     parameters:
  *       - in: path
- *         name: country
+ *         name: city
  *         required: true
- *         description: 나라 인덱스
+ *         description: 도시 인덱스
  *         schema:
  *           type: number
  *     responses:
@@ -43,7 +43,7 @@ const cityController = require("./city.controller");
  *                   example: false
  *                 message:
  *                   type: string
- *                   example: "country값이 없거나, integer 타입이 아닙니다."
+ *                   example: "city값이 없거나, integer 타입이 아닙니다."
  */
 router.get("/:country", cityController.getCityName);
 
