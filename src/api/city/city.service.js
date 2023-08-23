@@ -1,5 +1,5 @@
 const cityRepository = require("./city.repository");
 
-exports.getCityName = async (country) => {
-  return await cityRepository.getCityName(country);
+exports.getCityName = async (city) => {
+  return await cityRepository.getCityName(city);
 };
