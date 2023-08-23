@@ -39,6 +39,7 @@ exports.kakaoLogin = async (userRequest) => {
 };
 
 exports.googleLogin = async (userRequest) => {
+  console.log(userRequest)
   const googleId = userRequest.id;
   const email = userRequest.email;
   let newUser = false;
